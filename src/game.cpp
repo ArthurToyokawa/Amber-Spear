@@ -54,22 +54,22 @@ void Game::handleEvents()
       switch (event.key.keysym.sym)
       {
       case SDLK_UP:
-        counterY--;
+        counterY = counterY - 10;
         break;
       case SDLK_DOWN:
-        counterY++;
+        counterY = counterY + 10;
         break;
       case SDLK_LEFT:
-        counterX--;
+        counterX = counterX - 10;
         break;
       case SDLK_RIGHT:
-        counterX++;
+        counterX = counterX + 10;
         break;
       }
       break;
-    case SDL_MOUSEBUTTONUP:
-      isRunning = false;
-      break;
+    // case SDL_MOUSEBUTTONUP:
+    //   isRunning = false;
+    //   break;
     default:
       break;
     }
@@ -78,7 +78,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
-  // if (counterX == 700)
+  // if (counterX == 768)
   // {
   //   horizontal = false;
   // }
@@ -94,7 +94,7 @@ void Game::update()
   // {
   //   counterX--;
   // }
-  // if (counterY == 400)
+  // if (counterY == 568)
   // {
   //   vertical = false;
   // }
@@ -110,8 +110,8 @@ void Game::update()
   // {
   //   counterY--;
   // }
-  destRect.h = 16;
-  destRect.w = 16;
+  destRect.h = 32;
+  destRect.w = 32;
   destRect.x = counterX;
   destRect.y = counterY;
   std::cout << "X: " << counterX << " Y: " << counterY << std::endl;
