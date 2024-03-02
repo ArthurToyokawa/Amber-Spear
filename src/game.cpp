@@ -1,7 +1,15 @@
 #include "game.hpp"
+#include "textureManager.hpp"
+#include "gameObject.hpp"
+#include "map.hpp"
 
-SDL_Texture *playerTex;
-SDL_Rect srcRect, destRect;
+Map *map;
+// TODO UMA CLASSE PLAYER COM MOVIMENTOS
+GameObject *player;
+// TODO transformar isso em um array de objetos
+GameObject *fireball;
+
+SDL_Renderer *Game::renderer = nullptr;
 
 Game::Game(){};
 Game::~Game(){};
@@ -34,10 +42,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   {
     isRunning = false;
   }
-  // player img
-  SDL_Surface *tmpSurface = IMG_Load("assets/player.png");
-  playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-  SDL_FreeSurface(tmpSurface);
+  map = new Map();
+  player = new GameObject("assets/player.png", 0, 0);
+  fireball = new GameObject("assets/fireball.png", 100, 100);
 }
 
 void Game::handleEvents()
@@ -50,23 +57,23 @@ void Game::handleEvents()
     case SDL_QUIT:
       isRunning = false;
       break;
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym)
-      {
-      case SDLK_UP:
-        counterY = counterY - 10;
-        break;
-      case SDLK_DOWN:
-        counterY = counterY + 10;
-        break;
-      case SDLK_LEFT:
-        counterX = counterX - 10;
-        break;
-      case SDLK_RIGHT:
-        counterX = counterX + 10;
-        break;
-      }
-      break;
+    // case SDL_KEYDOWN:
+    //   switch (event.key.keysym.sym)
+    //   {
+    //   case SDLK_UP:
+    //     counterY = counterY - 10;
+    //     break;
+    //   case SDLK_DOWN:
+    //     counterY = counterY + 10;
+    //     break;
+    //   case SDLK_LEFT:
+    //     counterX = counterX - 10;
+    //     break;
+    //   case SDLK_RIGHT:
+    //     counterX = counterX + 10;
+    //     break;
+    //   }
+    //   break;
     // case SDL_MOUSEBUTTONUP:
     //   isRunning = false;
     //   break;
@@ -110,20 +117,23 @@ void Game::update()
   // {
   //   counterY--;
   // }
-  destRect.h = 32;
-  destRect.w = 32;
-  destRect.x = counterX;
-  destRect.y = counterY;
-  std::cout << "X: " << counterX << " Y: " << counterY << std::endl;
+  // destRect.h = 32;
+  // destRect.w = 32;
+  // destRect.x = counterX;
+  // destRect.y = counterY;
+  // std::cout << "X: " << counterX << " Y: " << counterY << std::endl;
+  player->update();
+  fireball->update();
 }
 
 void Game::render()
 {
   SDL_RenderClear(renderer);
   // render background
+  map->DrawMap();
   // render objects
-  //  1 null renders entire image 2 null render on the entire frame
-  SDL_RenderCopy(renderer, playerTex, NULL, &destRect);
+  player->render();
+  fireball->render();
   SDL_RenderPresent(renderer);
 }
 

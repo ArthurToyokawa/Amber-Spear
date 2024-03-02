@@ -24,14 +24,11 @@ public:
 
   bool running() { return isRunning; };
 
+  static SDL_Renderer *renderer;
+
 private:
   bool isRunning;
   SDL_Window *window;
-  SDL_Renderer *renderer;
-  int counterX = 0;
-  int counterY = 0;
-  bool vertical = true;
-  bool horizontal = true;
 };
 
 #endif /* Game_hpp */

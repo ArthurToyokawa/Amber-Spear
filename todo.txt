@@ -1,0 +1,26 @@
+cria uma classe player herdando gameObject
+
+
+usar mylib pra controlar a vetores
+
+cria uma classe vetor chamada dentro de objeto
+vetor velocidade;
+vetor posicao;
+
+objetos andam uma quantidade = vel*tempo
+caso tiver lag tem que calcular com o tempo extra
+
+usa box2d pra lidar com fisica
+!IMPORTANTE separar logica de jogo e processamento de fisica 
+ex programa a fisica em metros e segundos 
+-> traduz para o jogo em px (cria uma var float metroPrapx = 100(cada metro é 100px))
+
+
+criar uma classe para dar objectManager contem todos os objetos
+chama o update só so objectManager ao inves de em cada objeto 1 por 1
+
+
+
+colisão:
+checa se tem uma colisão 
+resolve a colisão -> empurra os objetos até acabar a colisão
