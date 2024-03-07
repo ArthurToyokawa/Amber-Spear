@@ -3,6 +3,9 @@
 #include "gameObject.hpp"
 #include "map.hpp"
 
+#include "./ECS/ECS.hpp"
+#include "./ECS/components.hpp"
+
 Map *map;
 // TODO UMA CLASSE PLAYER COM MOVIMENTOS
 GameObject *player;
@@ -10,6 +13,9 @@ GameObject *player;
 GameObject *fireball;
 
 SDL_Renderer *Game::renderer = nullptr;
+
+Manager manager;
+auto &newPlayer(manager.addEntity());
 
 Game::Game(){};
 Game::~Game(){};
@@ -45,6 +51,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   map = new Map();
   player = new GameObject("assets/player.png", 0, 0);
   fireball = new GameObject("assets/fireball.png", 100, 100);
+
+  newPlayer.addComponent<PositionComponent>();
 }
 
 void Game::handleEvents()
@@ -124,6 +132,8 @@ void Game::update()
   // std::cout << "X: " << counterX << " Y: " << counterY << std::endl;
   player->update();
   fireball->update();
+  manager.update();
+  std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 }
 
 void Game::render()

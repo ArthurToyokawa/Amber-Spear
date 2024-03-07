@@ -13,7 +13,9 @@ int main(int argc, char *args[])
   game = new Game();
 
   game->init("Amber Spear ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
-
+  // TODO colocar o loop em game
+  //  TODO converter em secs para lidar com fisica
+  frameTime = 0;
   while (game->running())
   {
 
@@ -33,6 +35,7 @@ int main(int argc, char *args[])
     {
       /*TODO TRATAR LAG */
     }
+    frameTime = SDL_GetTicks() - frameStart;
   }
 
   game->clean();

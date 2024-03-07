@@ -2,6 +2,7 @@
 
 #include "game.hpp"
 
+// TODO modifica essa classe para ficar dentro de obj e manter a textura
 class TextureManager
 {
 

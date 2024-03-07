@@ -9,7 +9,7 @@ main: main.o game.o gameObject.o map.o textureManager.o
 main.o: ./src/main.cpp ./src/game.hpp
 	$(CC) $(CFLAGS) -c ./src/main.cpp
 
-game.o: ./src/game.cpp ./src/game.hpp ./src/textureManager.cpp
+game.o: ./src/game.cpp ./src/game.hpp ./src/textureManager.cpp ./src/ECS/ECS.hpp ./src/ECS/components.hpp
 	$(CC) $(CFLAGS) -c ./src/game.cpp
 
 gameObject.o: ./src/gameObject.cpp ./src/gameObject.hpp ./src/textureManager.cpp

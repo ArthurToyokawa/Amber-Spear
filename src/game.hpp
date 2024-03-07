@@ -14,7 +14,7 @@ public:
   Game();
   // deconstrutor
   ~Game();
-
+  // TODO transformar o init em construtor
   void init(const char *tile, int x, int y, int width, int height, bool fullscreen);
 
   void handleEvents();
