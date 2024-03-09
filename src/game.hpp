@@ -1,6 +1,4 @@
-// tratando de erros caso multiplos imports desse header
-#ifndef Game_hpp
-#define Game_hpp
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -30,5 +28,3 @@ private:
   bool isRunning;
   SDL_Window *window;
 };
-
-#endif /* Game_hpp */

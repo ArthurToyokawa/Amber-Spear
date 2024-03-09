@@ -12,8 +12,6 @@ GameObject::GameObject(const char *textureSheet, int startingX, int startingY)
 
 void GameObject::update()
 {
-  xpos++;
-  ypos++;
   // TODO pegar os dados do objeto na criacao
   srcRect.h = 32;
   srcRect.w = 32;

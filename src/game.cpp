@@ -1,21 +1,28 @@
+#include "common.hpp"
 #include "game.hpp"
 #include "textureManager.hpp"
 #include "gameObject.hpp"
 #include "map.hpp"
+#include "keyboardHandler.hpp"
 
 #include "./ECS/ECS.hpp"
 #include "./ECS/components.hpp"
+
+#include <list>
 
 Map *map;
 // TODO UMA CLASSE PLAYER COM MOVIMENTOS
 GameObject *player;
 // TODO transformar isso em um array de objetos
-GameObject *fireball;
+std::list<GameObject *> fireballs;
 
 SDL_Renderer *Game::renderer = nullptr;
 
-Manager manager;
-auto &newPlayer(manager.addEntity());
+KeyboardHandler *kHandler;
+// TODO usar o timer do jogo pra isso
+int testFbLimiter = 0;
+// Manager manager;
+// auto &newPlayer(manager.addEntity());
 
 Game::Game(){};
 Game::~Game(){};
@@ -50,9 +57,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   }
   map = new Map();
   player = new GameObject("assets/player.png", 0, 0);
-  fireball = new GameObject("assets/fireball.png", 100, 100);
-
-  newPlayer.addComponent<PositionComponent>();
+  kHandler = new KeyboardHandler(player);
+  // newPlayer.addComponent<PositionComponent>();
 }
 
 void Game::handleEvents()
@@ -65,26 +71,12 @@ void Game::handleEvents()
     case SDL_QUIT:
       isRunning = false;
       break;
-    // case SDL_KEYDOWN:
-    //   switch (event.key.keysym.sym)
-    //   {
-    //   case SDLK_UP:
-    //     counterY = counterY - 10;
-    //     break;
-    //   case SDLK_DOWN:
-    //     counterY = counterY + 10;
-    //     break;
-    //   case SDLK_LEFT:
-    //     counterX = counterX - 10;
-    //     break;
-    //   case SDLK_RIGHT:
-    //     counterX = counterX + 10;
-    //     break;
-    //   }
-    //   break;
-    // case SDL_MOUSEBUTTONUP:
-    //   isRunning = false;
-    //   break;
+    case SDL_KEYDOWN:
+      kHandler->handleKeyPress(event.key.keysym.sym);
+      break;
+    case SDL_KEYUP:
+      kHandler->handleKeyRelease(event.key.keysym.sym);
+      break;
     default:
       break;
     }
@@ -93,47 +85,66 @@ void Game::handleEvents()
 
 void Game::update()
 {
-  // if (counterX == 768)
-  // {
-  //   horizontal = false;
-  // }
-  // else if (counterX == 0)
-  // {
-  //   horizontal = true;
-  // }
-  // if (horizontal)
-  // {
-  //   counterX++;
-  // }
-  // else
-  // {
-  //   counterX--;
-  // }
-  // if (counterY == 568)
-  // {
-  //   vertical = false;
-  // }
-  // else if (counterY == 0)
-  // {
-  //   vertical = true;
-  // }
-  // if (vertical)
-  // {
-  //   counterY++;
-  // }
-  // else
-  // {
-  //   counterY--;
-  // }
-  // destRect.h = 32;
-  // destRect.w = 32;
-  // destRect.x = counterX;
-  // destRect.y = counterY;
-  // std::cout << "X: " << counterX << " Y: " << counterY << std::endl;
+  // TODO lidar com o movimento em uma classe diferente tratando separado movimento e outras keys
+  for (auto key : kHandler->getActiveKeys())
+  {
+    switch (key)
+    {
+    case SDLK_UP:
+      player->moveObject(0, -5);
+      break;
+    case SDLK_DOWN:
+      player->moveObject(0, +5);
+      break;
+    case SDLK_LEFT:
+      player->moveObject(-5, 0);
+      break;
+    case SDLK_RIGHT:
+      player->moveObject(+5, 0);
+      break;
+    case SDLK_q:
+    {
+      // creating fireball
+      if (testFbLimiter == 0)
+      {
+        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 32, player->getY());
+        fireballs.push_back(fb);
+        testFbLimiter = 10;
+      }
+      break;
+    }
+    case SDLK_ESCAPE:
+      isRunning = false;
+      break;
+    default:
+      break;
+    }
+  }
+  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
+  for (auto it = fireballs.begin(); it != fireballs.end();)
+  {
+    auto &fb = *it;
+    // std::cout << fb->getX() << " ";
+    fb->moveObject(10, 0);
+    if (fb->getX() > SCREEN_WIDTH || fb->getY() > SCREEN_HEIGHT)
+    {
+      delete fb;
+      it = fireballs.erase(it);
+    }
+    else
+    {
+      fb->update();
+      ++it;
+    }
+  }
+  // std::cout << std::endl;
+  if (testFbLimiter != 0)
+  {
+    testFbLimiter--;
+  }
   player->update();
-  fireball->update();
-  manager.update();
-  std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
+  //  manager.update();
+  //  std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 }
 
 void Game::render()
@@ -143,7 +154,11 @@ void Game::render()
   map->DrawMap();
   // render objects
   player->render();
-  fireball->render();
+  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
+  for (auto &fb : fireballs)
+  {
+    fb->render();
+  }
   SDL_RenderPresent(renderer);
 }
 

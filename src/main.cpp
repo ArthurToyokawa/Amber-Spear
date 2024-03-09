@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "common.hpp"
 
 Game *game = nullptr;
 
@@ -12,7 +13,7 @@ int main(int argc, char *args[])
 
   game = new Game();
 
-  game->init("Amber Spear ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
+  game->init("Amber Spear ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
   // TODO colocar o loop em game
   //  TODO converter em secs para lidar com fisica
   frameTime = 0;
