@@ -1,25 +1,20 @@
 CC = g++
 CFLAGS = -g -Wall
 LIBS = -lSDL2 -lSDL2_image
+SRCDIR = ./src
+OBJDIR = ./obj
 
-main: main.o game.o gameObject.o map.o textureManager.o keyboardHandler.o
-	$(CC) $(CFLAGS) -o game main.o game.o map.o gameObject.o textureManager.o keyboardHandler.o $(LIBS)
-	./game
+SRCS = $(wildcard $(SRCDIR)/*.cpp)
+OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-main.o: ./src/main.cpp ./src/game.hpp
-	$(CC) $(CFLAGS) -c ./src/main.cpp
+all: game 
+	./all 
 
-game.o: ./src/game.cpp ./src/game.hpp ./src/textureManager.cpp ./src/keyboardHandler.cpp ./src/ECS/ECS.hpp ./src/ECS/components.hpp
-	$(CC) $(CFLAGS) -c ./src/game.cpp
+game: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-gameObject.o: ./src/gameObject.cpp ./src/gameObject.hpp ./src/textureManager.cpp
-	$(CC) $(CFLAGS) -c ./src/gameObject.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-map.o: ./src/map.cpp ./src/map.hpp ./src/textureManager.cpp
-	$(CC) $(CFLAGS) -c ./src/map.cpp
-
-textureManager.o: ./src/textureManager.cpp ./src/textureManager.hpp
-	$(CC) $(CFLAGS) -c ./src/textureManager.cpp
-
-keyboardHandler.o: ./src/keyboardHandler.cpp ./src/keyboardHandler.hpp
-	$(CC) $(CFLAGS) -c ./src/keyboardHandler.cpp
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
