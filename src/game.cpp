@@ -1,9 +1,10 @@
-#include "common.hpp"
+
 #include "game.hpp"
 #include "textureManager.hpp"
 #include "gameObject.hpp"
 #include "map.hpp"
 #include "keyboardHandler.hpp"
+#include "entityManager.hpp"
 
 #include "./ECS/ECS.hpp"
 #include "./ECS/components.hpp"
@@ -11,18 +12,13 @@
 #include <list>
 
 Map *map;
-// TODO UMA CLASSE PLAYER COM MOVIMENTOS
-GameObject *player;
-// TODO transformar isso em um array de objetos
-std::list<GameObject *> fireballs;
+EntityManager *eManager;
 
 SDL_Renderer *Game::renderer = nullptr;
 
 KeyboardHandler *kHandler;
 // TODO usar o timer do jogo pra isso
 int testFbLimiter = 0;
-// Manager manager;
-// auto &newPlayer(manager.addEntity());
 
 Game::Game(){};
 Game::~Game(){};
@@ -56,9 +52,43 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     isRunning = false;
   }
   map = new Map();
-  player = new GameObject("assets/player.png", 0, 0);
-  kHandler = new KeyboardHandler(player);
-  // newPlayer.addComponent<PositionComponent>();
+  eManager = new EntityManager();
+  kHandler = new KeyboardHandler();
+  gameLoop();
+}
+
+void Game::gameLoop()
+{
+  const int FPS = 60;
+  const int frameDelay = 1000 / FPS;
+
+  Uint32 frameStart;
+  int frameTime;
+  frameTime = 0;
+
+  while (this->running())
+  {
+
+    frameStart = SDL_GetTicks();
+
+    this->handleEvents();
+    this->update();
+    this->render();
+
+    frameTime = SDL_GetTicks() - frameStart;
+
+    if (frameDelay >= frameTime)
+    {
+      SDL_Delay(frameDelay - frameTime);
+    }
+    else
+    {
+      /*TODO TRATAR LAG */
+    }
+    frameTime = SDL_GetTicks() - frameStart;
+  }
+
+  this->clean();
 }
 
 void Game::handleEvents()
@@ -85,66 +115,20 @@ void Game::handleEvents()
 
 void Game::update()
 {
-  // TODO lidar com o movimento em uma classe diferente tratando separado movimento e outras keys
+  // TODO lidar com o movimento em uma classe diferente entityManager tratando separado movimento e outras keys
   for (auto key : kHandler->getActiveKeys())
   {
     switch (key)
     {
-    case SDLK_UP:
-      player->moveObject(0, -5);
-      break;
-    case SDLK_DOWN:
-      player->moveObject(0, +5);
-      break;
-    case SDLK_LEFT:
-      player->moveObject(-5, 0);
-      break;
-    case SDLK_RIGHT:
-      player->moveObject(+5, 0);
-      break;
-    case SDLK_q:
-    {
-      // creating fireball
-      if (testFbLimiter == 0)
-      {
-        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 32, player->getY());
-        fireballs.push_back(fb);
-        testFbLimiter = 10;
-      }
-      break;
-    }
     case SDLK_ESCAPE:
       isRunning = false;
       break;
     default:
+      eManager->handleKey(key);
       break;
     }
   }
-  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
-  for (auto it = fireballs.begin(); it != fireballs.end();)
-  {
-    auto &fb = *it;
-    // std::cout << fb->getX() << " ";
-    fb->moveObject(10, 0);
-    if (fb->getX() > SCREEN_WIDTH || fb->getY() > SCREEN_HEIGHT)
-    {
-      delete fb;
-      it = fireballs.erase(it);
-    }
-    else
-    {
-      fb->update();
-      ++it;
-    }
-  }
-  // std::cout << std::endl;
-  if (testFbLimiter != 0)
-  {
-    testFbLimiter--;
-  }
-  player->update();
-  //  manager.update();
-  //  std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
+  eManager->update();
 }
 
 void Game::render()
@@ -153,12 +137,7 @@ void Game::render()
   // render background
   map->DrawMap();
   // render objects
-  player->render();
-  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
-  for (auto &fb : fireballs)
-  {
-    fb->render();
-  }
+  eManager->render();
   SDL_RenderPresent(renderer);
 }
 

@@ -1,8 +1,7 @@
 #include "keyboardHandler.hpp"
 
-KeyboardHandler::KeyboardHandler(GameObject *p)
+KeyboardHandler::KeyboardHandler()
 {
-  player = p;
 }
 
 bool KeyboardHandler::isKeyInList(SDL_Keycode key)
