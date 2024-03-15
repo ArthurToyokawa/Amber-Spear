@@ -1,13 +1,9 @@
 
 #include "game.hpp"
 #include "textureManager.hpp"
-#include "gameObject.hpp"
 #include "map.hpp"
 #include "keyboardHandler.hpp"
 #include "entityManager.hpp"
-
-#include "./ECS/ECS.hpp"
-#include "./ECS/components.hpp"
 
 #include <list>
 
@@ -17,6 +13,9 @@ EntityManager *eManager;
 SDL_Renderer *Game::renderer = nullptr;
 
 KeyboardHandler *kHandler;
+
+const int FPS = 60;
+const int frameDelay = 1000 / FPS;
 // TODO usar o timer do jogo pra isso
 int testFbLimiter = 0;
 
@@ -54,17 +53,14 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   map = new Map();
   eManager = new EntityManager();
   kHandler = new KeyboardHandler();
-  gameLoop();
+  this->gameLoop();
 }
 
 void Game::gameLoop()
 {
-  const int FPS = 60;
-  const int frameDelay = 1000 / FPS;
-
   Uint32 frameStart;
+  Uint32 lastUpdate;
   int frameTime;
-  frameTime = 0;
 
   while (this->running())
   {
@@ -72,9 +68,14 @@ void Game::gameLoop()
     frameStart = SDL_GetTicks();
 
     this->handleEvents();
+    // tempo desde o ultimo update
+    // this->update(SDL_GetTicks() - lastUpdate);
     this->update();
-    this->render();
+    std::cout << "time: " << SDL_GetTicks() - lastUpdate << std::endl;
+    lastUpdate = SDL_GetTicks();
 
+    this->render();
+    // tempo requirido para realizar os eventos
     frameTime = SDL_GetTicks() - frameStart;
 
     if (frameDelay >= frameTime)

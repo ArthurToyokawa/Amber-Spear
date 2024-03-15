@@ -1,5 +1,6 @@
 #include "textureManager.hpp"
 
+// TODO guardar texturas e reutilizar elas
 SDL_Texture *TextureManager::LoadTexture(const char *textureSheet)
 {
   SDL_Surface *tempSurface = IMG_Load(textureSheet);

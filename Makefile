@@ -8,7 +8,7 @@ SRCS = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
 all: game 
-	./all 
+	./game 
 
 game: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
@@ -18,3 +18,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
+
+
+clear:
+	rm -f game $(OBJS)
