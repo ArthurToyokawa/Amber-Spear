@@ -14,7 +14,7 @@ SDL_Renderer *Game::renderer = nullptr;
 
 KeyboardHandler *kHandler;
 
-const int FPS = 60;
+const int FPS = 20;
 const int frameDelay = 1000 / FPS;
 // TODO usar o timer do jogo pra isso
 int testFbLimiter = 0;
@@ -59,8 +59,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 void Game::gameLoop()
 {
   Uint32 frameStart;
-  Uint32 lastUpdate;
+  Uint32 lastUpdateTick = 0;
+  float SecsBetweenUpdate = 0;
   int frameTime;
+
+  std::cout << "frameDelay: " << frameDelay << std::endl;
 
   while (this->running())
   {
@@ -68,11 +71,10 @@ void Game::gameLoop()
     frameStart = SDL_GetTicks();
 
     this->handleEvents();
-    // tempo desde o ultimo update
-    // this->update(SDL_GetTicks() - lastUpdate);
-    this->update();
-    std::cout << "time: " << SDL_GetTicks() - lastUpdate << std::endl;
-    lastUpdate = SDL_GetTicks();
+    std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
+    SecsBetweenUpdate = (SDL_GetTicks() - lastUpdateTick) / 1000.0;
+    this->update(SecsBetweenUpdate);
+    lastUpdateTick = SDL_GetTicks();
 
     this->render();
     // tempo requirido para realizar os eventos
@@ -114,9 +116,8 @@ void Game::handleEvents()
   }
 }
 
-void Game::update()
+void Game::update(float time)
 {
-  // TODO lidar com o movimento em uma classe diferente entityManager tratando separado movimento e outras keys
   for (auto key : kHandler->getActiveKeys())
   {
     switch (key)
@@ -125,11 +126,11 @@ void Game::update()
       isRunning = false;
       break;
     default:
-      eManager->handleKey(key);
       break;
     }
   }
-  eManager->update();
+  eManager->handleKeys(kHandler->getActiveKeys());
+  eManager->update(time);
 }
 
 void Game::render()

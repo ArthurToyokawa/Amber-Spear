@@ -9,9 +9,9 @@ class EntityManager
 
 public:
   EntityManager();
-  void update();
+  void update(float time);
   void render();
-  void handleKey(SDL_Keycode key);
+  void handleKeys(std::list<SDL_Keycode> keys);
 
 private:
   GameObject *player;

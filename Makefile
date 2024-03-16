@@ -7,7 +7,7 @@ OBJDIR = ./obj
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-all: game 
+all: clear game 
 	./game 
 
 game: $(OBJS)

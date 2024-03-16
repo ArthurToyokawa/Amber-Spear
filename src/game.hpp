@@ -16,7 +16,7 @@ public:
   void init(const char *tile, int x, int y, int width, int height, bool fullscreen);
 
   void handleEvents();
-  void update();
+  void update(float time);
   void render();
   void clean();
   void gameLoop();
