@@ -60,7 +60,7 @@ void Game::gameLoop()
 {
   Uint32 frameStart;
   Uint32 lastUpdateTick = 0;
-  float SecsBetweenUpdate = 0;
+  float SecsBetweenUpdate;
   int frameTime;
 
   std::cout << "frameDelay: " << frameDelay << std::endl;

@@ -3,6 +3,9 @@
 #include <SDL2/SDL_image.h>
 
 #include "physicsComponent.hpp"
+#include <my-lib/math-vector.h>
+
+using Vector2f = Mylib::Math::Vector<float, 2>;
 
 // TODO fazer heranca de physicsComponent e positionComponent
 class GameObject

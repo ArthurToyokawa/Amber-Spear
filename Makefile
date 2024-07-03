@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c++23 -I./include
 LIBS = -lSDL2 -lSDL2_image
 SRCDIR = ./src
 OBJDIR = ./obj

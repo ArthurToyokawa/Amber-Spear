@@ -9,6 +9,7 @@ EntityManager::EntityManager()
 
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 {
+  // TODO essas var só é necessario em player e tbm inicializa eles fora de funcao
   int playerXAcc = 0;
   int playerYAcc = 0;
   for (auto key : keys)
@@ -16,20 +17,16 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     switch (key)
     {
     case SDLK_UP:
-      // player->moveObject(0, -5);
-      playerYAcc -= 50;
+      playerYAcc -= 100;
       break;
     case SDLK_DOWN:
-      // player->moveObject(0, +5);
-      playerYAcc += 50;
+      playerYAcc += 100;
       break;
     case SDLK_LEFT:
-      // player->moveObject(-5, 0);
-      playerXAcc -= 50;
+      playerXAcc -= 100;
       break;
     case SDLK_RIGHT:
-      // player->moveObject(+5, 0);
-      playerXAcc += 50;
+      playerXAcc += 100;
       break;
     case SDLK_q:
     {

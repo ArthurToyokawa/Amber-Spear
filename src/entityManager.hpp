@@ -4,6 +4,7 @@
 #include "list"
 #include "gameObject.hpp"
 
+// mudar o nome para world e incuir o mapa
 class EntityManager
 {
 
