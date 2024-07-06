@@ -16,8 +16,6 @@ KeyboardHandler *kHandler;
 
 const int FPS = 20;
 const int frameDelay = 1000 / FPS;
-// TODO usar o timer do jogo pra isso
-int testFbLimiter = 0;
 
 Game::Game(){};
 Game::~Game(){};

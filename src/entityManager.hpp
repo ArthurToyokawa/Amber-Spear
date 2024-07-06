@@ -17,8 +17,12 @@ public:
 private:
   GameObject *player;
   std::list<GameObject *> fireballs;
+  std::list<GameObject *> objects;
   // TODO rever essa var
-  int testFbLimiter = 0;
+  int testFbCooldown = 0;
 
   void makeFireball();
+
+  void hasColided();
+  void resolveColision();
 };

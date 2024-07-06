@@ -4,8 +4,10 @@
 
 EntityManager::EntityManager()
 {
-  player = new GameObject("assets/player.png", 0, 0, 32, 32);
-}
+  player = new GameObject("assets/player.png", 128, 128, 32, 32, 0.0);
+  GameObject *box = new GameObject("assets/box.png", 300, 300, 32, 32, 0.1);
+  objects.push_back(box);
+  }
 
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 {
@@ -31,17 +33,27 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     case SDLK_q:
     {
       // creating fireball
-      if (testFbLimiter == 0)
+      if (testFbCooldown == 0)
       {
-        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 32, player->getY(), 32, 32);
+        std::cout << player->getX() << " " << player->getY() << std::endl;
+        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 32, player->getY(), 32, 32, 0.0);
+        // setting acceleration
+        fb->setAcceleration(200, 0);
         fireballs.push_back(fb);
-        testFbLimiter = 10;
+        testFbCooldown = 10;
       }
       break;
     }
     default:
       break;
     }
+  }
+  // se ele estiver andando em apenas uma diracao aumenta sua velocidade
+  if(playerXAcc == 0) {
+    playerYAcc += playerYAcc*0.5;
+  }
+  if(playerYAcc == 0) {
+    playerXAcc += playerXAcc*0.5;
   }
   player->setAcceleration(playerXAcc, playerYAcc);
 }
@@ -50,6 +62,12 @@ void EntityManager::update(float time)
 {
   // update de fisica
   player->updatePhysics(time);
+  for (auto it = objects.begin(); it != objects.end();)
+  {
+    auto &obj = *it;
+    obj->updatePhysics(time);
+    ++it;
+  }
   for (auto it = fireballs.begin(); it != fireballs.end();)
   {
     auto &fb = *it;
@@ -62,11 +80,23 @@ void EntityManager::update(float time)
   player->updatePosition();
 
   // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
+  for (auto it = objects.begin(); it != objects.end();)
+  {
+    auto &obj = *it;
+    if (obj->getX() > SCREEN_WIDTH || obj->getY() > SCREEN_HEIGHT)
+    {
+      delete obj;
+      it = objects.erase(it);
+    }
+    else
+    {
+      obj->updatePosition();
+      ++it;
+    }
+  }
   for (auto it = fireballs.begin(); it != fireballs.end();)
   {
     auto &fb = *it;
-    // std::cout << fb->getX() << " ";
-    fb->moveObject(10, 0);
     if (fb->getX() > SCREEN_WIDTH || fb->getY() > SCREEN_HEIGHT)
     {
       delete fb;
@@ -79,17 +109,33 @@ void EntityManager::update(float time)
     }
   }
   // std::cout << std::endl;
-  if (testFbLimiter != 0)
+  if (testFbCooldown != 0)
   {
-    testFbLimiter--;
+    testFbCooldown--;
   }
 }
+
+
+  bool haveObjectsColided(GameObject a, GameObject b){
+    if (r1->x + r1->width/2 < r2->x - r2->width/2) return 0;
+    if (r1->x - r1->width/2 > r2->x + r2->width/2) return 0;
+    if (r1->y + r1->height/2 < r2->y - r2->height/2) return 0;
+    if (r1->y - r1->height/2 > r2->y + r2->height/2) return 0;
+    return 1;
+  }
+
+  void resolveColision(){
+
+  }
 
 void EntityManager::render()
 {
   // render objects
   player->render();
-  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
+  for (auto &objs : objects)
+  {
+    objs->render();
+  }
   for (auto &fb : fireballs)
   {
     fb->render();

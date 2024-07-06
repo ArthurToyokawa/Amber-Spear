@@ -9,21 +9,24 @@ GameObject::GameObject(
     int startingX,
     int startingY,
     int height,
-    int width)
+    int width,
+    float friction
+  )
 {
   objTexture = TextureManager::LoadTexture(textureSheet);
 
-  xpos = startingX;
-  ypos = startingY;
-
+  pos.set(startingX, startingY);
+  std::cout << "StarntingXY" << startingX << " " << startingY << std::endl;
+        
   srcRect.h = height;
   srcRect.w = width;
   srcRect.x = 0;
   srcRect.y = 0;
   destRect.h = srcRect.h;
   destRect.w = srcRect.w;
-
-  physics.initPhysics(0.0, 0.0, 0.0, 0.0, 3.0, 1, 1);
+  destRect.x = startingX;
+  destRect.y = startingY;
+  physics.initPhysics((float)startingX, (float)startingY, 0.0, 0.0, 3.0, 1, 1, friction);
 }
 
 void GameObject::updatePhysics(float time)
@@ -32,11 +35,11 @@ void GameObject::updatePhysics(float time)
 }
 void GameObject::updatePosition()
 {
-  auto pos = physics.getPosition();
-  xpos = (int)pos[0] + 0.5;
-  ypos = (int)pos[1] + 0.5;
-  destRect.x = xpos;
-  destRect.y = ypos;
+  auto physPos = physics.getPosition();
+  //transformando de float para int arredondando para o valor mais proximo
+  pos.set((int)physPos[0] + 0.5, (int)physPos[1] + 0.5);
+  destRect.x = pos.x;
+  destRect.y = pos.y;
 }
 
 void GameObject::render()

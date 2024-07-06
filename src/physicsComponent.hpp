@@ -3,6 +3,9 @@
 #include <vector>
 
 #include <iostream>
+#include <my-lib/math-vector.h>
+
+using Vector2f = Mylib::Math::Vector<float, 2>;
 
 class PhysicsComponent
 {
@@ -14,59 +17,75 @@ public:
       float velY,
       float mass,
       float height,
-      float width)
+      float width,
+      float friction
+      )
   {
-    pos = {posx, posy};
+    pos.set(posx, posy);
     pMass = mass;
-    vel = {velX, velY};
-    pSize = {height, width};
-    acc = {0.0, 0.0};
+    vel.set(velX, velY);
+    pSize.set(height, width);
+    acc.set(0.0, 0.0);
+    pFriction = friction;
   }
-  std::vector<float> getPosition()
+  Vector2f getPosition()
   {
     return pos;
   }
   void setAcceleration(float accX, float accY)
   {
-    acc = {accX, accY};
+    acc.set(accX, accY);
   }
   void update(float time)
   {
-    if (this->isBreaking(vel[0], acc[0]))
+    //calculando nova velocidade xy baseado na aceleração
+    if (this->isBreaking(vel.x, acc.x))
     {
-      vel[0] += acc[0] * time * 3;
+      vel.x += acc.x * time * 2;
     }
     else
     {
-      vel[0] += acc[0] * time;
+      vel.x += acc.x * time;
     }
 
-    if (this->isBreaking(vel[1], acc[1]))
+    if (this->isBreaking(vel.y, acc.y))
     {
-      vel[1] += acc[1] * time * 3;
+      vel.y += acc.y * time * 2;
     }
     else
     {
-      vel[1] += acc[1] * time;
+      vel.y += acc.y * time;
     }
-    pos[0] = pos[0] + (vel[0] * time);
-    pos[1] = pos[1] + (vel[1] * time);
-    std::cout << "vel [ " << vel[0] << ", " << vel[1] << "]" << std::endl;
-    std::cout << "pos [ " << pos[0] << ", " << pos[1] << "]" << std::endl;
+    std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    std::cout << "friction " << pFriction << std::endl;
+    std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
+    //aplicando friccao
+    vel.x -= vel.x * pFriction;
+    vel.y -= vel.y * pFriction;
+    //TODO se a velocidade < x o objeto para por friccao
+
+    //atualiza a posicao
+    pos.x = pos.x + (vel.x * time);
+    pos.y = pos.y + (vel.y * time);
+
+    std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
   }
 
 private:
-  // TODO USAR O MATH VECTOR DO MYLIB
   //  posicao em metros (x,y)
-  std::vector<float> pos;
+  Vector2f pos;
   // velocidade m/s (x,y)
-  std::vector<float> vel;
+  Vector2f vel;
   // massa em kg
   float pMass;
   // tamanho em metros (x,y)
-  std::vector<float> pSize;
+  Vector2f pSize;
   // o quanto a velocidade muda em 1 sec m/s (x,y)
-  std::vector<float> acc;
+  Vector2f acc;
+  // porcentagem de velocidade perdida por segundo
+  float pFriction;
+
 
   bool isBreaking(float velocity, float acceleration)
   {

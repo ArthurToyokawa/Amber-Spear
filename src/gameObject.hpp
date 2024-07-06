@@ -5,7 +5,7 @@
 #include "physicsComponent.hpp"
 #include <my-lib/math-vector.h>
 
-using Vector2f = Mylib::Math::Vector<float, 2>;
+using Vector2i = Mylib::Math::Vector<int, 2>;
 
 // TODO fazer heranca de physicsComponent e positionComponent
 class GameObject
@@ -13,26 +13,24 @@ class GameObject
 
 public:
     // TODO setar a pos fora do construtor
-    GameObject(const char *textureSheet, int startingX, int startingY, int height, int width);
+    GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
 
     void updatePhysics(float time);
     void updatePosition();
     void render();
     int getX()
     {
-        return xpos;
+        return pos.x;
     }
     int getY()
     {
-        return ypos;
+        return pos.y;
     }
     // TODO remover isso
     void moveObject(int x, int y)
     {
-        xpos = xpos + x;
-        ypos = ypos + y;
+        pos.set(pos.x + x, pos.y + y);
     }
-    // TODO esse metodo só é necessario para player
     void setAcceleration(float accX, float accY)
     {
         physics.setAcceleration(accX, accY);
@@ -43,8 +41,7 @@ public:
 
 private:
     // TODO posicao em vetor
-    int xpos;
-    int ypos;
+    Vector2i pos;
 
     SDL_Texture *objTexture;
     SDL_Rect srcRect, destRect;
