@@ -69,7 +69,8 @@ void Game::gameLoop()
     frameStart = SDL_GetTicks();
 
     this->handleEvents();
-    std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
+    //TODO DESCOMENTAR
+    // std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
     SecsBetweenUpdate = (SDL_GetTicks() - lastUpdateTick) / 1000.0;
     this->update(SecsBetweenUpdate);
     lastUpdateTick = SDL_GetTicks();

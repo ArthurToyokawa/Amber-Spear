@@ -7,7 +7,6 @@
 // mudar o nome para world e incuir o mapa
 class EntityManager
 {
-
 public:
   EntityManager();
   void update(float time);
@@ -23,6 +22,7 @@ private:
 
   void makeFireball();
 
-  void hasColided();
-  void resolveColision();
+  void handleCollisions();
+  bool haveObjectsColided(GameObject* a, GameObject* b);
+  void resolveColision(GameObject* a, GameObject* b);
 };

@@ -11,15 +11,15 @@ class PhysicsComponent
 {
 public:
   void initPhysics(
-      float posx,
-      float posy,
-      float velX,
-      float velY,
-      float mass,
-      float height,
-      float width,
-      float friction
-      )
+    float posx,
+    float posy,
+    float velX,
+    float velY,
+    float mass,
+    float height,
+    float width,
+    float friction
+  )
   {
     pos.set(posx, posy);
     pMass = mass;
@@ -56,9 +56,10 @@ public:
     {
       vel.y += acc.y * time;
     }
-    std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
-    std::cout << "friction " << pFriction << std::endl;
-    std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
+    //TODO DESCOMENTAR 
+    // std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    // std::cout << "friction " << pFriction << std::endl;
+    // std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
     //aplicando friccao
     vel.x -= vel.x * pFriction;
     vel.y -= vel.y * pFriction;
@@ -68,8 +69,9 @@ public:
     pos.x = pos.x + (vel.x * time);
     pos.y = pos.y + (vel.y * time);
 
-    std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
-    std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
+    //TODO DESCOMENTAR 
+    // std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    // std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
   }
 
 private:

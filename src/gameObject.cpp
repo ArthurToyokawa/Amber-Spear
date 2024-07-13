@@ -4,29 +4,32 @@
 
 #include <iostream>
 
-GameObject::GameObject(
-    const char *textureSheet,
-    int startingX,
-    int startingY,
-    int height,
-    int width,
-    float friction
-  )
+GameObject::GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction)
 {
-  objTexture = TextureManager::LoadTexture(textureSheet);
+    initialize(textureSheet, startingX, startingY, height, width, friction);
+}
 
-  pos.set(startingX, startingY);
-  std::cout << "StarntingXY" << startingX << " " << startingY << std::endl;
+GameObject::GameObject(const GameObjectProps &props)
+{
+    initialize(props.imagePath, props.posX, props.posY, props.width, props.height, props.rotation);
+}
+
+void GameObject::initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction)
+{
+    objTexture = TextureManager::LoadTexture(textureSheet);
+
+    pos.set(startingX, startingY);
+    std::cout << "StarntingXY" << startingX << " " << startingY << std::endl;
         
-  srcRect.h = height;
-  srcRect.w = width;
-  srcRect.x = 0;
-  srcRect.y = 0;
-  destRect.h = srcRect.h;
-  destRect.w = srcRect.w;
-  destRect.x = startingX;
-  destRect.y = startingY;
-  physics.initPhysics((float)startingX, (float)startingY, 0.0, 0.0, 3.0, 1, 1, friction);
+    srcRect.h = height;
+    srcRect.w = width;
+    srcRect.x = 0;
+    srcRect.y = 0;
+    destRect.h = srcRect.h;
+    destRect.w = srcRect.w;
+    destRect.x = startingX;
+    destRect.y = startingY;
+    physics.initPhysics((float)startingX, (float)startingY, 0.0, 0.0, 3.0, 1, 1, friction);
 }
 
 void GameObject::updatePhysics(float time)

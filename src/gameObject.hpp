@@ -3,7 +3,10 @@
 #include <SDL2/SDL_image.h>
 
 #include "physicsComponent.hpp"
+#include "spellComponent.hpp"
+#include "gameObjectProps.hpp"
 #include <my-lib/math-vector.h>
+#include <functional> // for std::function
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
 
@@ -14,6 +17,11 @@ class GameObject
 public:
     // TODO setar a pos fora do construtor
     GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
+    GameObject(const GameObjectProps &props);
+
+    // TODO OPERADORES PRA EQUALS
+    // bool operator == (const GameObject& g) const { return pos.x == g.getX() && pos.y == g.getY(); }
+    // bool operator != (const GameObject& g) const { return !operator==(g); }
 
     void updatePhysics(float time);
     void updatePosition();
@@ -26,6 +34,12 @@ public:
     {
         return pos.y;
     }
+    int getHeight() {
+       return srcRect.h;
+    }
+    int getWidth() {
+       return srcRect.w;
+    }
     // TODO remover isso
     void moveObject(int x, int y)
     {
@@ -35,16 +49,28 @@ public:
     {
         physics.setAcceleration(accX, accY);
     }
+    void setSpell(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
+    {
+        spell->initSpell(onCastFunc, onCollisionFunc);
+    }
+    SpellComponent* getSpell()
+    {
+        return spell;
+    }
     // utilizar gameObject como superclasse para entidades
     // virtual void update() = 0;
     // virtual void render() = 0;
 
 private:
-    // TODO posicao em vetor
+    void initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
+    
     Vector2i pos;
 
     SDL_Texture *objTexture;
     SDL_Rect srcRect, destRect;
 
+    //TODO TRANSFORM PHISYCS EM UM APONTADOR *
     PhysicsComponent physics;
+    SpellComponent *spell;
+
 };
