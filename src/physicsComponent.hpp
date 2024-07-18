@@ -11,15 +11,14 @@ class PhysicsComponent
 {
 public:
   void initPhysics(
-    float posx,
-    float posy,
-    float velX,
-    float velY,
-    float mass,
-    float height,
-    float width,
-    float friction
-  )
+      float posx,
+      float posy,
+      float velX,
+      float velY,
+      float mass,
+      float height,
+      float width,
+      float friction)
   {
     pos.set(posx, posy);
     pMass = mass;
@@ -36,9 +35,18 @@ public:
   {
     acc.set(accX, accY);
   }
+  void setVelocity(float velX, float velY)
+  {
+    vel.set(velX, velY);
+  }
+  // TODO aplicar forca baseado na massa e forca de um objeto o acertando
+  void applyForce(float accX, float accY)
+  {
+    std::cout << "force applied" << std::endl;
+  }
   void update(float time)
   {
-    //calculando nova velocidade xy baseado na aceleração
+    // calculando nova velocidade xy baseado na aceleração
     if (this->isBreaking(vel.x, acc.x))
     {
       vel.x += acc.x * time * 2;
@@ -56,22 +64,22 @@ public:
     {
       vel.y += acc.y * time;
     }
-    //TODO DESCOMENTAR 
-    // std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
-    // std::cout << "friction " << pFriction << std::endl;
-    // std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
-    //aplicando friccao
+    // TODO DESCOMENTAR
+    //  std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    //  std::cout << "friction " << pFriction << std::endl;
+    //  std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
+    // aplicando friccao
     vel.x -= vel.x * pFriction;
     vel.y -= vel.y * pFriction;
-    //TODO se a velocidade < x o objeto para por friccao
+    // TODO se a velocidade < x o objeto para por friccao
 
-    //atualiza a posicao
+    // atualiza a posicao
     pos.x = pos.x + (vel.x * time);
     pos.y = pos.y + (vel.y * time);
 
-    //TODO DESCOMENTAR 
-    // std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
-    // std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
+    // TODO DESCOMENTAR
+    //  std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
+    //  std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
   }
 
 private:
@@ -87,7 +95,6 @@ private:
   Vector2f acc;
   // porcentagem de velocidade perdida por segundo
   float pFriction;
-
 
   bool isBreaking(float velocity, float acceleration)
   {

@@ -34,13 +34,31 @@ public:
     {
         return pos.y;
     }
-    int getHeight() {
-       return srcRect.h;
+    int getHeight()
+    {
+        return srcRect.h;
     }
-    int getWidth() {
-       return srcRect.w;
+    int getWidth()
+    {
+        return srcRect.w;
     }
-    // TODO remover isso
+    bool isAlive()
+    {
+        return alive;
+    }
+    bool isDead()
+    {
+        return !alive;
+    }
+    void kill()
+    {
+        if (spell != nullptr)
+        {
+            delete spell;
+        }
+        alive = false;
+    }
+    // Metodos de physics
     void moveObject(int x, int y)
     {
         pos.set(pos.x + x, pos.y + y);
@@ -49,11 +67,16 @@ public:
     {
         physics.setAcceleration(accX, accY);
     }
+    void setVelocity(float velX, float velY)
+    {
+        physics.setVelocity(velX, velY);
+    }
+    // Metodos de spells
     void setSpell(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
     {
-        spell->initSpell(onCastFunc, onCollisionFunc);
+        spell = new SpellComponent(onCastFunc, onCollisionFunc);
     }
-    SpellComponent* getSpell()
+    SpellComponent *getSpell()
     {
         return spell;
     }
@@ -63,14 +86,14 @@ public:
 
 private:
     void initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
-    
+
     Vector2i pos;
+    bool alive;
 
     SDL_Texture *objTexture;
     SDL_Rect srcRect, destRect;
 
-    //TODO TRANSFORM PHISYCS EM UM APONTADOR *
+    // TODO TRANSFORM PHISYCS EM UM APONTADOR *
     PhysicsComponent physics;
-    SpellComponent *spell;
-
+    SpellComponent *spell = nullptr;
 };

@@ -1,17 +1,19 @@
 #pragma once
 #include <iostream>
-#include <functional> 
+#include <functional>
 
 class SpellComponent
 {
 public:
-    void initSpell(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
+  SpellComponent(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
+  {
+    if (onCastFunc)
     {
-      if (onCastFunc) {
-        onCastFunc();
-      }
+      onCastFunc();
     }
-    std::function<void()> onCollision;
+    onCollision = onCollisionFunc;
+  }
+  std::function<void()> onCollision;
 
 private:
 };

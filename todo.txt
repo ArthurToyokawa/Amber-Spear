@@ -35,3 +35,19 @@ fireball: explode em area apos acertar um alvo
 amber spear: carrega por 2 segundos e depois faz um raio que empurra tudo no seu caminho
 ram: ganha velocidade e massa usado para empurrar inimigos ou tankar hits
 roots: cria uma area por 10 segundos qualquer entidade dentro dela fica com friccao maior
+
+
+
+
+
+
+
+
+
+
+CHECAR COM O PROFESSOR 
+Onde eu guardo Inicializadores de gameObjects comuns
+Como eu salvo o physicsComponent e spellComponent
+
+
+

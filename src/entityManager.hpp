@@ -23,6 +23,7 @@ private:
   void makeFireball();
 
   void handleCollisions();
-  bool haveObjectsColided(GameObject* a, GameObject* b);
-  void resolveColision(GameObject* a, GameObject* b);
+  bool haveObjectsColided(GameObject *a, GameObject *b);
+  void resolveColision(GameObject *a, GameObject *b);
+  void removeDeadObjects();
 };

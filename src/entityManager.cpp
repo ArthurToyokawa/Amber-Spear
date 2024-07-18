@@ -36,7 +36,8 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
       if (testFbCooldown == 0)
       {
         std::cout << player->getX() << " " << player->getY() << std::endl;
-        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 32, player->getY(), 32, 32, 0.0);
+        // TODO MUDAR A DIRECAO DA FB BASEADO NOS BOTOES APERTADOS NO TECLADO
+        GameObject *fb = new GameObject("assets/fireball.png", player->getX() + 48, player->getY(), 32, 32, 0.0);
         // setting acceleration
         fb->setAcceleration(200, 0);
         fb->setSpell(nullptr, FIREBALL_COLISION);
@@ -50,11 +51,13 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     }
   }
   // se ele estiver andando em apenas uma direcao aumenta sua velocidade
-  if(playerXAcc == 0) {
-    playerYAcc += playerYAcc*0.5;
+  if (playerXAcc == 0)
+  {
+    playerYAcc += playerYAcc * 0.5;
   }
-  if(playerYAcc == 0) {
-    playerXAcc += playerXAcc*0.5;
+  if (playerYAcc == 0)
+  {
+    playerXAcc += playerXAcc * 0.5;
   }
   player->setAcceleration(playerXAcc, playerYAcc);
 }
@@ -77,7 +80,9 @@ void EntityManager::update(float time)
   }
   // checa e resolve colisoes
   handleCollisions();
-  //  transforma a pos de fisica em uma pos em px
+  // remove objetos marcados para remoção (dead)
+  removeDeadObjects();
+  // transforma a pos de fisica em uma pos em px
   player->updatePosition();
 
   // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
@@ -116,69 +121,97 @@ void EntityManager::update(float time)
   }
 }
 
-void EntityManager::handleCollisions() {
+void EntityManager::handleCollisions()
+{
   // check for collision with player
-  for (auto fireball : fireballs) {
-    if (haveObjectsColided(player, fireball)) {
-      resolveColision(player, fireball);
+  for (auto fireball : fireballs)
+  {
+    if (haveObjectsColided(player, fireball))
+    {
       std::cout << "Player and Fireballs have collided." << std::endl;
+      resolveColision(player, fireball);
     }
   }
-  for (auto object : objects) {
-    if (haveObjectsColided(player, object)) {
-      resolveColision(player, object);
+  for (auto object : objects)
+  {
+    if (haveObjectsColided(player, object))
+    {
       std::cout << "Player and Objects have collided." << std::endl;
+      resolveColision(player, object);
     }
   }
 
   // Check for collisions between fireballs and objects
-  for (auto fireball : fireballs) {
-    for (auto object : objects) {
-      if (haveObjectsColided(fireball, object)) {
-        resolveColision(fireball, object);
+  for (auto fireball : fireballs)
+  {
+    for (auto object : objects)
+    {
+      if (haveObjectsColided(fireball, object))
+      {
         std::cout << "Fireballs and Objects have collided." << std::endl;
+        resolveColision(fireball, object);
       }
     }
   }
 
   // Check for collisions within the fireballs list
-  for (auto it1 = fireballs.begin(); it1 != fireballs.end(); ++it1) {
-    for (auto it2 = std::next(it1); it2 != fireballs.end(); ++it2) {
-      if (haveObjectsColided(*it1, *it2)) {
-        resolveColision(*it1, *it2);
+  for (auto it1 = fireballs.begin(); it1 != fireballs.end(); ++it1)
+  {
+    for (auto it2 = std::next(it1); it2 != fireballs.end(); ++it2)
+    {
+      if (haveObjectsColided(*it1, *it2))
+      {
         std::cout << "Fireballs have collided." << std::endl;
+        resolveColision(*it1, *it2);
       }
     }
   }
 
   // Check for collisions within the objects list
-  for (auto it1 = objects.begin(); it1 != objects.end(); ++it1) {
-    for (auto it2 = std::next(it1); it2 != objects.end(); ++it2) {
-      if (haveObjectsColided(*it1, *it2)) {
-        resolveColision(*it1, *it2);
+  for (auto it1 = objects.begin(); it1 != objects.end(); ++it1)
+  {
+    for (auto it2 = std::next(it1); it2 != objects.end(); ++it2)
+    {
+      if (haveObjectsColided(*it1, *it2))
+      {
         std::cout << "Objects have collided." << std::endl;
+        resolveColision(*it1, *it2);
       }
     }
   }
 }
 
-void EntityManager::resolveColision(GameObject* a, GameObject* b){
-    //TODO chamar o spell resolve collision e dar return
-  if(a->getSpell() != nullptr) {
-    // Check and delete fireball 'a'
-    auto it = std::find(fireballs.begin(), fireballs.end(), a);
-    // TODO LOGICA PRA REMOVER A FIREBALL
-    // if (it != fireballs.end()) {
-    //     it = fireballs.erase(it); // Remove from the list and update iterator
-    //     delete *it;          // Delete the object 'a'
-    // }
+void EntityManager::resolveColision(GameObject *a, GameObject *b)
+{
+  // TODO chamar o spell resolve collision e dar return
+  if (a->getSpell() != nullptr)
+  {
+    std::cout << "Killing a" << std::endl;
+    // TODO funcao mock chamar apenas a funcao de spell onCollision
+    b->setVelocity(100, 0);
+    a->getSpell()->onCollision();
+    a->kill();
   }
-    //TODO resolve de fireball depois enfiar isso em outro metodo separado
-
+  if (b->getSpell() != nullptr)
+  {
+    std::cout << "Killing b" << std::endl;
+    // TODO funcao mock chamar apenas a funcao de spell onCollision
+    a->setVelocity(100, 0);
+    b->getSpell()->onCollision();
+    b->kill();
+  }
+  // TODO resolve de fireball depois enfiar isso em outro metodo separado
   std::cout << "Resolving collision" << std::endl;
 }
-//TODO VERIFICAR A COLISÃO BASEADO EM PHISYCS
-bool EntityManager::haveObjectsColided(GameObject* a, GameObject* b) {
+
+// TODO VERIFICAR A COLISÃO BASEADO EM PHISYCS
+bool EntityManager::haveObjectsColided(GameObject *a, GameObject *b)
+{
+  if (a->isDead() || b->isDead())
+  {
+    std::cout << "Dead object skipping collision check" << std::endl;
+    return false;
+  }
   int obj1Right = a->getX() + a->getWidth();
   int obj1Bottom = a->getY() + a->getHeight();
   int obj2Right = b->getX() + b->getWidth();
@@ -186,10 +219,29 @@ bool EntityManager::haveObjectsColided(GameObject* a, GameObject* b) {
 
   // Check for collision
   if (a->getX() < obj2Right && obj1Right > b->getX() &&
-      a->getY() < obj2Bottom && obj1Bottom > b->getY()) {
-      return true; 
+      a->getY() < obj2Bottom && obj1Bottom > b->getY())
+  {
+    return true;
   }
   return false;
+}
+
+void EntityManager::removeDeadObjects()
+{
+  for (auto it = fireballs.begin(); it != fireballs.end();)
+  {
+    auto &fb = *it;
+    if (fb->isDead())
+    {
+      delete fb;
+      it = fireballs.erase(it);
+    }
+    else
+    {
+      ++it;
+    }
+  }
+  // TODO handle objects dying
 }
 
 void EntityManager::render()

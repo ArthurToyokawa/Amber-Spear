@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gameObjectProps.hpp"
-#include <iostream> 
+#include <iostream>
 #include <functional>
 
 inline constexpr int SCREEN_WIDTH = 800;
@@ -15,5 +15,5 @@ inline constexpr GameObjectProps BOX_INFO = {"assets/box.png", 300, 300, 32, 32,
 
 inline void FIREBALL_COLISION()
 {
-    std::cout << "Fireball collision handled" << std::endl;
+    std::cout << "Fireball collision effect occured" << std::endl;
 }
