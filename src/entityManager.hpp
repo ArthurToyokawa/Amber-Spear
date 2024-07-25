@@ -24,6 +24,8 @@ private:
 
   void handleCollisions();
   bool haveObjectsColided(GameObject *a, GameObject *b);
-  void resolveColision(GameObject *a, GameObject *b);
+  void resolveCollision(GameObject *a, GameObject *b);
+  void resolveSpellCollision(GameObject *a, GameObject *b);
+  void resolveObjectsCollision(GameObject *a, GameObject *b);
   void removeDeadObjects();
 };

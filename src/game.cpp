@@ -17,8 +17,8 @@ KeyboardHandler *kHandler;
 const int FPS = 20;
 const int frameDelay = 1000 / FPS;
 
-Game::Game(){};
-Game::~Game(){};
+Game::Game() {};
+Game::~Game() {};
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -69,8 +69,8 @@ void Game::gameLoop()
     frameStart = SDL_GetTicks();
 
     this->handleEvents();
-    //TODO DESCOMENTAR
-    // std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
+    // TODO DESCOMENTAR
+    //  std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
     SecsBetweenUpdate = (SDL_GetTicks() - lastUpdateTick) / 1000.0;
     this->update(SecsBetweenUpdate);
     lastUpdateTick = SDL_GetTicks();

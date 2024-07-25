@@ -31,6 +31,22 @@ public:
   {
     return pos;
   }
+  float getMass()
+  {
+    return pMass;
+  }
+  Vector2f getSize()
+  {
+    return pSize;
+  }
+  Vector2f getAcceleration()
+  {
+    return acc;
+  }
+  Vector2f getVelocity()
+  {
+    return vel;
+  }
   void setAcceleration(float accX, float accY)
   {
     acc.set(accX, accY);
@@ -74,8 +90,9 @@ public:
     // TODO se a velocidade < x o objeto para por friccao
 
     // atualiza a posicao
-    pos.x = pos.x + (vel.x * time);
-    pos.y = pos.y + (vel.y * time);
+    // pos.x = pos.x + (vel.x * time);
+    // pos.y = pos.y + (vel.y * time);
+    pos += vel * time;
 
     // TODO DESCOMENTAR
     //  std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;

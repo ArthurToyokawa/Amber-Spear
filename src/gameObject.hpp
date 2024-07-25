@@ -13,10 +13,9 @@ using Vector2i = Mylib::Math::Vector<int, 2>;
 // TODO fazer heranca de physicsComponent e positionComponent
 class GameObject
 {
-
 public:
     // TODO setar a pos fora do construtor
-    GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
+    GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction, float mass = 0.0);
     GameObject(const GameObjectProps &props);
 
     // TODO OPERADORES PRA EQUALS
@@ -26,30 +25,12 @@ public:
     void updatePhysics(float time);
     void updatePosition();
     void render();
-    int getX()
-    {
-        return pos.x;
-    }
-    int getY()
-    {
-        return pos.y;
-    }
-    int getHeight()
-    {
-        return srcRect.h;
-    }
-    int getWidth()
-    {
-        return srcRect.w;
-    }
-    bool isAlive()
-    {
-        return alive;
-    }
-    bool isDead()
-    {
-        return !alive;
-    }
+    int getX() { return pos.x; }
+    int getY() { return pos.y; }
+    int getHeight() { return srcRect.h; }
+    int getWidth() { return srcRect.w; }
+    bool isAlive() { return alive; }
+    bool isDead() { return !alive; }
     void kill()
     {
         if (spell != nullptr)
@@ -59,33 +40,22 @@ public:
         alive = false;
     }
     // Metodos de physics
-    void moveObject(int x, int y)
-    {
-        pos.set(pos.x + x, pos.y + y);
-    }
-    void setAcceleration(float accX, float accY)
-    {
-        physics.setAcceleration(accX, accY);
-    }
-    void setVelocity(float velX, float velY)
-    {
-        physics.setVelocity(velX, velY);
-    }
+    PhysicsComponent &getPhysics() { return physics; }
+    void moveObject(int x, int y) { pos.set(pos.x + x, pos.y + y); }
+    void setAcceleration(float accX, float accY) { physics.setAcceleration(accX, accY); }
+    void setVelocity(float velX, float velY) { physics.setVelocity(velX, velY); }
     // Metodos de spells
     void setSpell(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
     {
         spell = new SpellComponent(onCastFunc, onCollisionFunc);
     }
-    SpellComponent *getSpell()
-    {
-        return spell;
-    }
+    SpellComponent *getSpell() { return spell; }
     // utilizar gameObject como superclasse para entidades
     // virtual void update() = 0;
     // virtual void render() = 0;
 
 private:
-    void initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction);
+    void initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction, float mass);
 
     Vector2i pos;
     bool alive;
