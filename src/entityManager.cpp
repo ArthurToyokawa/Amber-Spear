@@ -245,8 +245,6 @@ void EntityManager::resolveObjectsCollision(GameObject *a, GameObject *b)
   float m2 = b->getPhysics().getMass();
   std::cout << "a x: " << v1x << " y: " << v1y << " mass: " << m1 << std::endl;
   std::cout << "b x: " << v2x << " y: " << v2y << " mass: " << m2 << std::endl;
-  // p == momentum m == mass v == velocity
-  // p = mv
   // calculando a velocidade apos a colisao
   float v1cx = ((m1 - m2) * v1x + 2 * m2 * v2x) / (m1 + m2);
   float v1cy = ((m1 - m2) * v1y + 2 * m2 * v2y) / (m1 + m2);
