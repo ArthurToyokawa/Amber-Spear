@@ -7,6 +7,8 @@ EntityManager::EntityManager()
   player = new GameObject(PLAYER_INFO);
   GameObject *box = new GameObject(BOX_INFO);
   objects.push_back(box);
+  GameObject *hBox = new GameObject(HEAVY_BOX_INFO);
+  objects.push_back(hBox);
 }
 
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
@@ -245,20 +247,83 @@ void EntityManager::resolveObjectsCollision(GameObject *a, GameObject *b)
   float m2 = b->getPhysics().getMass();
   std::cout << "a x: " << v1x << " y: " << v1y << " mass: " << m1 << std::endl;
   std::cout << "b x: " << v2x << " y: " << v2y << " mass: " << m2 << std::endl;
-  // calculando a velocidade apos a colisao
-  float v1cx = ((m1 - m2) * v1x + 2 * m2 * v2x) / (m1 + m2);
-  float v1cy = ((m1 - m2) * v1y + 2 * m2 * v2y) / (m1 + m2);
-  float v2cx = ((m2 - m1) * v2x + 2 * m1 * v1x) / (m1 + m2);
-  float v2cy = ((m2 - m1) * v2y + 2 * m1 * v1y) / (m1 + m2);
+  //  calculando a velocidade apos a colisao
+  // TODO O CALCULO DE VELOCIDADE ESTA QUICANDO SEM DEVER TEM Q REVER ESSA FORMULA
+  // float v1cx = ((m1 - m2) * v1x + 2 * m2 * v2x) / (m1 + m2);
+  // float v1cy = ((m1 - m2) * v1y + 2 * m2 * v2y) / (m1 + m2);
+  // float v2cx = ((m2 - m1) * v2x + 2 * m1 * v1x) / (m1 + m2);
+  // float v2cy = ((m2 - m1) * v2y + 2 * m1 * v1y) / (m1 + m2);
+  float v1fx = ((m1 - m2) * v1x + 2 * m2 * v2x) / (m1 + m2);
+  float v1fy = ((m1 - m2) * v1y + 2 * m2 * v2y) / (m1 + m2);
+  float v2fx = ((m2 - m1) * v2x + 2 * m1 * v1x) / (m1 + m2);
+  float v2fy = ((m2 - m1) * v2y + 2 * m1 * v1y) / (m1 + m2);
   // aumentando a forca de retorno para fazer os objetos quicarem com mais forca
-  float v1fx = v1cx + (v2cx * -0.1);
-  float v1fy = v1cy + (v2cy * -0.1);
-  float v2fx = v2cx + (v1cx * -0.1);
-  float v2fy = v2cy + (v1cy * -0.1);
+  // float v1fx = v1cx + (v1x * -0.1);
+  // float v1fy = v1cy + (v1y * -0.1);
+  // float v2fx = v2cx + (v2x * -0.1);
+  // float v2fy = v2cy + (v2y * -0.1);
+  std::cout << "velocidades iniciais a x: " << v1x << " y: " << v1y << std::endl;
+  std::cout << "velocidades iniciais b x: " << v2x << " y: " << v2y << std::endl;
   std::cout << "velocidades finais a x: " << v1fx << " y: " << v1fy << std::endl;
   std::cout << "velocidades finais b x: " << v2fx << " y: " << v2fy << std::endl;
   a->setVelocity(v1fx, v1fy);
   b->setVelocity(v2fx, v2fy);
+  // movendo os objetos fora de colisao
+  teleportObjectsOutOfCollision(a, b);
+}
+
+void EntityManager::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
+{
+  auto aPos = a->getPhysics().getPosition();
+  auto aSize = a->getPhysics().getSize();
+  auto bPos = b->getPhysics().getPosition();
+  auto bSize = b->getPhysics().getSize();
+
+  int aLeft = aPos.x;
+  int aRight = aPos.x + aSize.x;
+  int aTop = aPos.y;
+  int aBottom = aPos.y + aSize.y;
+  int bLeft = bPos.x;
+  int bRight = bPos.x + bSize.x;
+  int bTop = bPos.y;
+  int bBottom = bPos.y + bSize.y;
+
+  int overlapX = std::min(aRight, bRight) - std::max(aLeft, bLeft);
+  int overlapY = std::min(aBottom, bBottom) - std::max(aTop, bTop);
+  std::cout << "overlap x: " << overlapX << " y: " << overlapY << std::endl;
+
+  if (overlapX < overlapY)
+  {
+    std::cout << "empurrando em x ";
+    if (aPos.x < bPos.x)
+    {
+      std::cout << 'a: ' << aPos.x - overlapX << " b: " << bPos.x + overlapX << std::endl;
+      a->getPhysics().setPosition(aPos.x - overlapX, aPos.y);
+      b->getPhysics().setPosition(bPos.x + overlapX, bPos.y);
+    }
+    else
+    {
+      std::cout << 'a: ' << aPos.x + overlapX << " b: " << bPos.x - overlapX << std::endl;
+      a->getPhysics().setPosition(aPos.x + overlapX, aPos.y);
+      b->getPhysics().setPosition(bPos.x - overlapX, bPos.y);
+    }
+  }
+  else
+  {
+    std::cout << "empurrando em y ";
+    if (aPos.y < bPos.y)
+    {
+      std::cout << 'a: ' << aPos.y - overlapY << " b: " << bPos.y + overlapY << std::endl;
+      a->getPhysics().setPosition(aPos.x, aPos.y - overlapY);
+      b->getPhysics().setPosition(bPos.x, bPos.y + overlapY);
+    }
+    else
+    {
+      std::cout << 'a: ' << aPos.y + overlapY << " b: " << bPos.y - overlapY << std::endl;
+      a->getPhysics().setPosition(aPos.x, aPos.y + overlapY);
+      b->getPhysics().setPosition(bPos.x, bPos.y - overlapY);
+    }
+  }
 }
 
 void EntityManager::resolveCollision(GameObject *a, GameObject *b)
@@ -275,7 +340,7 @@ void EntityManager::resolveCollision(GameObject *a, GameObject *b)
     resolveSpellCollision(b, a);
   }
 }
-// TODO VERIFICAR A COLISÃO BASEADO EM PHISYCS
+
 bool EntityManager::haveObjectsColided(GameObject *a, GameObject *b)
 {
   if (a->isDead() || b->isDead())

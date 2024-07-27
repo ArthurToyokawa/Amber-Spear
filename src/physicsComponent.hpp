@@ -27,10 +27,6 @@ public:
     acc.set(0.0, 0.0);
     pFriction = friction;
   }
-  Vector2f getPosition()
-  {
-    return pos;
-  }
   float getMass()
   {
     return pMass;
@@ -39,17 +35,25 @@ public:
   {
     return pSize;
   }
+  Vector2f getPosition()
+  {
+    return pos;
+  }
+  void setPosition(float posX, float posY)
+  {
+    pos.set(posX, posY);
+  }
   Vector2f getAcceleration()
   {
     return acc;
   }
-  Vector2f getVelocity()
-  {
-    return vel;
-  }
   void setAcceleration(float accX, float accY)
   {
     acc.set(accX, accY);
+  }
+  Vector2f getVelocity()
+  {
+    return vel;
   }
   void setVelocity(float velX, float velY)
   {

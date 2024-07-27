@@ -27,5 +27,6 @@ private:
   void resolveCollision(GameObject *a, GameObject *b);
   void resolveSpellCollision(GameObject *a, GameObject *b);
   void resolveObjectsCollision(GameObject *a, GameObject *b);
+  void teleportObjectsOutOfCollision(GameObject *a, GameObject *b);
   void removeDeadObjects();
 };
