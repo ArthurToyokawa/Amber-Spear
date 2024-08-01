@@ -50,4 +50,8 @@ Onde eu guardo Inicializadores de gameObjects comuns
 Como eu salvo o physicsComponent e spellComponent
 
 
-
+implementar id global de objetos
+implementar sprites de background para colisão
+implementar sitema de vida
+implementar sistema de aura/efeitos (tem um timer e um efeito)
+INSTALAR sdl mixer para audio

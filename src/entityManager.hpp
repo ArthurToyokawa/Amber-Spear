@@ -3,6 +3,7 @@
 
 #include "list"
 #include "gameObject.hpp"
+#include "physicsSystem.hpp"
 
 // mudar o nome para world e incuir o mapa
 class EntityManager
@@ -17,16 +18,11 @@ private:
   GameObject *player;
   std::list<GameObject *> fireballs;
   std::list<GameObject *> objects;
+  // sistemas
+  PhysicsSystem physicsSystem;
   // TODO rever essa var
   int testFbCooldown = 0;
 
   void makeFireball();
-
-  void handleCollisions();
-  bool haveObjectsColided(GameObject *a, GameObject *b);
-  void resolveCollision(GameObject *a, GameObject *b);
-  void resolveSpellCollision(GameObject *a, GameObject *b);
-  void resolveObjectsCollision(GameObject *a, GameObject *b);
-  void teleportObjectsOutOfCollision(GameObject *a, GameObject *b);
   void removeDeadObjects();
 };
