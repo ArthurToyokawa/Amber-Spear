@@ -98,7 +98,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     // setting acceleration
     // TODO VER SE E MELHOR TER TODOS ESSES METODOS DIRETO EM GAMEOBJECT AO INVES DE player->getPhysics().getVelocity()
     // TODO VER COMO FAZER O JOGADOR NAO COLIDIR COM A PROPRIA SPELL TALVEZ CADA SPELL TEM UM DONO
-    fb->setVelocity(player->getPhysics().getVelocity().x, player->getPhysics().getVelocity().y);
+    fb->setVelocity(player->getPhysics()->getVelocity().x, player->getPhysics()->getVelocity().y);
     fb->setSpell(nullptr, FIREBALL_COLISION);
     fb->setAcceleration(fbXAcc, fbYAcc);
 

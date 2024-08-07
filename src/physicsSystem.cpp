@@ -62,25 +62,25 @@ void PhysicsSystem::handleCollisions(GameObject *player, std::list<GameObject *>
   }
 }
 
-void PhysicsSystem::resolveSpellCollision(GameObject *spellCaster, GameObject *target)
+void PhysicsSystem::resolveSpellCollision(GameObject *spell, GameObject *target)
 {
-  if (spellCaster->getSpell() != nullptr)
+  if (spell->getSpell() != nullptr)
   {
     std::cout << "Killing Spell" << std::endl;
     target->setVelocity(100, 0);
-    spellCaster->getSpell()->onCollision();
-    spellCaster->kill();
+    spell->getSpell()->onCollision();
+    spell->kill();
   }
 }
 
 void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b)
 {
-  float v1x = a->getPhysics().getVelocity().x;
-  float v1y = a->getPhysics().getVelocity().y;
-  float m1 = a->getPhysics().getMass();
-  float v2x = b->getPhysics().getVelocity().x;
-  float v2y = b->getPhysics().getVelocity().y;
-  float m2 = b->getPhysics().getMass();
+  float v1x = a->getPhysics()->getVelocity().x;
+  float v1y = a->getPhysics()->getVelocity().y;
+  float m1 = a->getPhysics()->getMass();
+  float v2x = b->getPhysics()->getVelocity().x;
+  float v2y = b->getPhysics()->getVelocity().y;
+  float m2 = b->getPhysics()->getMass();
   std::cout << "a x: " << v1x << " y: " << v1y << " mass: " << m1 << std::endl;
   std::cout << "b x: " << v2x << " y: " << v2y << " mass: " << m2 << std::endl;
   //  calculando a velocidade apos a colisao
@@ -105,10 +105,10 @@ void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b)
 
 void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
 {
-  auto aPos = a->getPhysics().getPosition();
-  auto aSize = a->getPhysics().getSize();
-  auto bPos = b->getPhysics().getPosition();
-  auto bSize = b->getPhysics().getSize();
+  auto aPos = a->getPhysics()->getPosition();
+  auto aSize = a->getPhysics()->getSize();
+  auto bPos = b->getPhysics()->getPosition();
+  auto bSize = b->getPhysics()->getSize();
 
   int aLeft = aPos.x;
   int aRight = aPos.x + aSize.x;
@@ -118,7 +118,7 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
   int bRight = bPos.x + bSize.x;
   int bTop = bPos.y;
   int bBottom = bPos.y + bSize.y;
-
+  // TODO REVER ESSA LOGICA PARA TELEPORTAR OBJS UM POUCO NA HORIZONTAL E UM POUCO NA VERTICAL
   int overlapX = std::min(aRight, bRight) - std::max(aLeft, bLeft);
   int overlapY = std::min(aBottom, bBottom) - std::max(aTop, bTop);
   std::cout << "overlap x: " << overlapX << " y: " << overlapY << std::endl;
@@ -129,14 +129,14 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
     if (aPos.x < bPos.x)
     {
       std::cout << 'a: ' << aPos.x - overlapX << " b: " << bPos.x + overlapX << std::endl;
-      a->getPhysics().setPosition(aPos.x - overlapX, aPos.y);
-      b->getPhysics().setPosition(bPos.x + overlapX, bPos.y);
+      a->getPhysics()->setPosition(aPos.x - overlapX, aPos.y);
+      b->getPhysics()->setPosition(bPos.x + overlapX, bPos.y);
     }
     else
     {
       std::cout << 'a: ' << aPos.x + overlapX << " b: " << bPos.x - overlapX << std::endl;
-      a->getPhysics().setPosition(aPos.x + overlapX, aPos.y);
-      b->getPhysics().setPosition(bPos.x - overlapX, bPos.y);
+      a->getPhysics()->setPosition(aPos.x + overlapX, aPos.y);
+      b->getPhysics()->setPosition(bPos.x - overlapX, bPos.y);
     }
   }
   else
@@ -145,14 +145,14 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
     if (aPos.y < bPos.y)
     {
       std::cout << 'a: ' << aPos.y - overlapY << " b: " << bPos.y + overlapY << std::endl;
-      a->getPhysics().setPosition(aPos.x, aPos.y - overlapY);
-      b->getPhysics().setPosition(bPos.x, bPos.y + overlapY);
+      a->getPhysics()->setPosition(aPos.x, aPos.y - overlapY);
+      b->getPhysics()->setPosition(bPos.x, bPos.y + overlapY);
     }
     else
     {
       std::cout << 'a: ' << aPos.y + overlapY << " b: " << bPos.y - overlapY << std::endl;
-      a->getPhysics().setPosition(aPos.x, aPos.y + overlapY);
-      b->getPhysics().setPosition(bPos.x, bPos.y - overlapY);
+      a->getPhysics()->setPosition(aPos.x, aPos.y + overlapY);
+      b->getPhysics()->setPosition(bPos.x, bPos.y - overlapY);
     }
   }
 }
@@ -179,10 +179,10 @@ bool PhysicsSystem::haveObjectsColided(GameObject *a, GameObject *b)
     std::cout << "Dead object skipping collision check" << std::endl;
     return false;
   }
-  auto aPos = a->getPhysics().getPosition();
-  auto aSize = a->getPhysics().getSize();
-  auto bPos = b->getPhysics().getPosition();
-  auto bSize = b->getPhysics().getSize();
+  auto aPos = a->getPhysics()->getPosition();
+  auto aSize = a->getPhysics()->getSize();
+  auto bPos = b->getPhysics()->getPosition();
+  auto bSize = b->getPhysics()->getSize();
   // std::cout << "a pos x:" << aPos.x << " y:" << aPos.y << " a size x:" << aSize.x << " y:" << aSize.y << std::endl;
   // std::cout << "b pos x:" << bPos.x << " y:" << bPos.y << " b size x:" << aSize.x << " y:" << aSize.y << std::endl;
   int aLeft = aPos.x;

@@ -50,8 +50,18 @@ Onde eu guardo Inicializadores de gameObjects comuns
 Como eu salvo o physicsComponent e spellComponent
 
 
-implementar id global de objetos
-implementar sprites de background para colisão
+
+
+refatorar o gameObject para conter alive, position, e funções
+o physics e o sprite são setados por metodos de init e não no construtor
+
 implementar sitema de vida
-implementar sistema de aura/efeitos (tem um timer e um efeito)
+separar o spriteComponent para fora de gameObject
+implementar sprites de background para colisão
+implementar componente de aura/efeitos (tem um timer e um efeito)(ex veneno, buff, debuff)
+
+implementar um listener para calcular efeitos fora de colisão, solisão é apenas para dois objetos com fisica e sem efeitos secundarios
+esse listener pode ser sobrescrito para adicionar um efeito separado
+
+implementar uma lista de objetos filhos (ex inimigo com uma poison cloud ao redor)
 INSTALAR sdl mixer para audio

@@ -1,5 +1,9 @@
 #include "map.hpp"
 #include "textureManager.hpp"
+#include <my-lib/matrix.h>
+
+// TODO IMPLEMENTAR COM A BIBLIOTECA DE MATRIX
+//  Matrix<GameObject*> lvl1(20, 25);
 
 int lvl1[20][25] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -48,6 +52,9 @@ void Map::LoadMap(int arr[20][25])
     for (int column = 0; column < 25; column++)
     {
       map[row][column] = arr[row][column];
+
+      // TODO IMPLEMENTAR COM A BIBLIOTECA DE MATRIX
+      //  map(row,column)
     }
   }
 }

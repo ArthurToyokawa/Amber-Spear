@@ -30,18 +30,18 @@ void GameObject::initialize(const char *textureSheet, int startingX, int startin
   destRect.x = startingX;
   destRect.y = startingY;
 
-  physics.initPhysics((float)startingX, (float)startingY, 0.0, 0.0, mass, 32, 32, friction);
+  setPhysics((float)startingX, (float)startingY, 0.0, 0.0, mass, 32, 32, friction);
 }
 
 void GameObject::updatePhysics(float time)
 {
-  physics.update(time);
+  physics->update(time);
 }
 
 void GameObject::updatePosition()
 {
-  auto physPos = physics.getPosition();
-  pos.set((int)physPos[0] + 0.5, (int)physPos[1] + 0.5);
+  auto physPos = physics->getPosition();
+  pos.set((int)physPos.x + 0.5, (int)physPos.y + 0.5);
   destRect.x = pos.x;
   destRect.y = pos.y;
 }
