@@ -67,7 +67,7 @@ void PhysicsSystem::resolveSpellCollision(GameObject *spell, GameObject *target)
   if (spell->getSpell() != nullptr)
   {
     std::cout << "Killing Spell" << std::endl;
-    target->setVelocity(100, 0);
+    target->getPhysics()->setVelocity(100, 0);
     spell->getSpell()->onCollision();
     spell->kill();
   }
@@ -97,17 +97,17 @@ void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b)
   std::cout << "velocidades iniciais b x: " << v2x << " y: " << v2y << std::endl;
   std::cout << "velocidades finais a x: " << v1fx << " y: " << v1fy << std::endl;
   std::cout << "velocidades finais b x: " << v2fx << " y: " << v2fy << std::endl;
-  a->setVelocity(v1fx, v1fy);
-  b->setVelocity(v2fx, v2fy);
+  a->getPhysics()->setVelocity(v1fx, v1fy);
+  b->getPhysics()->setVelocity(v2fx, v2fy);
   // movendo os objetos fora de colisao
   teleportObjectsOutOfCollision(a, b);
 }
 
 void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
 {
-  auto aPos = a->getPhysics()->getPosition();
+  auto aPos = a->getPosition();
   auto aSize = a->getPhysics()->getSize();
-  auto bPos = b->getPhysics()->getPosition();
+  auto bPos = b->getPosition();
   auto bSize = b->getPhysics()->getSize();
 
   int aLeft = aPos.x;
@@ -129,14 +129,14 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
     if (aPos.x < bPos.x)
     {
       std::cout << 'a: ' << aPos.x - overlapX << " b: " << bPos.x + overlapX << std::endl;
-      a->getPhysics()->setPosition(aPos.x - overlapX, aPos.y);
-      b->getPhysics()->setPosition(bPos.x + overlapX, bPos.y);
+      a->setPosition(aPos.x - overlapX, aPos.y);
+      b->setPosition(bPos.x + overlapX, bPos.y);
     }
     else
     {
       std::cout << 'a: ' << aPos.x + overlapX << " b: " << bPos.x - overlapX << std::endl;
-      a->getPhysics()->setPosition(aPos.x + overlapX, aPos.y);
-      b->getPhysics()->setPosition(bPos.x - overlapX, bPos.y);
+      a->setPosition(aPos.x + overlapX, aPos.y);
+      b->setPosition(bPos.x - overlapX, bPos.y);
     }
   }
   else
@@ -145,14 +145,14 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b)
     if (aPos.y < bPos.y)
     {
       std::cout << 'a: ' << aPos.y - overlapY << " b: " << bPos.y + overlapY << std::endl;
-      a->getPhysics()->setPosition(aPos.x, aPos.y - overlapY);
-      b->getPhysics()->setPosition(bPos.x, bPos.y + overlapY);
+      a->setPosition(aPos.x, aPos.y - overlapY);
+      b->setPosition(bPos.x, bPos.y + overlapY);
     }
     else
     {
       std::cout << 'a: ' << aPos.y + overlapY << " b: " << bPos.y - overlapY << std::endl;
-      a->getPhysics()->setPosition(aPos.x, aPos.y + overlapY);
-      b->getPhysics()->setPosition(bPos.x, bPos.y - overlapY);
+      a->setPosition(aPos.x, aPos.y + overlapY);
+      b->setPosition(bPos.x, bPos.y - overlapY);
     }
   }
 }
@@ -179,9 +179,9 @@ bool PhysicsSystem::haveObjectsColided(GameObject *a, GameObject *b)
     std::cout << "Dead object skipping collision check" << std::endl;
     return false;
   }
-  auto aPos = a->getPhysics()->getPosition();
+  auto aPos = a->getPosition();
   auto aSize = a->getPhysics()->getSize();
-  auto bPos = b->getPhysics()->getPosition();
+  auto bPos = b->getPosition();
   auto bSize = b->getPhysics()->getSize();
   // std::cout << "a pos x:" << aPos.x << " y:" << aPos.y << " a size x:" << aSize.x << " y:" << aSize.y << std::endl;
   // std::cout << "b pos x:" << bPos.x << " y:" << bPos.y << " b size x:" << aSize.x << " y:" << aSize.y << std::endl;

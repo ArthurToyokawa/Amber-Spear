@@ -8,8 +8,6 @@
 using Vector2f = Mylib::Math::Vector<float, 2>;
 
 PhysicsComponent::PhysicsComponent(
-    float posx,
-    float posy,
     float velX,
     float velY,
     float mass,
@@ -17,14 +15,13 @@ PhysicsComponent::PhysicsComponent(
     float width,
     float friction)
 {
-  pos.set(posx, posy);
   pMass = mass;
   vel.set(velX, velY);
   pSize.set(height, width);
   acc.set(0.0, 0.0);
   pFriction = friction;
 }
-void PhysicsComponent::update(float time)
+Vector2f PhysicsComponent::update(float time, Vector2f pos)
 {
   // calculando nova velocidade xy baseado na aceleração
   if (this->isBreaking(vel.x, acc.x))
@@ -44,8 +41,7 @@ void PhysicsComponent::update(float time)
   {
     vel.y += acc.y * time;
   }
-  // TODO DESCOMENTAR
-  //  std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
+  // std::cout << "vel [ " << vel.x << ", " << vel.y << "]" << std::endl;
   //  std::cout << "friction " << pFriction << std::endl;
   //  std::cout << "lost to friction [ " << -vel.x * pFriction << ", " << -vel.y * pFriction << "]" << std::endl;
   // aplicando friccao
@@ -56,11 +52,12 @@ void PhysicsComponent::update(float time)
   // atualiza a posicao
   // pos.x = pos.x + (vel.x * time);
   // pos.y = pos.y + (vel.y * time);
-  pos += vel * time;
+  Vector2f newPos = pos + (vel * time);
 
-  // TODO DESCOMENTAR
   //  std::cout << "ve2 [ " << vel.x << ", " << vel.y << "]" << std::endl;
-  //  std::cout << "pos [ " << pos.x << ", " << pos.y << "]" << std::endl;
+  // std::cout << "pos [ " << newPos.x << ", " << newPos.y << "]" << std::endl;
+
+  return newPos;
 }
 
 bool PhysicsComponent::isBreaking(float velocity, float acceleration)

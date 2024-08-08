@@ -65,3 +65,6 @@ esse listener pode ser sobrescrito para adicionar um efeito separado
 
 implementar uma lista de objetos filhos (ex inimigo com uma poison cloud ao redor)
 INSTALAR sdl mixer para audio
+ela trata diferente som de fundo e efeito sonoro
+musica de fundo vai tudo
+efeito sonoro so .wav

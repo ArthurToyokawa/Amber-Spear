@@ -55,52 +55,52 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   {
     playerXAcc += playerXAcc * 0.5;
   }
-  player->setAcceleration(playerXAcc, playerYAcc);
+  player->getPhysics()->setAcceleration(playerXAcc, playerYAcc);
   // criando entidades baseado nos clicks do jogador
   if (createFireball)
   {
-    std::cout << player->getX() << " " << player->getY() << std::endl;
+    // TODO USAR O POS DE GAMEOBJECT EM TODO getSprite()->get
+    std::cout << player->getSprite()->getX() << " " << player->getSprite()->getY() << std::endl;
 
     // setando a direcao da fb baseado na direcao do jogador
     int fbXAcc = 0;
     int fbYAcc = 0;
-    int fbStartingX = player->getX();
-    int fbStartingY = player->getY();
+    int fbStartingX = player->getSprite()->getX();
+    int fbStartingY = player->getSprite()->getY();
     if (playerXAcc == 0 && playerYAcc == 0)
     {
       fbXAcc = FIREBALL_ACCELERATION;
-      fbStartingX = player->getX() + 48;
+      fbStartingX = player->getSprite()->getX() + 48;
     }
     else
     {
       if (playerXAcc > 0)
       {
         fbXAcc = FIREBALL_ACCELERATION;
-        fbStartingX = player->getX() + 48;
+        fbStartingX = player->getSprite()->getX() + 48;
       }
       else if (playerXAcc < 0)
       {
         fbXAcc = -FIREBALL_ACCELERATION;
-        fbStartingX = player->getX() - 48;
+        fbStartingX = player->getSprite()->getX() - 48;
       }
       if (playerYAcc > 0)
       {
         fbYAcc = FIREBALL_ACCELERATION;
-        fbStartingY = player->getY() + 48;
+        fbStartingY = player->getSprite()->getY() + 48;
       }
       else if (playerYAcc < 0)
       {
         fbYAcc = -FIREBALL_ACCELERATION;
-        fbStartingY = player->getY() - 48;
+        fbStartingY = player->getSprite()->getY() - 48;
       }
     }
     GameObject *fb = new GameObject("assets/fireball.png", fbStartingX, fbStartingY, 32, 32, 0.0);
     // setting acceleration
-    // TODO VER SE E MELHOR TER TODOS ESSES METODOS DIRETO EM GAMEOBJECT AO INVES DE player->getPhysics().getVelocity()
     // TODO VER COMO FAZER O JOGADOR NAO COLIDIR COM A PROPRIA SPELL TALVEZ CADA SPELL TEM UM DONO
-    fb->setVelocity(player->getPhysics()->getVelocity().x, player->getPhysics()->getVelocity().y);
+    fb->getPhysics()->setVelocity(player->getPhysics()->getVelocity().x, player->getPhysics()->getVelocity().y);
     fb->setSpell(nullptr, FIREBALL_COLISION);
-    fb->setAcceleration(fbXAcc, fbYAcc);
+    fb->getPhysics()->setAcceleration(fbXAcc, fbYAcc);
 
     fireballs.push_back(fb);
     testFbCooldown = 10;
@@ -134,7 +134,7 @@ void EntityManager::update(float time)
   for (auto it = objects.begin(); it != objects.end();)
   {
     auto &obj = *it;
-    if (obj->getX() > SCREEN_WIDTH || obj->getY() > SCREEN_HEIGHT)
+    if (obj->getSprite()->getX() > SCREEN_WIDTH || obj->getSprite()->getY() > SCREEN_HEIGHT)
     {
       delete obj;
       it = objects.erase(it);
@@ -148,7 +148,7 @@ void EntityManager::update(float time)
   for (auto it = fireballs.begin(); it != fireballs.end();)
   {
     auto &fb = *it;
-    if (fb->getX() > SCREEN_WIDTH || fb->getY() > SCREEN_HEIGHT)
+    if (fb->getSprite()->getX() > SCREEN_WIDTH || fb->getSprite()->getY() > SCREEN_HEIGHT)
     {
       delete fb;
       it = fireballs.erase(it);
@@ -187,13 +187,13 @@ void EntityManager::removeDeadObjects()
 void EntityManager::render()
 {
   // render objects
-  player->render();
+  player->getSprite()->render();
   for (auto &objs : objects)
   {
-    objs->render();
+    objs->getSprite()->render();
   }
   for (auto &fb : fireballs)
   {
-    fb->render();
+    fb->getSprite()->render();
   }
 }

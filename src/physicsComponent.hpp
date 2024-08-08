@@ -11,8 +11,6 @@ class PhysicsComponent
 {
 public:
   PhysicsComponent(
-      float posx,
-      float posy,
       float velX,
       float velY,
       float mass,
@@ -27,14 +25,6 @@ public:
   Vector2f getSize()
   {
     return pSize;
-  }
-  Vector2f getPosition()
-  {
-    return pos;
-  }
-  void setPosition(float posX, float posY)
-  {
-    pos.set(posX, posY);
   }
   Vector2f getAcceleration()
   {
@@ -52,11 +42,9 @@ public:
   {
     vel.set(velX, velY);
   }
-  void update(float time);
+  Vector2f update(float time, Vector2f pos);
 
 private:
-  //  posicao em metros (x,y)
-  Vector2f pos;
   // velocidade m/s (x,y)
   Vector2f vel;
   // massa em kg
