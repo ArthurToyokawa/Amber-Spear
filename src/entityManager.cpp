@@ -4,10 +4,10 @@
 
 EntityManager::EntityManager()
 {
-  player = new GameObject(PLAYER_INFO);
-  GameObject *box = new GameObject(BOX_INFO);
+  player = gameObjectGenerator.makePlayer(128.0, 128.0);
+  GameObject *box = gameObjectGenerator.makeBox(250.0, 300.0);
   objects.push_back(box);
-  GameObject *hBox = new GameObject(HEAVY_BOX_INFO);
+  GameObject *hBox = gameObjectGenerator.makeHeavyBox(350.0, 300.0);
   objects.push_back(hBox);
 }
 
@@ -59,49 +59,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   // criando entidades baseado nos clicks do jogador
   if (createFireball)
   {
-    // TODO USAR O POS DE GAMEOBJECT EM TODO getSprite()->get
-    std::cout << player->getSprite()->getX() << " " << player->getSprite()->getY() << std::endl;
-
-    // setando a direcao da fb baseado na direcao do jogador
-    int fbXAcc = 0;
-    int fbYAcc = 0;
-    int fbStartingX = player->getSprite()->getX();
-    int fbStartingY = player->getSprite()->getY();
-    if (playerXAcc == 0 && playerYAcc == 0)
-    {
-      fbXAcc = FIREBALL_ACCELERATION;
-      fbStartingX = player->getSprite()->getX() + 48;
-    }
-    else
-    {
-      if (playerXAcc > 0)
-      {
-        fbXAcc = FIREBALL_ACCELERATION;
-        fbStartingX = player->getSprite()->getX() + 48;
-      }
-      else if (playerXAcc < 0)
-      {
-        fbXAcc = -FIREBALL_ACCELERATION;
-        fbStartingX = player->getSprite()->getX() - 48;
-      }
-      if (playerYAcc > 0)
-      {
-        fbYAcc = FIREBALL_ACCELERATION;
-        fbStartingY = player->getSprite()->getY() + 48;
-      }
-      else if (playerYAcc < 0)
-      {
-        fbYAcc = -FIREBALL_ACCELERATION;
-        fbStartingY = player->getSprite()->getY() - 48;
-      }
-    }
-    GameObject *fb = new GameObject("assets/fireball.png", fbStartingX, fbStartingY, 32, 32, 0.0);
-    // setting acceleration
-    // TODO VER COMO FAZER O JOGADOR NAO COLIDIR COM A PROPRIA SPELL TALVEZ CADA SPELL TEM UM DONO
-    fb->getPhysics()->setVelocity(player->getPhysics()->getVelocity().x, player->getPhysics()->getVelocity().y);
-    fb->setSpell(nullptr, FIREBALL_COLISION);
-    fb->getPhysics()->setAcceleration(fbXAcc, fbYAcc);
-
+    GameObject *fb = gameObjectGenerator.makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
     fireballs.push_back(fb);
     testFbCooldown = 10;
   }

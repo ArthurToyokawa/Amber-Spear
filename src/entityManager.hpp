@@ -4,6 +4,7 @@
 #include "list"
 #include "gameObject.hpp"
 #include "physicsSystem.hpp"
+#include "gameObjectGenerator.hpp"
 
 // mudar o nome para world e incuir o mapa
 class EntityManager
@@ -15,9 +16,11 @@ public:
   void handleKeys(std::list<SDL_Keycode> keys);
 
 private:
+  // objetos
   GameObject *player;
   std::list<GameObject *> fireballs;
   std::list<GameObject *> objects;
+  GameObjectGenerator gameObjectGenerator;
   // sistemas
   PhysicsSystem physicsSystem;
   // TODO rever essa var

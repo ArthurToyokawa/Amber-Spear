@@ -15,8 +15,7 @@ using Vector2f = Mylib::Math::Vector<float, 2>;
 class GameObject
 {
 public:
-  GameObject(const char *textureSheet, int startingX, int startingY, int height, int width, float friction, float mass = 0.0);
-  GameObject(const GameObjectProps &props);
+  GameObject(float startingX, float startingY);
 
   void updatePhysics(float time);
   void updatePosition();
@@ -92,9 +91,6 @@ public:
   SpellComponent *getSpell() { return spell; }
 
 private:
-  // TODO REMOVER NOVA INICIALIZACAO SO COM ALIVE E XY
-  void initialize(const char *textureSheet, int startingX, int startingY, int height, int width, float friction, float mass);
-
   bool alive;
   Vector2f pos;
 

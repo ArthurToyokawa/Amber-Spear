@@ -52,7 +52,6 @@ Como eu salvo o physicsComponent e spellComponent
 
 
 
-refatorar o gameObject para conter alive, position, e funções
 o physics e o sprite são setados por metodos de init e não no construtor
 
 implementar sitema de vida
@@ -68,3 +67,11 @@ INSTALAR sdl mixer para audio
 ela trata diferente som de fundo e efeito sonoro
 musica de fundo vai tudo
 efeito sonoro so .wav
+
+Sprites:
+OS sprites são uma imagem que contem multiplas texturas de uma animacao
+e uma posicao da imagem que contem o que vai ser renderizado
+a cada x tempo o sprite vai para a proxima posicao na imagem ate chegar no ultimo quando ele volta
+
+Camera: tem uma posicao e tamanho
+checa todos os objetos que estão dentro dela e renderiza apenas eles
