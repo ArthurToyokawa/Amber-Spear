@@ -1,13 +1,14 @@
 
 #include "entityManager.hpp"
 #include "common.hpp"
+#include "gameObject.hpp"
 
-EntityManager::EntityManager()
+void EntityManager::loadStartingObjects()
 {
-  player = gameObjectGenerator.makePlayer(128.0, 128.0);
-  GameObject *box = gameObjectGenerator.makeBox(250.0, 300.0);
+  player = gameObjectGenerator->makePlayer(128.0, 128.0);
+  GameObject *box = gameObjectGenerator->makeBox(250.0, 300.0);
   objects.push_back(box);
-  GameObject *hBox = gameObjectGenerator.makeHeavyBox(350.0, 300.0);
+  GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
   objects.push_back(hBox);
 }
 
@@ -59,7 +60,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   // criando entidades baseado nos clicks do jogador
   if (createFireball)
   {
-    GameObject *fb = gameObjectGenerator.makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
+    GameObject *fb = gameObjectGenerator->makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
     fireballs.push_back(fb);
     testFbCooldown = 10;
   }

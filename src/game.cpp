@@ -3,12 +3,15 @@
 #include "textureManager.hpp"
 #include "map.hpp"
 #include "keyboardHandler.hpp"
+#include "game.hpp"
 #include "entityManager.hpp"
+#include "gameObjectGenerator.hpp"
 
 #include <list>
 
 Map *map;
 EntityManager *eManager;
+GameObjectGenerator *gameObjectGenerator;
 
 SDL_Renderer *Game::renderer = nullptr;
 
@@ -48,9 +51,13 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   {
     isRunning = false;
   }
+  // TODO LOAD DE TODAS AS TEXTURAS
   map = new Map();
-  eManager = new EntityManager();
   kHandler = new KeyboardHandler();
+  eManager = new EntityManager();
+  gameObjectGenerator = new GameObjectGenerator(eManager);
+  eManager->setObjectGenerator(gameObjectGenerator);
+  eManager->loadStartingObjects();
   this->gameLoop();
 }
 

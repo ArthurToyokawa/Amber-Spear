@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gameObjectProps.hpp"
 #include <iostream>
 #include <functional>
 

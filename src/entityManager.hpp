@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 
 #include "list"
-#include "gameObject.hpp"
 #include "physicsSystem.hpp"
 #include "gameObjectGenerator.hpp"
 
@@ -10,7 +9,13 @@
 class EntityManager
 {
 public:
-  EntityManager();
+  EntityManager() {};
+  void setObjectGenerator(GameObjectGenerator *g)
+  {
+    gameObjectGenerator = g;
+  };
+  void loadStartingObjects();
+
   void update(float time);
   void render();
   void handleKeys(std::list<SDL_Keycode> keys);
@@ -20,7 +25,7 @@ private:
   GameObject *player;
   std::list<GameObject *> fireballs;
   std::list<GameObject *> objects;
-  GameObjectGenerator gameObjectGenerator;
+  GameObjectGenerator *gameObjectGenerator;
   // sistemas
   PhysicsSystem physicsSystem;
   // TODO rever essa var

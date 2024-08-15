@@ -7,7 +7,7 @@
 
 GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 {
-  GameObject *go = new GameObject(posX, posY);
+  GameObject *go = new GameObject(entityManager, posX, posY);
   go->setSprite("assets/player.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0);
   return go;
@@ -15,7 +15,7 @@ GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 
 GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 {
-  GameObject *go = new GameObject(posX, posY);
+  GameObject *go = new GameObject(entityManager, posX, posY);
   go->setSprite("assets/box.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
   return go;
@@ -23,7 +23,7 @@ GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 
 GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
-  GameObject *go = new GameObject(posX, posY);
+  GameObject *go = new GameObject(entityManager, posX, posY);
   go->setSprite("assets/BoxHeavy.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
   return go;
@@ -72,7 +72,7 @@ GameObject *GameObjectGenerator::makeFireball(float playerPosX, float playerPosY
   //  }
   //  TODO VER COMO FAZER O JOGADOR NAO COLIDIR COM A PROPRIA SPELL TALVEZ CADA SPELL TEM UM DONO
   //  TALVEZ A SPELL SÓ ATIVA DEPOIS DE UM TIMER
-  GameObject *go = new GameObject(fbStartingX, fbStartingY);
+  GameObject *go = new GameObject(entityManager, fbStartingX, fbStartingY);
   go->setSprite("assets/fireball.png", (int)fbStartingX + 0.5, (int)fbStartingY + 0.5, 32, 32);
   go->setPhysics(fbVelX, fbVelY, 0, 32, 32, 0);
   // setting acceleration

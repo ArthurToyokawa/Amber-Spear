@@ -1,9 +1,10 @@
 #include "gameObject.hpp"
 #include "textureManager.hpp"
+#include "entityManager.hpp"
 
 #include <iostream>
 
-GameObject::GameObject(float startingX, float startingY)
+GameObject::GameObject(EntityManager *e, float startingX, float startingY)
 {
   alive = true;
   pos.set((float)startingX, (float)startingY);

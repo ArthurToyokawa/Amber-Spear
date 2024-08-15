@@ -5,9 +5,10 @@
 #include "physicsComponent.hpp"
 #include "spriteComponent.hpp"
 #include "spellComponent.hpp"
-#include "gameObjectProps.hpp"
 #include <my-lib/math-vector.h>
 #include <functional>
+
+class EntityManager;
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
 using Vector2f = Mylib::Math::Vector<float, 2>;
@@ -15,7 +16,7 @@ using Vector2f = Mylib::Math::Vector<float, 2>;
 class GameObject
 {
 public:
-  GameObject(float startingX, float startingY);
+  GameObject(EntityManager *e, float startingX, float startingY);
 
   void updatePhysics(float time);
   void updatePosition();
@@ -97,4 +98,5 @@ private:
   SpriteComponent *sprite = nullptr;
   PhysicsComponent *physics = nullptr;
   SpellComponent *spell = nullptr;
+  EntityManager *entityManager = nullptr;
 };

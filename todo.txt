@@ -1,32 +1,10 @@
-cria uma classe player herdando gameObject
 
-
-usar mylib pra controlar a vetores
-
-cria uma classe vetor chamada dentro de objeto
-vetor velocidade;
-vetor posicao;
-
-objetos andam uma quantidade = vel*tempo
 caso tiver lag tem que calcular com o tempo extra
 
-usa box2d pra lidar com fisica
-!IMPORTANTE separar logica de jogo e processamento de fisica 
-ex programa a fisica em metros e segundos 
--> traduz para o jogo em px (cria uma var float metroPrapx = 100(cada metro é 100px))
+traduz para o jogo em px (cria uma var float metroPrapx = 100(cada metro é 100px))
 
-
-criar uma classe para dar objectManager contem todos os objetos
-chama o update só so objectManager ao inves de em cada objeto 1 por 1
-
-
-
-colisão:
-checa se tem uma colisão 
-resolve a colisão -> empurra os objetos até acabar a colisão
-
-
-
+criar uma classe para lidar com os objetos objectManager contem todos os objetos
+chama o update só no objectManager ao inves de em cada objeto 1 por 1
 
 
 LISTA DE SPELLS
@@ -37,29 +15,11 @@ ram: ganha velocidade e massa usado para empurrar inimigos ou tankar hits
 roots: cria uma area por 10 segundos qualquer entidade dentro dela fica com friccao maior
 
 
-
-
-
-
-
-
-
-
-CHECAR COM O PROFESSOR 
-Onde eu guardo Inicializadores de gameObjects comuns
-Como eu salvo o physicsComponent e spellComponent
-
-
-
-
-o physics e o sprite são setados por metodos de init e não no construtor
-
 implementar sitema de vida
-separar o spriteComponent para fora de gameObject
 implementar sprites de background para colisão
 implementar componente de aura/efeitos (tem um timer e um efeito)(ex veneno, buff, debuff)
 
-implementar um listener para calcular efeitos fora de colisão, solisão é apenas para dois objetos com fisica e sem efeitos secundarios
+implementar um listener para calcular efeitos fora de colisão, colisão é apenas para dois objetos com fisica e sem efeitos secundarios
 esse listener pode ser sobrescrito para adicionar um efeito separado
 
 implementar uma lista de objetos filhos (ex inimigo com uma poison cloud ao redor)
@@ -69,9 +29,39 @@ musica de fundo vai tudo
 efeito sonoro so .wav
 
 Sprites:
-OS sprites são uma imagem que contem multiplas texturas de uma animacao
+TODAS AS IMAGENS DE TEXTURAS TEM QUE SER DA MESMA RESOLUCAO PRA OTIMIZAR A MEMORIA
+Tem uma separação entre biblioteca e o jogo
+sdl imgagem->sdlsurface->sdlTexture
+não pode ter sdlTexture no meu codigo
+carrega todos os sdlTexture que podem ser usados e os salva em um vetor
+dentro do spriteComponent tem um identificador que identifica a textura
+dar imageload
+Os sprites são uma imagem que contem multiplas texturas de uma animacao
 e uma posicao da imagem que contem o que vai ser renderizado
 a cada x tempo o sprite vai para a proxima posicao na imagem ate chegar no ultimo quando ele volta
+update(tempo){
+  timer - tempo
+  se timer < 0 {
+    reseta o timer
+    animacao.proxAnimacao
+  }
+}
+animacao[0] = parado
+animacao[1] = andando pro lado
+animacao[2] = atacando
+animacao[0][x] = sprite x da animacao de andando
+textura[][] animacoes
+animacao::proxAnimacao() {
+  animacao[animacaoAtual][proxVetor]
+}
+animacao::trocarDeanim(index) {
+  return animacao[index][0]
+}
+classe para animacao
+classe para 
 
-Camera: tem uma posicao e tamanho
+
+Camera: 
+tem uma posicao e tamanho
 checa todos os objetos que estão dentro dela e renderiza apenas eles
+a posicao dela = posicao do jogador até chegar num boundary quando ela para 
