@@ -23,7 +23,7 @@ public:
 private:
   // objetos
   GameObject *player;
-  std::list<GameObject *> fireballs;
+  std::list<GameObject *> spells;
   std::list<GameObject *> objects;
   GameObjectGenerator *gameObjectGenerator;
   // sistemas

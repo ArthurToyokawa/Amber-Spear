@@ -8,24 +8,24 @@
 GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
-  go->setSprite("assets/player.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0);
+  go->setSprite("assets/player.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   return go;
 }
 
 GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
-  go->setSprite("assets/box.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
+  go->setSprite("assets/box.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   return go;
 }
 
 GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
-  go->setSprite("assets/BoxHeavy.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
+  go->setSprite("assets/BoxHeavy.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   return go;
 }
 
@@ -39,29 +39,29 @@ GameObject *GameObjectGenerator::makeFireball(float playerPosX, float playerPosY
   if (playerAccX == 0 && playerAccY == 0)
   {
     fbVelX = FIREBALL_ACCELERATION;
-    fbStartingX = playerPosX + 48;
+    fbStartingX = playerPosX + 40;
   }
   else
   {
     if (playerAccX > 0)
     {
       fbVelX = FIREBALL_ACCELERATION;
-      fbStartingX = playerPosX + 48;
+      fbStartingX = playerPosX + 40;
     }
     else if (playerAccX < 0)
     {
       fbVelX = -FIREBALL_ACCELERATION;
-      fbStartingX = playerPosX - 48;
+      fbStartingX = playerPosX - 40;
     }
     if (playerAccY > 0)
     {
       fbVelY = FIREBALL_ACCELERATION;
-      fbStartingY = playerPosY + 48;
+      fbStartingY = playerPosY + 40;
     }
     else if (playerAccY < 0)
     {
       fbVelY = -FIREBALL_ACCELERATION;
-      fbStartingY = playerPosY - 48;
+      fbStartingY = playerPosY - 40;
     }
   }
   // TODO FAZER UM TRATAMENTO PARA EM DIAGONAL A VELIDADE E POSICAO SEREM MENORES

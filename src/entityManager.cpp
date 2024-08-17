@@ -61,7 +61,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   if (createFireball)
   {
     GameObject *fb = gameObjectGenerator->makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
-    fireballs.push_back(fb);
+    spells.push_back(fb);
     testFbCooldown = 10;
   }
 }
@@ -76,20 +76,20 @@ void EntityManager::update(float time)
     obj->updatePhysics(time);
     ++it;
   }
-  for (auto it = fireballs.begin(); it != fireballs.end();)
+  for (auto it = spells.begin(); it != spells.end();)
   {
     auto &fb = *it;
     fb->updatePhysics(time);
     ++it;
   }
   // checa e resolve colisoes
-  physicsSystem.handleCollisions(player, fireballs, objects);
+  physicsSystem.handleCollisions(player, spells, objects);
   // remove objetos marcados para remoção (dead)
   removeDeadObjects();
   // transforma a pos de fisica em uma pos em px
   player->updatePosition();
 
-  // TODO lidando com o comportamento de fireballs, mudar isso para outra classe
+  // TODO lidando com o comportamento de spells, mudar isso para outra classe
   for (auto it = objects.begin(); it != objects.end();)
   {
     auto &obj = *it;
@@ -104,13 +104,13 @@ void EntityManager::update(float time)
       ++it;
     }
   }
-  for (auto it = fireballs.begin(); it != fireballs.end();)
+  for (auto it = spells.begin(); it != spells.end();)
   {
     auto &fb = *it;
     if (fb->getSprite()->getX() > SCREEN_WIDTH || fb->getSprite()->getY() > SCREEN_HEIGHT)
     {
       delete fb;
-      it = fireballs.erase(it);
+      it = spells.erase(it);
     }
     else
     {
@@ -127,13 +127,13 @@ void EntityManager::update(float time)
 
 void EntityManager::removeDeadObjects()
 {
-  for (auto it = fireballs.begin(); it != fireballs.end();)
+  for (auto it = spells.begin(); it != spells.end();)
   {
     auto &fb = *it;
     if (fb->isDead())
     {
       delete fb;
-      it = fireballs.erase(it);
+      it = spells.erase(it);
     }
     else
     {
@@ -151,7 +151,7 @@ void EntityManager::render()
   {
     objs->getSprite()->render();
   }
-  for (auto &fb : fireballs)
+  for (auto &fb : spells)
   {
     fb->getSprite()->render();
   }

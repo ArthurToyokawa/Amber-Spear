@@ -42,6 +42,12 @@ public:
   {
     vel.set(velX, velY);
   }
+  void applyForce(int forceX, int forceY)
+  {
+    // aplicando a forca por 1 segundo setando a velocidade
+    // como multiplica por 1 o tempo n mostra
+    vel.set(forceX / pMass, forceY / pMass);
+  };
   Vector2f update(float time, Vector2f pos);
 
 private:

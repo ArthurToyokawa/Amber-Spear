@@ -2,10 +2,12 @@
 #include <iostream>
 #include <functional>
 
+class GameObject;
+
 class SpellComponent
 {
 public:
-  SpellComponent(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
+  SpellComponent(std::function<void()> onCastFunc, std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollisionFunc)
   {
     if (onCastFunc)
     {
@@ -13,7 +15,7 @@ public:
     }
     onCollision = onCollisionFunc;
   }
-  std::function<void()> onCollision;
+  std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollision;
 
 private:
 };

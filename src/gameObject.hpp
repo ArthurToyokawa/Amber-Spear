@@ -85,7 +85,7 @@ public:
   }
   PhysicsComponent *getPhysics() { return physics; }
   // Metodos de spells
-  void setSpell(std::function<void()> onCastFunc, std::function<void()> onCollisionFunc)
+  void setSpell(std::function<void()> onCastFunc, std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollisionFunc)
   {
     spell = new SpellComponent(onCastFunc, onCollisionFunc);
   }
