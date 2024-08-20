@@ -163,56 +163,18 @@ void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b, Vector
 
 void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b, Vector2f overlap)
 {
-  // TODO usar o objeto de overlap
-  auto aPos = a->getPosition();
-  auto aSize = a->getPhysics()->getSize();
-  auto bPos = b->getPosition();
-  auto bSize = b->getPhysics()->getSize();
-
-  int aLeft = aPos.x;
-  int aRight = aPos.x + aSize.x;
-  int aTop = aPos.y;
-  int aBottom = aPos.y + aSize.y;
-  int bLeft = bPos.x;
-  int bRight = bPos.x + bSize.x;
-  int bTop = bPos.y;
-  int bBottom = bPos.y + bSize.y;
-  // TODO REVER ESSA LOGICA PARA TELEPORTAR OBJS UM POUCO NA HORIZONTAL E UM POUCO NA VERTICAL
-  int overlapX = std::min(aRight, bRight) - std::max(aLeft, bLeft);
-  int overlapY = std::min(aBottom, bBottom) - std::max(aTop, bTop);
-  std::cout << "overlap x: " << overlapX << " y: " << overlapY << std::endl;
-
-  if (overlapX < overlapY)
+  // teleportando o a para fora de b
+  if (fabsf(overlap.x) < fabsf(overlap.y))
   {
     std::cout << "empurrando em x ";
-    if (aPos.x < bPos.x)
-    {
-      std::cout << 'a: ' << aPos.x - overlapX << " b: " << bPos.x + overlapX << std::endl;
-      a->setPosition(aPos.x - overlapX, aPos.y);
-      b->setPosition(bPos.x + overlapX, bPos.y);
-    }
-    else
-    {
-      std::cout << 'a: ' << aPos.x + overlapX << " b: " << bPos.x - overlapX << std::endl;
-      a->setPosition(aPos.x + overlapX, aPos.y);
-      b->setPosition(bPos.x - overlapX, bPos.y);
-    }
+    a->setPosition(a->getPosition().x - overlap.x, a->getPosition().y);
+    // b->setPosition(bPos.x + overlapX, bPos.y);
   }
   else
   {
     std::cout << "empurrando em y ";
-    if (aPos.y < bPos.y)
-    {
-      std::cout << 'a: ' << aPos.y - overlapY << " b: " << bPos.y + overlapY << std::endl;
-      a->setPosition(aPos.x, aPos.y - overlapY);
-      b->setPosition(bPos.x, bPos.y + overlapY);
-    }
-    else
-    {
-      std::cout << 'a: ' << aPos.y + overlapY << " b: " << bPos.y - overlapY << std::endl;
-      a->setPosition(aPos.x, aPos.y + overlapY);
-      b->setPosition(bPos.x, bPos.y - overlapY);
-    }
+    a->setPosition(a->getPosition().x, a->getPosition().y - overlap.y);
+    // b->setPosition(bPos.x, bPos.y + overlapY);
   }
 }
 
