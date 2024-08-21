@@ -25,7 +25,7 @@ GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
-  go->setSprite("assets/BoxHeavy.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
+  go->setSprite("assets/boxHeavy.png", (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   return go;
 }
 
