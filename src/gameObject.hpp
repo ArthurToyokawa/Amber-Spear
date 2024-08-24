@@ -5,6 +5,7 @@
 #include "physicsComponent.hpp"
 #include "spriteComponent.hpp"
 #include "spellComponent.hpp"
+#include "textureEnumUtils.hpp"
 #include <my-lib/math-vector.h>
 #include <functional>
 
@@ -19,7 +20,7 @@ public:
   GameObject(EntityManager *e, float startingX, float startingY);
 
   void updatePhysics(float time);
-  void updatePosition();
+  void updateSprite();
 
   Vector2f getPosition()
   {
@@ -52,14 +53,14 @@ public:
   }
   // Metodos de sprite
   void setSprite(
-      const char *textureSheet,
+      TextureEnum texture,
       int startingX,
       int startingY,
       int height,
       int width)
   {
     sprite = new SpriteComponent(
-        textureSheet,
+        texture,
         startingX,
         startingY,
         height,

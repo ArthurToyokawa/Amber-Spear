@@ -86,8 +86,9 @@ void EntityManager::update(float time)
   physicsSystem.handleCollisions(player, spells, objects);
   // remove objetos marcados para remoção (dead)
   removeDeadObjects();
+
   // transforma a pos de fisica em uma pos em px
-  player->updatePosition();
+  player->updateSprite();
 
   // TODO lidando com o comportamento de spells, mudar isso para outra classe
   for (auto it = objects.begin(); it != objects.end();)
@@ -100,7 +101,7 @@ void EntityManager::update(float time)
     }
     else
     {
-      obj->updatePosition();
+      obj->updateSprite();
       ++it;
     }
   }
@@ -114,7 +115,7 @@ void EntityManager::update(float time)
     }
     else
     {
-      fb->updatePosition();
+      fb->updateSprite();
       ++it;
     }
   }
@@ -141,18 +142,4 @@ void EntityManager::removeDeadObjects()
     }
   }
   // TODO handle objects dying
-}
-
-void EntityManager::render()
-{
-  // render objects
-  player->getSprite()->render();
-  for (auto &objs : objects)
-  {
-    objs->getSprite()->render();
-  }
-  for (auto &fb : spells)
-  {
-    fb->getSprite()->render();
-  }
 }

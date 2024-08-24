@@ -17,8 +17,11 @@ public:
   void loadStartingObjects();
 
   void update(float time);
-  void render();
   void handleKeys(std::list<SDL_Keycode> keys);
+
+  GameObject *getPlayer() { return player; };
+  std::list<GameObject *> getSpells() { return spells; };
+  std::list<GameObject *> getObjects() { return objects; };
 
 private:
   // objetos

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameObject.hpp"
+#include "textureEnumUtils.hpp"
 
 class EntityManager;
 

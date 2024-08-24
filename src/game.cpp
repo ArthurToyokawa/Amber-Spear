@@ -13,8 +13,6 @@ Map *map;
 EntityManager *eManager;
 GameObjectGenerator *gameObjectGenerator;
 
-SDL_Renderer *Game::renderer = nullptr;
-
 KeyboardHandler *kHandler;
 
 const int FPS = 20;
@@ -34,24 +32,13 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
   {
     std::cout << "init succesful " << std::endl;
-    window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-    if (window)
-    {
-      std::cout << "window succesful " << std::endl;
-    }
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    if (renderer)
-    {
-      SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-      std::cout << "renderer succesful " << std::endl;
-    }
+    textureManager = new TextureManager(title, xpos, ypos, width, height, flags);
     isRunning = true;
   }
   else
   {
     isRunning = false;
   }
-  // TODO LOAD DE TODAS AS TEXTURAS
   map = new Map();
   kHandler = new KeyboardHandler();
   eManager = new EntityManager();
@@ -141,18 +128,12 @@ void Game::update(float time)
 
 void Game::render()
 {
-  SDL_RenderClear(renderer);
-  // render background
-  map->DrawMap();
-  // render objects
-  eManager->render();
-  SDL_RenderPresent(renderer);
+  textureManager->render(map, eManager);
 }
 
 void Game::clean()
 {
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
+  textureManager->destroy();
   SDL_Quit();
   std::cout << "ending game" << std::endl;
 }
