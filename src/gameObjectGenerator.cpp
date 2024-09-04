@@ -27,6 +27,21 @@ GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
   go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32);
   return go;
 }
+GameObject *GameObjectGenerator::makeRock(float posX, float posY)
+{
+  GameObject *go = new GameObject(entityManager, posX, posY);
+  go->setSprite(TextureEnum::rock, (int)posX + 0.5, (int)posY + 0.5, 32, 32);
+  return go;
+}
+
+GameObject *GameObjectGenerator::makeLava(float posX, float posY)
+{
+  // TODO USAR UM METODO SEPARADO DE COLISAO
+  GameObject *go = new GameObject(entityManager, posX, posY);
+  go->setSprite(TextureEnum::lava, (int)posX + 0.5, (int)posY + 0.5, 32, 32);
+  go->setSpell(nullptr, LAVA_COLISION);
+  return go;
+}
 
 GameObject *GameObjectGenerator::makeFireball(float playerPosX, float playerPosY, float playerAccX, float playerAccY)
 {

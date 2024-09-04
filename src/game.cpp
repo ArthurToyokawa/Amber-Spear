@@ -1,7 +1,6 @@
 
 #include "game.hpp"
 #include "textureManager.hpp"
-#include "map.hpp"
 #include "keyboardHandler.hpp"
 #include "game.hpp"
 #include "entityManager.hpp"
@@ -9,7 +8,6 @@
 
 #include <list>
 
-Map *map;
 EntityManager *eManager;
 GameObjectGenerator *gameObjectGenerator;
 
@@ -39,7 +37,6 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   {
     isRunning = false;
   }
-  map = new Map();
   kHandler = new KeyboardHandler();
   eManager = new EntityManager();
   gameObjectGenerator = new GameObjectGenerator(eManager);
@@ -128,7 +125,7 @@ void Game::update(float time)
 
 void Game::render()
 {
-  textureManager->render(map, eManager);
+  textureManager->render(eManager);
 }
 
 void Game::clean()

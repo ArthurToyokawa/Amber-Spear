@@ -5,6 +5,9 @@
 
 void EntityManager::loadStartingObjects()
 {
+  physicsSystem = new PhysicsSystem(this);
+  map = new Map(gameObjectGenerator);
+
   player = gameObjectGenerator->makePlayer(128.0, 128.0);
   GameObject *box = gameObjectGenerator->makeBox(250.0, 300.0);
   objects.push_back(box);
@@ -83,7 +86,7 @@ void EntityManager::update(float time)
     ++it;
   }
   // checa e resolve colisoes
-  physicsSystem.handleCollisions(player, spells, objects);
+  physicsSystem->handleCollisions();
   // remove objetos marcados para remoção (dead)
   removeDeadObjects();
 

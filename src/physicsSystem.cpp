@@ -1,9 +1,19 @@
 
 #include "physicsSystem.hpp"
+#include "entityManager.hpp"
 #include "common.hpp"
 
-void PhysicsSystem::handleCollisions(GameObject *player, std::list<GameObject *> spells, std::list<GameObject *> objects)
+PhysicsSystem::PhysicsSystem(EntityManager *e)
 {
+  entityManager = e;
+}
+
+void PhysicsSystem::handleCollisions()
+{
+  // TODO COLISAO COM BACKGROUND
+  GameObject *player = entityManager->getPlayer();
+  std::list<GameObject *> spells = entityManager->getSpells();
+  std::list<GameObject *> objects = entityManager->getObjects();
   // check for collision with player
   for (auto spell : spells)
   {

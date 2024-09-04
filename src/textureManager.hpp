@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map.hpp"
+// #include "map.hpp"
 #include "entityManager.hpp"
 #include "textureEnumUtils.hpp"
 #include <SDL2/SDL.h>
@@ -13,7 +13,7 @@ public:
   TextureManager(const char *title, int xpos, int ypos, int width, int height, int flags);
   static SDL_Texture *LoadTexture(const char *textureSheet);
   static void Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest);
-  void render(Map *map, EntityManager *eManager);
+  void render(EntityManager *eManager);
   void renderObject(GameObject *obj);
   void destroy()
   {

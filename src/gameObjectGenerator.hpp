@@ -16,10 +16,16 @@ public:
   GameObject *makeBox(float posX, float posY);
   GameObject *makeHeavyBox(float posX, float posY);
   GameObject *makeFireball(float playerPosX, float playerPosY, float playerAccX, float playerAccY);
+  GameObject *makeRock(float posX, float posY);
+  GameObject *makeLava(float posX, float posY);
 
 private:
   EntityManager *entityManager = nullptr;
 
+  static void LAVA_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
+  {
+    std::cout << "touched lava " << std::endl;
+  }
   static void FIREBALL_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
   {
     // TODO CRIAR QUANDO CRIAR ANIMACOES USAR UMA ANIMACAO DE EXPLOSAO E NO FINAL EMPURRAR USANDO O CALCULO EM BAIXO

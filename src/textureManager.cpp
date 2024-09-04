@@ -49,12 +49,14 @@ void TextureManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest)
   SDL_RenderCopy(renderer, tex, &src, &dest);
 }
 
-void TextureManager::render(Map *map, EntityManager *eManager)
+void TextureManager::render(EntityManager *eManager)
 {
   SDL_RenderClear(renderer);
   // render background
-  // TODO MUDAR PARA UM ARRAY DE OBJECTS
-  map->DrawMap();
+  for (GameObject *obj : eManager->getMap()->getMapObjects())
+  {
+    renderObject(obj);
+  }
   // render objects
   renderObject(eManager->getPlayer());
   for (auto &objs : eManager->getObjects())
