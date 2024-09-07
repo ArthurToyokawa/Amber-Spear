@@ -7,14 +7,14 @@ void EntityManager::loadStartingObjects()
 {
   physicsSystem = new PhysicsSystem(this);
   map = new Map(gameObjectGenerator);
-
+  // TODO TODO X.0 MUDAR PARA X.0f para setar como float
   player = gameObjectGenerator->makePlayer(128.0, 128.0);
   GameObject *box = gameObjectGenerator->makeBox(250.0, 300.0);
   objects.push_back(box);
   GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
   objects.push_back(hBox);
 }
-
+// TODO SEPARAR ESSE TRATAMENTO EM OUTRA CLASSE
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 {
   // TODO essas var só é necessario em player e tbm inicializa eles fora de funcao
@@ -59,10 +59,38 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   {
     playerXAcc += playerXAcc * 0.5;
   }
+  // logica para setar a animacao TODO VER SE DA PRA MELHORAR ISSO
+  if (playerXAcc == 0 && playerYAcc == 0) // player parado
+  {
+    player->getSprite()->switchToDefaultAnimation();
+  }
+  else if (playerXAcc == 0) // player se movendo em y
+  {
+    if (playerYAcc > 0)
+    {
+      player->getSprite()->switchAnimation(4); // animDown = 4;
+    }
+    else
+    {
+      player->getSprite()->switchAnimation(3); // animUp = 3;
+    }
+  }
+  else if (playerYAcc == 0) // player de movendo em X
+  {
+    if (playerXAcc > 0)
+    {
+      player->getSprite()->switchAnimation(2); // animRight = 2;
+    }
+    else
+    {
+      player->getSprite()->switchAnimation(1); // animLeft = 1;
+    }
+  }
   player->getPhysics()->setAcceleration(playerXAcc, playerYAcc);
   // criando entidades baseado nos clicks do jogador
   if (createFireball)
   {
+    player->getSprite()->switchAnimation(5); // animCasting = 5;
     GameObject *fb = gameObjectGenerator->makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
     spells.push_back(fb);
     testFbCooldown = 10;

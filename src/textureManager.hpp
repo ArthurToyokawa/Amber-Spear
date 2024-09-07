@@ -13,8 +13,8 @@ public:
   TextureManager(const char *title, int xpos, int ypos, int width, int height, int flags);
   static SDL_Texture *LoadTexture(const char *textureSheet);
   static void Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest);
-  void render(EntityManager *eManager);
-  void renderObject(GameObject *obj);
+  void render(EntityManager *eManager, float time);
+  void renderObject(GameObject *obj, float time);
   void destroy()
   {
     SDL_DestroyWindow(window);

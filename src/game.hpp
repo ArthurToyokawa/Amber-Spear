@@ -19,7 +19,7 @@ public:
 
   void handleEvents();
   void update(float time);
-  void render();
+  void render(float time);
   void clean();
   void gameLoop();
 

@@ -48,44 +48,50 @@ void TextureManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest)
 {
   SDL_RenderCopy(renderer, tex, &src, &dest);
 }
-
-void TextureManager::render(EntityManager *eManager)
+// TODO GUARDAR O PONTEIRO DO ENTITYMANEGER NO TEXTUREMANAGER
+void TextureManager::render(EntityManager *eManager, float time)
 {
   SDL_RenderClear(renderer);
   // render background
   for (GameObject *obj : eManager->getMap()->getMapObjects())
   {
-    renderObject(obj);
+    renderObject(obj, time);
   }
   // render objects
-  renderObject(eManager->getPlayer());
+  renderObject(eManager->getPlayer(), time);
   for (auto &objs : eManager->getObjects())
   {
-    renderObject(objs);
+    renderObject(objs, time);
   }
   for (auto &fb : eManager->getSpells())
   {
-    renderObject(fb);
+    renderObject(fb, time);
   }
   SDL_RenderPresent(renderer);
 }
 
-void TextureManager::renderObject(GameObject *obj)
+void TextureManager::renderObject(GameObject *obj, float time)
 {
   if (obj->getSprite() != nullptr)
   {
-
     SDL_Texture *objTex = textures[std::to_underlying(obj->getSprite()->getTexture())];
     SDL_Rect srcRect, destRect;
     srcRect.h = obj->getSprite()->getHeight();
     srcRect.w = obj->getSprite()->getWidth();
-    srcRect.x = 0;
-    srcRect.y = 0;
+    srcRect.x = obj->getSprite()->getCurrentAnimation()->getAnimationPosition().x;
+    srcRect.y = obj->getSprite()->getCurrentAnimation()->getAnimationPosition().y;
     destRect.h = srcRect.h;
     destRect.w = srcRect.w;
     destRect.x = obj->getSprite()->getX();
     destRect.y = obj->getSprite()->getY();
 
     SDL_RenderCopy(renderer, objTex, &srcRect, &destRect);
+
+    obj->getSprite()->getCurrentAnimation()->update(time);
+    if (obj->getSprite()->getCurrentAnimation()->getIsOver())
+    {
+      std::cout << "animation over switching to default" << std::endl;
+      obj->getSprite()->switchToDefaultAnimation();
+    }
   }
 }

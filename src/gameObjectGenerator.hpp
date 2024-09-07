@@ -2,6 +2,8 @@
 
 #include "gameObject.hpp"
 #include "textureEnumUtils.hpp"
+#include "spriteAnimation.hpp"
+#include <vector>
 
 class EntityManager;
 
@@ -19,9 +21,13 @@ public:
   GameObject *makeRock(float posX, float posY);
   GameObject *makeLava(float posX, float posY);
 
+  SpriteAnimation *makeZeroAnimation();
+  std::vector<SpriteAnimation *> makeSingleSpriteAnimations();
+
 private:
   EntityManager *entityManager = nullptr;
 
+  // colisoes
   static void LAVA_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
   {
     std::cout << "touched lava " << std::endl;

@@ -46,25 +46,36 @@ public:
     }
     if (sprite != nullptr)
     {
+      sprite->deleteAnimations();
       delete sprite;
       sprite = nullptr;
     }
     alive = false;
   }
-  // Metodos de sprite
+  // metodos de colisao
+  // bool ignorePhysicsCollision() {
+  //   if(spell != nullptr) {
+  //     return true;
+  //   }
+  // };
+  //  Metodos de sprite
   void setSprite(
       TextureEnum texture,
       int startingX,
       int startingY,
       int height,
-      int width)
+      int width,
+      std::vector<SpriteAnimation *> anims,
+      int defaultAnimationIndex)
   {
     sprite = new SpriteComponent(
         texture,
         startingX,
         startingY,
         height,
-        width);
+        width,
+        anims,
+        defaultAnimationIndex);
   }
   SpriteComponent *getSprite() { return sprite; }
   // Metodos de physics
@@ -100,4 +111,6 @@ private:
   PhysicsComponent *physics = nullptr;
   SpellComponent *spell = nullptr;
   EntityManager *entityManager = nullptr;
+  // TODO UMA FORMA DE COLISAO SECUNDARIO E IGNORAR A COLISAO DE FISICA
+  //  std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollision;
 };

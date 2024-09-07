@@ -66,7 +66,7 @@ void Game::gameLoop()
     this->update(SecsBetweenUpdate);
     lastUpdateTick = SDL_GetTicks();
 
-    this->render();
+    this->render(SecsBetweenUpdate);
     // tempo requirido para realizar os eventos
     frameTime = SDL_GetTicks() - frameStart;
 
@@ -123,9 +123,9 @@ void Game::update(float time)
   eManager->update(time);
 }
 
-void Game::render()
+void Game::render(float time)
 {
-  textureManager->render(eManager);
+  textureManager->render(eManager, time);
 }
 
 void Game::clean()
