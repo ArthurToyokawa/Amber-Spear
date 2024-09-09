@@ -161,10 +161,10 @@ void EntityManager::removeDeadObjects()
 {
   for (auto it = spells.begin(); it != spells.end();)
   {
-    auto &fb = *it;
-    if (fb->isDead())
+    auto &sp = *it;
+    if (sp->isDead())
     {
-      delete fb;
+      delete sp;
       it = spells.erase(it);
     }
     else
@@ -172,5 +172,18 @@ void EntityManager::removeDeadObjects()
       ++it;
     }
   }
-  // TODO handle objects dying
+  for (auto it = objects.begin(); it != objects.end();)
+  {
+    auto &obj = *it;
+    if (obj->isDead())
+    {
+      std::cout << "removing dead obj" << std::endl;
+      delete obj;
+      it = objects.erase(it);
+    }
+    else
+    {
+      ++it;
+    }
+  }
 }

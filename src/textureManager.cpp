@@ -86,7 +86,18 @@ void TextureManager::renderObject(GameObject *obj, float time)
     destRect.y = obj->getSprite()->getY();
 
     SDL_RenderCopy(renderer, objTex, &srcRect, &destRect);
-
+    // lifebar
+    if (obj->getLife() != nullptr && obj->getLife()->getShowLifebar())
+    {
+      SDL_Rect lifeRect;
+      lifeRect.h = 2;
+      lifeRect.w = obj->getLife()->getLifeBarFill(obj->getSprite()->getWidth());
+      lifeRect.x = obj->getSprite()->getX();
+      lifeRect.y = obj->getSprite()->getY() - 2;
+      SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+      SDL_RenderFillRect(renderer, &lifeRect);
+    }
+    // animacao
     obj->getSprite()->getCurrentAnimation()->update(time);
     if (obj->getSprite()->getCurrentAnimation()->getIsOver())
     {

@@ -1,0 +1,45 @@
+#include "lifeComponent.hpp"
+#include "gameObject.hpp"
+
+#include <iostream>
+
+LifeComponent::LifeComponent(GameObject *parent, float max, bool show)
+{
+  gameObject = parent;
+  maxLife = max;
+  currentLife = max;
+  showLifebar = show;
+};
+
+int LifeComponent::getLifeBarFill(int barWidth)
+{
+  float lifePct = currentLife / maxLife;
+  return (int)(lifePct * barWidth + 0.5);
+}
+
+void LifeComponent::dealDamage(float damage)
+{
+  // reducao de dano
+  // true damage
+  // outras logicas
+  currentLife -= damage;
+  if (currentLife <= 0)
+  {
+    gameObject->kill();
+  }
+};
+void LifeComponent::healDamage(float heal)
+{
+  // multiplicador de cura
+  // overheal
+  // outras logicas
+  currentLife += heal;
+  if (currentLife + heal > maxLife)
+  {
+    currentLife = maxLife;
+  }
+  else
+  {
+    currentLife += heal;
+  }
+};

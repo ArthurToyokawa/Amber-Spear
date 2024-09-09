@@ -48,8 +48,14 @@ private:
     // calculo da forca baseado em acc
     float forceX = spell->getPhysics()->getVelocity().x * 10;
     float forceY = spell->getPhysics()->getVelocity().y * 10;
-
-    target->getPhysics()->applyForce(forceX, forceY);
+    if (target->getPhysics() != nullptr)
+    {
+      target->getPhysics()->applyForce(forceX, forceY);
+    }
+    if (target->getLife() != nullptr)
+    {
+      target->getLife()->dealDamage(10.0f);
+    }
     // matando spell
     spell->kill();
   }

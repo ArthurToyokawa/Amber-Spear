@@ -39,7 +39,9 @@ GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
   // standing = 0; animLeft = 1; animRight = 2; animUp = 3; animDown = 4; animCasting = 5;
   std::vector<SpriteAnimation *> animations = {standing, animLeft, animRight, animUp, animDown, animCasting};
   // ANIMATIONS END
+
   go->setSprite(TextureEnum::player, (int)posX + 0.5, (int)posY + 0.5, 32, 32, animations, 0);
+  go->setLife(go, 100.0f, true);
 
   return go;
 }
@@ -49,6 +51,7 @@ GameObject *GameObjectGenerator::makeBox(float posX, float posY)
   GameObject *go = new GameObject(entityManager, posX, posY);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
   go->setSprite(TextureEnum::box, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setLife(go, 20.0f, true);
   return go;
 }
 
@@ -57,6 +60,7 @@ GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
   GameObject *go = new GameObject(entityManager, posX, posY);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
   go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setLife(go, 100.0f, true);
   return go;
 }
 GameObject *GameObjectGenerator::makeRock(float posX, float posY)

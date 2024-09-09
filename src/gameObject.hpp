@@ -5,6 +5,7 @@
 #include "physicsComponent.hpp"
 #include "spriteComponent.hpp"
 #include "spellComponent.hpp"
+#include "lifeComponent.hpp"
 #include "textureEnumUtils.hpp"
 #include <my-lib/math-vector.h>
 #include <functional>
@@ -38,6 +39,11 @@ public:
     {
       delete spell;
       spell = nullptr;
+    }
+    if (life != nullptr)
+    {
+      delete life;
+      life = nullptr;
     }
     if (physics != nullptr)
     {
@@ -102,6 +108,12 @@ public:
     spell = new SpellComponent(onCastFunc, onCollisionFunc);
   }
   SpellComponent *getSpell() { return spell; }
+  // Metodos de life
+  void setLife(GameObject *gameObject, float maxLife, bool showLifeBar)
+  {
+    life = new LifeComponent(gameObject, maxLife, showLifeBar);
+  }
+  LifeComponent *getLife() { return life; }
 
 private:
   bool alive;
@@ -110,6 +122,8 @@ private:
   SpriteComponent *sprite = nullptr;
   PhysicsComponent *physics = nullptr;
   SpellComponent *spell = nullptr;
+  LifeComponent *life = nullptr;
+
   EntityManager *entityManager = nullptr;
   // TODO UMA FORMA DE COLISAO SECUNDARIO E IGNORAR A COLISAO DE FISICA
   //  std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollision;
