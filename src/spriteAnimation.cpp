@@ -11,7 +11,7 @@ SpriteAnimation::SpriteAnimation(std::vector<Vector2i> positions, float switchTi
   setToInitialState();
   if (!isLooping)
   {
-    std::cout << "starting non looping animation" << std::endl;
+    // std::cout << "starting non looping animation" << std::endl;
   }
 };
 
@@ -28,6 +28,7 @@ void SpriteAnimation::update(float time)
   {
     return;
   }
+  // std::cout << "non looping animation" << posIndex << std::endl;
   currentTime += time;
   if (currentTime >= switchAnimationTime)
   {

@@ -40,7 +40,7 @@ GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
   std::vector<SpriteAnimation *> animations = {standing, animLeft, animRight, animUp, animDown, animCasting};
   // ANIMATIONS END
 
-  go->setSprite(TextureEnum::player, (int)posX + 0.5, (int)posY + 0.5, 32, 32, animations, 0);
+  go->setSprite(TextureEnum::player, (int)posX + 0.5, (int)posY + 0.5, 32, 32, animations);
   go->setLife(go, 100.0f, true);
 
   return go;
@@ -50,7 +50,7 @@ GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
-  go->setSprite(TextureEnum::box, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setSprite(TextureEnum::box, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 20.0f, true);
   return go;
 }
@@ -59,14 +59,14 @@ GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
-  go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 100.0f, true);
   return go;
 }
 GameObject *GameObjectGenerator::makeRock(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
-  go->setSprite(TextureEnum::rock, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setSprite(TextureEnum::rock, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   return go;
 }
 
@@ -74,7 +74,7 @@ GameObject *GameObjectGenerator::makeLava(float posX, float posY)
 {
   // TODO USAR UM METODO SEPARADO DE COLISAO
   GameObject *go = new GameObject(entityManager, posX, posY);
-  go->setSprite(TextureEnum::lava, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setSprite(TextureEnum::lava, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setSpell(nullptr, LAVA_COLISION);
   return go;
 }
@@ -123,7 +123,7 @@ GameObject *GameObjectGenerator::makeFireball(float playerPosX, float playerPosY
   //  TODO VER COMO FAZER O JOGADOR NAO COLIDIR COM A PROPRIA SPELL TALVEZ CADA SPELL TEM UM DONO
   //  TALVEZ A SPELL SÓ ATIVA DEPOIS DE UM TIMER
   GameObject *go = new GameObject(entityManager, fbStartingX, fbStartingY);
-  go->setSprite(TextureEnum::fireball, (int)fbStartingX + 0.5, (int)fbStartingY + 0.5, 32, 32, makeSingleSpriteAnimations(), 0);
+  go->setSprite(TextureEnum::fireball, (int)fbStartingX + 0.5, (int)fbStartingY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setPhysics(fbVelX, fbVelY, 0, 32, 32, 0);
   // setting acceleration
   // fb->getPhysics()->setAcceleration(fbVelX, fbVelY);

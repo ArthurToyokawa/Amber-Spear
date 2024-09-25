@@ -197,7 +197,6 @@ void PhysicsSystem::resolveCollision(GameObject *a, GameObject *b, Vector2f over
   }
   else if (b->getSpell() != nullptr)
   {
-    // pra nao dar problema com o overlap baseado em a colidindo com b
     // TODO VER SE TEM UMA LOGICA MELHOR
     // resolveSpellCollision(b, a, overlap);
   }
@@ -210,5 +209,6 @@ void PhysicsSystem::resolveCollision(GameObject *a, GameObject *b, Vector2f over
 
 void PhysicsSystem::resolveSpellCollision(GameObject *spell, GameObject *target, Vector2f overlap)
 {
+  std::cout << "resolving spell collision" << std::endl;
   spell->getSpell()->onCollision(spell, target, overlap);
 }

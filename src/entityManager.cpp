@@ -13,6 +13,9 @@ void EntityManager::loadStartingObjects()
   objects.push_back(box);
   GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
   objects.push_back(hBox);
+
+  // GameObject *fb = gameObjectGenerator->makeFireball(132.328, 128.348, 100.0, 100.0);
+  // spells.push_back(fb);
 }
 // TODO SEPARAR ESSE TRATAMENTO EM OUTRA CLASSE
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
@@ -60,6 +63,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     playerXAcc += playerXAcc * 0.5;
   }
   // logica para setar a animacao TODO VER SE DA PRA MELHORAR ISSO
+  std::cout << "start player anims" << std::endl;
   if (playerXAcc == 0 && playerYAcc == 0) // player parado
   {
     player->getSprite()->switchToDefaultAnimation();
@@ -91,6 +95,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   if (createFireball)
   {
     player->getSprite()->switchAnimation(5); // animCasting = 5;
+    std::cout << "CREATING FB POS: " << player->getPosition().x << " " << player->getPosition().y << " " << playerXAcc << " " << playerYAcc << std::endl;
     GameObject *fb = gameObjectGenerator->makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
     spells.push_back(fb);
     testFbCooldown = 10;
@@ -164,6 +169,8 @@ void EntityManager::removeDeadObjects()
     auto &sp = *it;
     if (sp->isDead())
     {
+      std::cout << "removing dead obj" << std::endl;
+      sp->removeChildren();
       delete sp;
       it = spells.erase(it);
     }
@@ -178,6 +185,7 @@ void EntityManager::removeDeadObjects()
     if (obj->isDead())
     {
       std::cout << "removing dead obj" << std::endl;
+      obj->removeChildren();
       delete obj;
       it = objects.erase(it);
     }

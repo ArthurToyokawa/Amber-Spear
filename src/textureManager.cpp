@@ -101,7 +101,7 @@ void TextureManager::renderObject(GameObject *obj, float time)
     obj->getSprite()->getCurrentAnimation()->update(time);
     if (obj->getSprite()->getCurrentAnimation()->getIsOver())
     {
-      std::cout << "animation over switching to default" << std::endl;
+      // std::cout << "animation over switching to default" << std::endl;
       obj->getSprite()->switchToDefaultAnimation();
     }
   }

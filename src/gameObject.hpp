@@ -23,17 +23,13 @@ public:
   void updatePhysics(float time);
   void updateSprite();
 
-  Vector2f getPosition()
-  {
-    return pos;
-  }
-  void setPosition(float posX, float posY)
-  {
-    pos.set(posX, posY);
-  }
+  Vector2f getPosition() { return pos; }
+  void setPosition(float posX, float posY) { pos.set(posX, posY); }
+
   bool isAlive() { return alive; }
   bool isDead() { return !alive; }
-  void kill()
+  void kill() { alive = false; }
+  void removeChildren()
   {
     if (spell != nullptr)
     {
@@ -56,7 +52,6 @@ public:
       delete sprite;
       sprite = nullptr;
     }
-    alive = false;
   }
   // metodos de colisao
   // bool ignorePhysicsCollision() {
@@ -71,8 +66,7 @@ public:
       int startingY,
       int height,
       int width,
-      std::vector<SpriteAnimation *> anims,
-      int defaultAnimationIndex)
+      std::vector<SpriteAnimation *> anims)
   {
     sprite = new SpriteComponent(
         texture,
@@ -80,8 +74,7 @@ public:
         startingY,
         height,
         width,
-        anims,
-        defaultAnimationIndex);
+        anims);
   }
   SpriteComponent *getSprite() { return sprite; }
   // Metodos de physics

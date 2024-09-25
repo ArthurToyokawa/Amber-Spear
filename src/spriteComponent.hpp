@@ -13,7 +13,7 @@ using Vector2f = Mylib::Math::Vector<float, 2>;
 class SpriteComponent
 {
 public:
-  SpriteComponent(TextureEnum texture, int startingX, int startingY, int height, int width, std::vector<SpriteAnimation *> anims, int defaultAnimationIndex);
+  SpriteComponent(TextureEnum texture, int startingX, int startingY, int height, int width, std::vector<SpriteAnimation *> anims);
 
   void update(Vector2f physPos);
   int getX() { return pos.x; }
@@ -29,6 +29,7 @@ public:
   }
   void switchAnimation(int index)
   {
+    std::cout << "switching animation " << animationIndex << " " << index << std::endl;
     if (
         index != animationIndex &&
         (animations[animationIndex]->getIsOver() ||
@@ -42,6 +43,7 @@ public:
   void switchToDefaultAnimation()
   {
     // se a prioridade >= 100 supercede a animacao default
+    std::cout << "switching to default" << std::endl;
     if (animations[animationIndex]->getIsOver() && animations[animationIndex]->getPriority() >= 100)
     {
       animations[animationIndex]->setToInitialState();
@@ -54,6 +56,6 @@ private:
   Vector2i size;
   TextureEnum objTexture;
   int animationIndex;
-  int defaultAnimationIndex;
+  static const int defaultAnimationIndex = 0;
   std::vector<SpriteAnimation *> animations;
 };

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-SpriteComponent::SpriteComponent(TextureEnum texture, int startingX, int startingY, int height, int width, std::vector<SpriteAnimation *> anims, int defaultAnimationIndex)
+SpriteComponent::SpriteComponent(TextureEnum texture, int startingX, int startingY, int height, int width, std::vector<SpriteAnimation *> anims)
 {
   // std::cout << "StartingXY: " << startingX << " " << startingY << std::endl;
   objTexture = texture;
@@ -20,6 +20,7 @@ void SpriteComponent::update(Vector2f physPos)
 
 void SpriteComponent::deleteAnimations()
 {
+  std::cout << "deleting animations " << std::endl;
   for (SpriteAnimation *animation : animations)
   {
     delete animation;

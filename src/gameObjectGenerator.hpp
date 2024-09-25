@@ -48,6 +48,9 @@ private:
     // calculo da forca baseado em acc
     float forceX = spell->getPhysics()->getVelocity().x * 10;
     float forceY = spell->getPhysics()->getVelocity().y * 10;
+    std::cout << "Fireball collision overlap: x: " << overlap.x << " y: " << overlap.y << std::endl;
+    std::cout << "Fireball collision effect force: x: " << forceX << " y: " << forceY << std::endl;
+
     if (target->getPhysics() != nullptr)
     {
       target->getPhysics()->applyForce(forceX, forceY);
@@ -56,6 +59,7 @@ private:
     {
       target->getLife()->dealDamage(10.0f);
     }
+    std::cout << "Killing fb " << std::endl;
     // matando spell
     spell->kill();
   }
