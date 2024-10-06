@@ -3,6 +3,7 @@
 
 #include "list"
 #include "physicsSystem.hpp"
+#include "pointCounter.hpp"
 #include "gameObjectGenerator.hpp"
 #include "map.hpp"
 
@@ -24,17 +25,18 @@ public:
   GameObject *getPlayer() { return player; };
   std::list<GameObject *> getSpells() { return spells; };
   std::list<GameObject *> getObjects() { return objects; };
+  PointCounter *getPointCounter() { return pointCounter; };
 
 private:
   // objetos
   GameObject *player;
   std::list<GameObject *> spells;
   std::list<GameObject *> objects;
-  // TODO GUARDAR OS SPRITES DE MAPA AQUI
   Map *map;
   //  sistemas
   GameObjectGenerator *gameObjectGenerator;
   PhysicsSystem *physicsSystem;
+  PointCounter *pointCounter;
   // TODO rever essa var
   int testFbCooldown = 0;
 

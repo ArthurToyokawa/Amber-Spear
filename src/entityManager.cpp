@@ -6,6 +6,7 @@
 void EntityManager::loadStartingObjects()
 {
   physicsSystem = new PhysicsSystem(this);
+  pointCounter = new PointCounter();
   map = new Map(gameObjectGenerator);
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
   player = gameObjectGenerator->makePlayer(128.0, 128.0);
@@ -146,6 +147,8 @@ void EntityManager::update(float time)
     auto &fb = *it;
     if (fb->getSprite()->getX() > SCREEN_WIDTH || fb->getSprite()->getY() > SCREEN_HEIGHT)
     {
+      fb->kill();
+      fb->removeChildren();
       delete fb;
       it = spells.erase(it);
     }

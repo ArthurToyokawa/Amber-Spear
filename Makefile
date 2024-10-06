@@ -1,6 +1,8 @@
+MAKEFLAGS += -j
+
 CC = g++
-CFLAGS = -g -Wall -std=c++23 -I./include
-LIBS = -lSDL2 -lSDL2_image
+CFLAGS = -g -Wall -std=c++23 -I./include -I/usr/include/SDL2
+LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 SRCDIR = ./src
 OBJDIR = ./obj
 

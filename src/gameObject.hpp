@@ -24,11 +24,14 @@ public:
   void updateSprite();
 
   Vector2f getPosition() { return pos; }
+  EntityManager *getEntityManager() { return entityManager; }
   void setPosition(float posX, float posY) { pos.set(posX, posY); }
+
+  void setPointsOnDeath(int p) { pointsOnDeath = p; };
 
   bool isAlive() { return alive; }
   bool isDead() { return !alive; }
-  void kill() { alive = false; }
+  void kill();
   void removeChildren()
   {
     if (spell != nullptr)
@@ -111,6 +114,7 @@ public:
 private:
   bool alive;
   Vector2f pos;
+  int pointsOnDeath = 0;
 
   SpriteComponent *sprite = nullptr;
   PhysicsComponent *physics = nullptr;

@@ -5,6 +5,7 @@
 #include "textureEnumUtils.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL_ttf.h>
 // TODO SEPARAR EM 2 CLASSES SCREEN E TEXTUREMANAGER
 class TextureManager
 {
@@ -15,6 +16,7 @@ public:
   static void Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest);
   void render(EntityManager *eManager, float time);
   void renderObject(GameObject *obj, float time);
+  void renderPointCounter(PointCounter *counter);
   void destroy()
   {
     SDL_DestroyWindow(window);
@@ -28,4 +30,7 @@ private:
 
   // TODO USAR STD::ARRAY
   SDL_Texture *textures[22];
+
+  SDL_Texture *message = nullptr;
+  SDL_Rect Message_rect;
 };

@@ -29,6 +29,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   }
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
   {
+    if (TTF_Init() == -1)
+    {
+      std::cout << "SDL_ttf could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
+      isRunning = false;
+    }
     std::cout << "init succesful " << std::endl;
     textureManager = new TextureManager(title, xpos, ypos, width, height, flags);
     isRunning = true;

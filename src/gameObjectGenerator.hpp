@@ -61,6 +61,7 @@ private:
     }
     std::cout << "Killing fb " << std::endl;
     // matando spell
+    spell->setPointsOnDeath(10);
     spell->kill();
   }
 };

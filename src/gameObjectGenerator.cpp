@@ -49,6 +49,7 @@ GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
+  go->setPointsOnDeath(100);
   go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
   go->setSprite(TextureEnum::box, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 20.0f, true);
@@ -58,6 +59,7 @@ GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
   GameObject *go = new GameObject(entityManager, posX, posY);
+  go->setPointsOnDeath(500);
   go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
   go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 100.0f, true);

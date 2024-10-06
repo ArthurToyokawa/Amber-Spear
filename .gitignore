@@ -1,4 +1,6 @@
 *.o
 game
 .vscode/*
+tests/obj/*
+obj/*
 all

@@ -1,5 +1,7 @@
 #include "textureManager.hpp"
 #include "game.hpp"
+#include <iomanip>
+#include <sstream>
 
 SDL_Renderer *TextureManager::renderer = nullptr;
 SDL_Window *TextureManager::window = nullptr;
@@ -67,6 +69,9 @@ void TextureManager::render(EntityManager *eManager, float time)
   {
     renderObject(fb, time);
   }
+  // render point counter
+  renderPointCounter(eManager->getPointCounter());
+
   SDL_RenderPresent(renderer);
 }
 
@@ -105,4 +110,37 @@ void TextureManager::renderObject(GameObject *obj, float time)
       obj->getSprite()->switchToDefaultAnimation();
     }
   }
+}
+
+void TextureManager::renderPointCounter(PointCounter *counter)
+{
+  if (counter->pointsChanged())
+  {
+    if (message != nullptr)
+    {
+      std::cout << "destroy message " << message << std::endl;
+
+      SDL_DestroyTexture(message);
+      message = nullptr;
+    }
+    std::cout << "pointsChanged" << std::endl;
+
+    TTF_Font *Sans = TTF_OpenFont("OpenSans-Regular.ttf", 24);
+    SDL_Color White = {255, 255, 255};
+
+    std::ostringstream oss;
+    oss << std::setw(6) << std::setfill('0') << counter->getPoints();
+    std::string pointsText = oss.str();
+
+    SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, pointsText.c_str(), White);
+    message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+    Message_rect.x = 0;
+    Message_rect.y = 0;
+    Message_rect.w = surfaceMessage->w;
+    Message_rect.h = surfaceMessage->h;
+
+    SDL_FreeSurface(surfaceMessage);
+  }
+  SDL_RenderCopy(renderer, message, NULL, &Message_rect);
 }
