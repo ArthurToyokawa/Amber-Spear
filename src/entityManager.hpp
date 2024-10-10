@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 
 #include "list"
-#include "physicsSystem.hpp"
 #include "pointCounter.hpp"
 #include "gameObjectGenerator.hpp"
 #include "map.hpp"
@@ -34,7 +33,6 @@ private:
   Map *map;
   //  sistemas
   GameObjectGenerator *gameObjectGenerator;
-  PhysicsSystem *physicsSystem;
   // TODO rever essa var
   int testFbCooldown = 0;
 

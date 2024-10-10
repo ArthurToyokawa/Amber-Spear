@@ -6,7 +6,6 @@
 
 void EntityManager::loadStartingObjects()
 {
-  physicsSystem = new PhysicsSystem(this);
   map = new Map(gameObjectGenerator);
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
   player = gameObjectGenerator->makePlayer(128.0, 128.0);
@@ -121,7 +120,7 @@ void EntityManager::update(float time)
     ++it;
   }
   // checa e resolve colisoes
-  physicsSystem->handleCollisions();
+  gPhysicsSystem.handleCollisions(player, spells, objects, map->getMapObjects());
   // remove objetos marcados para remoção (dead)
   removeDeadObjects();
 

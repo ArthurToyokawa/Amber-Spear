@@ -31,6 +31,10 @@ private:
   // colisoes
   static void LAVA_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
   {
+    if (target->getLife() != nullptr)
+    {
+      target->getLife()->dealDamage(10.0f);
+    }
     std::cout << "touched lava " << std::endl;
   }
   static void FIREBALL_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
