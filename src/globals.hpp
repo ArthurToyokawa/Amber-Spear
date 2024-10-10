@@ -1,7 +1,9 @@
 #pragma once
 
 #include "soundSystem.hpp"
+#include "pointCounter.hpp"
 
-extern SoundSystem gSoundSystem;
+inline SoundSystem gSoundSystem;
+inline PointCounter gPointCounter;
 
 void initializeGlobals();

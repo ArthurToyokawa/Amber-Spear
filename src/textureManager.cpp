@@ -1,5 +1,7 @@
 #include "textureManager.hpp"
 #include "game.hpp"
+#include "globals.hpp"
+
 #include <iomanip>
 #include <sstream>
 
@@ -70,7 +72,7 @@ void TextureManager::render(EntityManager *eManager, float time)
     renderObject(fb, time);
   }
   // render point counter
-  renderPointCounter(eManager->getPointCounter());
+  renderPointCounter();
 
   SDL_RenderPresent(renderer);
 }
@@ -112,9 +114,9 @@ void TextureManager::renderObject(GameObject *obj, float time)
   }
 }
 
-void TextureManager::renderPointCounter(PointCounter *counter)
+void TextureManager::renderPointCounter()
 {
-  if (counter->pointsChanged())
+  if (gPointCounter.pointsChanged())
   {
     if (message != nullptr)
     {
@@ -129,7 +131,7 @@ void TextureManager::renderPointCounter(PointCounter *counter)
     SDL_Color White = {255, 255, 255};
 
     std::ostringstream oss;
-    oss << std::setw(6) << std::setfill('0') << counter->getPoints();
+    oss << std::setw(6) << std::setfill('0') << gPointCounter.getPoints();
     std::string pointsText = oss.str();
 
     SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, pointsText.c_str(), White);

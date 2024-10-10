@@ -3,12 +3,13 @@
 
 #include <iostream>
 
-LifeComponent::LifeComponent(GameObject *parent, float max, bool show)
+LifeComponent::LifeComponent(GameObject *parent, float max, bool show, int pOnDeath)
 {
   gameObject = parent;
   maxLife = max;
   currentLife = max;
   showLifebar = show;
+  pointsOnDeath = pOnDeath;
 };
 
 int LifeComponent::getLifeBarFill(int barWidth)

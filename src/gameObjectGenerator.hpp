@@ -63,7 +63,7 @@ private:
     std::cout << "Killing fb " << std::endl;
     // matando spell
     gSoundSystem.playSound(1);
-    spell->setPointsOnDeath(10);
+    gPointCounter.addPoints(10);
     spell->kill();
   }
 };

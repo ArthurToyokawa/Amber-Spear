@@ -25,7 +25,6 @@ public:
   GameObject *getPlayer() { return player; };
   std::list<GameObject *> getSpells() { return spells; };
   std::list<GameObject *> getObjects() { return objects; };
-  PointCounter *getPointCounter() { return pointCounter; };
 
 private:
   // objetos
@@ -36,7 +35,6 @@ private:
   //  sistemas
   GameObjectGenerator *gameObjectGenerator;
   PhysicsSystem *physicsSystem;
-  PointCounter *pointCounter;
   // TODO rever essa var
   int testFbCooldown = 0;
 

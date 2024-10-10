@@ -27,8 +27,6 @@ public:
   EntityManager *getEntityManager() { return entityManager; }
   void setPosition(float posX, float posY) { pos.set(posX, posY); }
 
-  void setPointsOnDeath(int p) { pointsOnDeath = p; };
-
   bool isAlive() { return alive; }
   bool isDead() { return !alive; }
   void kill();
@@ -105,16 +103,15 @@ public:
   }
   SpellComponent *getSpell() { return spell; }
   // Metodos de life
-  void setLife(GameObject *gameObject, float maxLife, bool showLifeBar)
+  void setLife(GameObject *gameObject, float maxLife, bool showLifeBar, int pointsOnDeath)
   {
-    life = new LifeComponent(gameObject, maxLife, showLifeBar);
+    life = new LifeComponent(gameObject, maxLife, showLifeBar, pointsOnDeath);
   }
   LifeComponent *getLife() { return life; }
 
 private:
   bool alive;
   Vector2f pos;
-  int pointsOnDeath = 0;
 
   SpriteComponent *sprite = nullptr;
   PhysicsComponent *physics = nullptr;

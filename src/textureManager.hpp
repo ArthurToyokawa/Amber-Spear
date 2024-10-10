@@ -16,7 +16,7 @@ public:
   static void Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest);
   void render(EntityManager *eManager, float time);
   void renderObject(GameObject *obj, float time);
-  void renderPointCounter(PointCounter *counter);
+  void renderPointCounter();
   void destroy()
   {
     SDL_DestroyWindow(window);

@@ -2,11 +2,11 @@
 #include "entityManager.hpp"
 #include "common.hpp"
 #include "gameObject.hpp"
+#include "globals.hpp"
 
 void EntityManager::loadStartingObjects()
 {
   physicsSystem = new PhysicsSystem(this);
-  pointCounter = new PointCounter();
   map = new Map(gameObjectGenerator);
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
   player = gameObjectGenerator->makePlayer(128.0, 128.0);

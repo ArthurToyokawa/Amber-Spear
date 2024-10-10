@@ -13,10 +13,6 @@ GameObject::GameObject(EntityManager *e, float startingX, float startingY)
 void GameObject::kill()
 {
   alive = false;
-  if (pointsOnDeath != 0)
-  {
-    entityManager->getPointCounter()->addPoints(pointsOnDeath);
-  }
 }
 
 void GameObject::updatePhysics(float time)
