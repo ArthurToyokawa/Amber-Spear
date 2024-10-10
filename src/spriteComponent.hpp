@@ -29,7 +29,7 @@ public:
   }
   void switchAnimation(int index)
   {
-    std::cout << "switching animation " << animationIndex << " " << index << std::endl;
+    // std::cout << "switching animation " << animationIndex << " " << index << std::endl;
     if (
         index != animationIndex &&
         (animations[animationIndex]->getIsOver() ||
@@ -43,7 +43,7 @@ public:
   void switchToDefaultAnimation()
   {
     // se a prioridade >= 100 supercede a animacao default
-    std::cout << "switching to default" << std::endl;
+    // std::cout << "switching to default" << std::endl;
     if (animations[animationIndex]->getIsOver() && animations[animationIndex]->getPriority() >= 100)
     {
       animations[animationIndex]->setToInitialState();

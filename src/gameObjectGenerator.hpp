@@ -4,6 +4,7 @@
 #include "textureEnumUtils.hpp"
 #include "spriteAnimation.hpp"
 #include <vector>
+#include "globals.hpp"
 
 class EntityManager;
 
@@ -61,6 +62,7 @@ private:
     }
     std::cout << "Killing fb " << std::endl;
     // matando spell
+    gSoundSystem.playSound(1);
     spell->setPointsOnDeath(10);
     spell->kill();
   }

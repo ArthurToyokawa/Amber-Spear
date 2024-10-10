@@ -5,6 +5,7 @@
 #include "game.hpp"
 #include "entityManager.hpp"
 #include "gameObjectGenerator.hpp"
+#include "globals.hpp"
 
 #include <list>
 
@@ -43,6 +44,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     isRunning = false;
   }
   kHandler = new KeyboardHandler();
+
+  initializeGlobals();
+
   eManager = new EntityManager();
   gameObjectGenerator = new GameObjectGenerator(eManager);
   eManager->setObjectGenerator(gameObjectGenerator);

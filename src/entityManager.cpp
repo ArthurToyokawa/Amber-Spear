@@ -15,8 +15,8 @@ void EntityManager::loadStartingObjects()
   GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
   objects.push_back(hBox);
 
-  // GameObject *fb = gameObjectGenerator->makeFireball(132.328, 128.348, 100.0, 100.0);
-  // spells.push_back(fb);
+  // TODO CARREGAR MUSICA BASEADO NO NIVEL
+  gSoundSystem.playMusic(0);
 }
 // TODO SEPARAR ESSE TRATAMENTO EM OUTRA CLASSE
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
@@ -46,6 +46,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
       // creating fireball
       if (testFbCooldown == 0)
       {
+        gSoundSystem.playSound(0);
         createFireball = true;
       }
       break;
@@ -64,7 +65,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
     playerXAcc += playerXAcc * 0.5;
   }
   // logica para setar a animacao TODO VER SE DA PRA MELHORAR ISSO
-  std::cout << "start player anims" << std::endl;
+  // std::cout << "start player anims" << std::endl;
   if (playerXAcc == 0 && playerYAcc == 0) // player parado
   {
     player->getSprite()->switchToDefaultAnimation();

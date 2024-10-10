@@ -2,15 +2,14 @@ MAKEFLAGS += -j
 
 CC = g++
 CFLAGS = -g -Wall -std=c++23 -I./include -I/usr/include/SDL2
-LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer  -lSDL2_ttf
 SRCDIR = ./src
 OBJDIR = ./obj
 
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-all: clear game 
-	./game 
+all: clear game
 
 game: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
