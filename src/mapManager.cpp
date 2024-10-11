@@ -1,14 +1,14 @@
-#include "map.hpp"
+#include "mapManager.hpp"
 #include "gameObjectGenerator.hpp"
 #include "gameObject.hpp"
 
-Map::Map(GameObjectGenerator *gen)
+MapManager::MapManager(GameObjectGenerator *gen)
 {
   gameObjectGenerator = gen;
   LoadMap(lvl1);
 }
 
-void Map::LoadMap(TextureEnum arr[20][25])
+void MapManager::LoadMap(TextureEnum arr[20][25])
 {
   std::cout << "loading map" << std::endl;
   for (int row = 0; row < 20; row++)
@@ -18,17 +18,18 @@ void Map::LoadMap(TextureEnum arr[20][25])
       int posX = column * 32;
       int posY = row * 32;
       int index = (row * 25) + column;
+      std::array<GameObject *, 500> &mapObjs = gWorld.getMapObjects();
       switch (arr[row][column])
       {
         using enum TextureEnum;
       case rock:
-        mapObjects[index] = gameObjectGenerator->makeRock(posX, posY);
+        mapObjs[index] = gameObjectGenerator->makeRock(posX, posY);
         break;
       case lava:
-        mapObjects[index] = gameObjectGenerator->makeLava(posX, posY);
+        mapObjs[index] = gameObjectGenerator->makeLava(posX, posY);
         break;
       default:
-        mapObjects[index] = gameObjectGenerator->makeRock(posX, posY);
+        mapObjs[index] = gameObjectGenerator->makeRock(posX, posY);
         break;
       }
     }

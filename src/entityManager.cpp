@@ -2,17 +2,15 @@
 #include "entityManager.hpp"
 #include "common.hpp"
 #include "gameObject.hpp"
-#include "globals.hpp"
 
 void EntityManager::loadStartingObjects()
 {
-  map = new Map(gameObjectGenerator);
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
-  player = gameObjectGenerator->makePlayer(128.0, 128.0);
+  gWorld.getPlayer() = gameObjectGenerator->makePlayer(128.0, 128.0);
   GameObject *box = gameObjectGenerator->makeBox(250.0, 300.0);
-  objects.push_back(box);
+  gWorld.getObjects().push_back(box);
   GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
-  objects.push_back(hBox);
+  gWorld.getObjects().push_back(hBox);
 
   // TODO CARREGAR MUSICA BASEADO NO NIVEL
   gSoundSystem.playMusic(0);
@@ -67,38 +65,38 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   // std::cout << "start player anims" << std::endl;
   if (playerXAcc == 0 && playerYAcc == 0) // player parado
   {
-    player->getSprite()->switchToDefaultAnimation();
+    gWorld.getPlayer()->getSprite()->switchToDefaultAnimation();
   }
   else if (playerXAcc == 0) // player se movendo em y
   {
     if (playerYAcc > 0)
     {
-      player->getSprite()->switchAnimation(4); // animDown = 4;
+      gWorld.getPlayer()->getSprite()->switchAnimation(4); // animDown = 4;
     }
     else
     {
-      player->getSprite()->switchAnimation(3); // animUp = 3;
+      gWorld.getPlayer()->getSprite()->switchAnimation(3); // animUp = 3;
     }
   }
   else if (playerYAcc == 0) // player de movendo em X
   {
     if (playerXAcc > 0)
     {
-      player->getSprite()->switchAnimation(2); // animRight = 2;
+      gWorld.getPlayer()->getSprite()->switchAnimation(2); // animRight = 2;
     }
     else
     {
-      player->getSprite()->switchAnimation(1); // animLeft = 1;
+      gWorld.getPlayer()->getSprite()->switchAnimation(1); // animLeft = 1;
     }
   }
-  player->getPhysics()->setAcceleration(playerXAcc, playerYAcc);
+  gWorld.getPlayer()->getPhysics()->setAcceleration(playerXAcc, playerYAcc);
   // criando entidades baseado nos clicks do jogador
   if (createFireball)
   {
-    player->getSprite()->switchAnimation(5); // animCasting = 5;
-    std::cout << "CREATING FB POS: " << player->getPosition().x << " " << player->getPosition().y << " " << playerXAcc << " " << playerYAcc << std::endl;
-    GameObject *fb = gameObjectGenerator->makeFireball(player->getPosition().x, player->getPosition().y, playerXAcc, playerYAcc);
-    spells.push_back(fb);
+    gWorld.getPlayer()->getSprite()->switchAnimation(5); // animCasting = 5;
+    std::cout << "CREATING FB POS: " << gWorld.getPlayer()->getPosition().x << " " << gWorld.getPlayer()->getPosition().y << " " << playerXAcc << " " << playerYAcc << std::endl;
+    GameObject *fb = gameObjectGenerator->makeFireball(gWorld.getPlayer()->getPosition().x, gWorld.getPlayer()->getPosition().y, playerXAcc, playerYAcc);
+    gWorld.getSpells().push_back(fb);
     testFbCooldown = 10;
   }
 }
@@ -106,35 +104,35 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 void EntityManager::update(float time)
 {
   // update de fisica
-  player->updatePhysics(time);
-  for (auto it = objects.begin(); it != objects.end();)
+  gWorld.getPlayer()->updatePhysics(time);
+  for (auto it = gWorld.getObjects().begin(); it != gWorld.getObjects().end();)
   {
     auto &obj = *it;
     obj->updatePhysics(time);
     ++it;
   }
-  for (auto it = spells.begin(); it != spells.end();)
+  for (auto it = gWorld.getSpells().begin(); it != gWorld.getSpells().end();)
   {
     auto &fb = *it;
     fb->updatePhysics(time);
     ++it;
   }
   // checa e resolve colisoes
-  gPhysicsSystem.handleCollisions(player, spells, objects, map->getMapObjects());
+  gPhysicsSystem.handleCollisions();
   // remove objetos marcados para remoção (dead)
   removeDeadObjects();
 
   // transforma a pos de fisica em uma pos em px
-  player->updateSprite();
+  gWorld.getPlayer()->updateSprite();
 
   // TODO lidando com o comportamento de spells, mudar isso para outra classe
-  for (auto it = objects.begin(); it != objects.end();)
+  for (auto it = gWorld.getObjects().begin(); it != gWorld.getObjects().end();)
   {
     auto &obj = *it;
     if (obj->getSprite()->getX() > SCREEN_WIDTH || obj->getSprite()->getY() > SCREEN_HEIGHT)
     {
       delete obj;
-      it = objects.erase(it);
+      it = gWorld.getObjects().erase(it);
     }
     else
     {
@@ -142,7 +140,7 @@ void EntityManager::update(float time)
       ++it;
     }
   }
-  for (auto it = spells.begin(); it != spells.end();)
+  for (auto it = gWorld.getSpells().begin(); it != gWorld.getSpells().end();)
   {
     auto &fb = *it;
     if (fb->getSprite()->getX() > SCREEN_WIDTH || fb->getSprite()->getY() > SCREEN_HEIGHT)
@@ -150,7 +148,7 @@ void EntityManager::update(float time)
       fb->kill();
       fb->removeChildren();
       delete fb;
-      it = spells.erase(it);
+      it = gWorld.getSpells().erase(it);
     }
     else
     {
@@ -167,7 +165,7 @@ void EntityManager::update(float time)
 
 void EntityManager::removeDeadObjects()
 {
-  for (auto it = spells.begin(); it != spells.end();)
+  for (auto it = gWorld.getSpells().begin(); it != gWorld.getSpells().end();)
   {
     auto &sp = *it;
     if (sp->isDead())
@@ -175,14 +173,14 @@ void EntityManager::removeDeadObjects()
       std::cout << "removing dead obj" << std::endl;
       sp->removeChildren();
       delete sp;
-      it = spells.erase(it);
+      it = gWorld.getSpells().erase(it);
     }
     else
     {
       ++it;
     }
   }
-  for (auto it = objects.begin(); it != objects.end();)
+  for (auto it = gWorld.getObjects().begin(); it != gWorld.getObjects().end();)
   {
     auto &obj = *it;
     if (obj->isDead())
@@ -190,7 +188,7 @@ void EntityManager::removeDeadObjects()
       std::cout << "removing dead obj" << std::endl;
       obj->removeChildren();
       delete obj;
-      it = objects.erase(it);
+      it = gWorld.getObjects().erase(it);
     }
     else
     {

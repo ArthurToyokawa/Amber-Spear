@@ -1,6 +1,7 @@
 #include "textureManager.hpp"
 #include "game.hpp"
 #include "globals.hpp"
+#include "gameObject.hpp"
 
 #include <iomanip>
 #include <sstream>
@@ -53,21 +54,21 @@ void TextureManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest)
   SDL_RenderCopy(renderer, tex, &src, &dest);
 }
 // TODO GUARDAR O PONTEIRO DO ENTITYMANEGER NO TEXTUREMANAGER
-void TextureManager::render(EntityManager *eManager, float time)
+void TextureManager::render(float time)
 {
   SDL_RenderClear(renderer);
   // render background
-  for (GameObject *obj : eManager->getMap()->getMapObjects())
+  for (GameObject *obj : gWorld.getMapObjects())
   {
     renderObject(obj, time);
   }
   // render objects
-  renderObject(eManager->getPlayer(), time);
-  for (auto &objs : eManager->getObjects())
+  renderObject(gWorld.getPlayer(), time);
+  for (auto &objs : gWorld.getObjects())
   {
     renderObject(objs, time);
   }
-  for (auto &fb : eManager->getSpells())
+  for (auto &fb : gWorld.getSpells())
   {
     renderObject(fb, time);
   }

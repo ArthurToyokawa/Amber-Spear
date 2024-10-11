@@ -1,13 +1,11 @@
 #include "gameObject.hpp"
-#include "entityManager.hpp"
 
 #include <iostream>
 
-GameObject::GameObject(EntityManager *e, float startingX, float startingY)
+GameObject::GameObject(float startingX, float startingY)
 {
   alive = true;
   pos.set(startingX, startingY);
-  entityManager = e;
 }
 
 void GameObject::kill()

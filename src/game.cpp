@@ -5,11 +5,13 @@
 #include "game.hpp"
 #include "entityManager.hpp"
 #include "gameObjectGenerator.hpp"
+#include "mapManager.hpp"
 #include "globals.hpp"
 
 #include <list>
 
 EntityManager *eManager;
+MapManager *mapManager;
 GameObjectGenerator *gameObjectGenerator;
 
 KeyboardHandler *kHandler;
@@ -47,10 +49,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   initializeGlobals();
 
-  eManager = new EntityManager();
-  gameObjectGenerator = new GameObjectGenerator(eManager);
-  eManager->setObjectGenerator(gameObjectGenerator);
-  eManager->loadStartingObjects();
+  gameObjectGenerator = new GameObjectGenerator();
+  mapManager = new MapManager(gameObjectGenerator);
+  eManager = new EntityManager(gameObjectGenerator);
   this->gameLoop();
 }
 
@@ -134,7 +135,7 @@ void Game::update(float time)
 
 void Game::render(float time)
 {
-  textureManager->render(eManager, time);
+  textureManager->render(time);
 }
 
 void Game::clean()

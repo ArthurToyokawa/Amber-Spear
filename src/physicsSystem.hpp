@@ -18,11 +18,7 @@ class PhysicsSystem
 {
 public:
   PhysicsSystem();
-  void handleCollisions(
-      GameObject *player,
-      std::list<GameObject *> spells,
-      std::list<GameObject *> objects,
-      const std::array<GameObject *, 500> &mapTiles);
+  void handleCollisions();
   Vector2f getCollisionOverlap(GameObject *a, GameObject *b);
   ObjectsCollision haveObjectsCollided(GameObject *a, GameObject *b);
   void resolveCollision(GameObject *a, GameObject *b, Vector2f overlap);

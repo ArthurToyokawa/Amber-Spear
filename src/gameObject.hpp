@@ -10,21 +10,18 @@
 #include <my-lib/math-vector.h>
 #include <functional>
 
-class EntityManager;
-
 using Vector2i = Mylib::Math::Vector<int, 2>;
 using Vector2f = Mylib::Math::Vector<float, 2>;
 
 class GameObject
 {
 public:
-  GameObject(EntityManager *e, float startingX, float startingY);
+  GameObject(float startingX, float startingY);
 
   void updatePhysics(float time);
   void updateSprite();
 
   Vector2f getPosition() { return pos; }
-  EntityManager *getEntityManager() { return entityManager; }
   void setPosition(float posX, float posY) { pos.set(posX, posY); }
 
   bool isAlive() { return alive; }
@@ -118,7 +115,6 @@ private:
   SpellComponent *spell = nullptr;
   LifeComponent *life = nullptr;
 
-  EntityManager *entityManager = nullptr;
   // TODO UMA FORMA DE COLISAO SECUNDARIO E IGNORAR A COLISAO DE FISICA
   //  std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollision;
 };

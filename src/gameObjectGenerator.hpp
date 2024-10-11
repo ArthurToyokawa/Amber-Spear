@@ -6,15 +6,10 @@
 #include <vector>
 #include "globals.hpp"
 
-class EntityManager;
-
 class GameObjectGenerator
 {
 public:
-  GameObjectGenerator(EntityManager *e)
-  {
-    entityManager = e;
-  }
+  GameObjectGenerator() {}
   GameObject *makePlayer(float posX, float posY);
   GameObject *makeBox(float posX, float posY);
   GameObject *makeHeavyBox(float posX, float posY);
@@ -26,8 +21,6 @@ public:
   std::vector<SpriteAnimation *> makeSingleSpriteAnimations();
 
 private:
-  EntityManager *entityManager = nullptr;
-
   // colisoes
   static void LAVA_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
   {

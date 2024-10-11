@@ -7,12 +7,12 @@ PhysicsSystem::PhysicsSystem()
 {
 }
 
-void PhysicsSystem::handleCollisions(
-    GameObject *player,
-    std::list<GameObject *> spells,
-    std::list<GameObject *> objects,
-    const std::array<GameObject *, 500> &mapTiles)
+void PhysicsSystem::handleCollisions()
 {
+  GameObject *&player = gWorld.getPlayer();
+  std::list<GameObject *> &spells = gWorld.getSpells();
+  std::list<GameObject *> &objects = gWorld.getObjects();
+  // std::array<GameObject *, 500> &mapObjects = gWorld.getMapObjects();
   // TODO COLISAO COM BACKGROUND
   // check for collision with player
   for (auto spell : spells)
