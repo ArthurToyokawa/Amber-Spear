@@ -1,5 +1,6 @@
 #include "textureManager.hpp"
 #include "game.hpp"
+#include "common.hpp"
 #include "globals.hpp"
 #include "gameObject.hpp"
 
@@ -21,7 +22,8 @@ TextureManager::TextureManager(const char *title, int xpos, int ypos, int width,
   renderer = SDL_CreateRenderer(window, -1, 0);
   if (renderer)
   {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     std::cout << "renderer succesful " << std::endl;
   }
   // carregando as texturas
@@ -74,7 +76,7 @@ void TextureManager::render(float time)
   }
   // render point counter
   renderPointCounter();
-
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderPresent(renderer);
 }
 

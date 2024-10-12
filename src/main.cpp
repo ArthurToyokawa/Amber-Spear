@@ -7,7 +7,7 @@ int main(int argc, char *args[])
 {
   game = new Game();
 
-  game->init("Amber Spear ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+  game->init("Amber Spear ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
   return 0;
 }

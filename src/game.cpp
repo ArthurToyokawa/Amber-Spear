@@ -28,7 +28,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   if (fullscreen)
   {
-    flags = SDL_WINDOW_FULLSCREEN;
+    flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
   }
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
   {
