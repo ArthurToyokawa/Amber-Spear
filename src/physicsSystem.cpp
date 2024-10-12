@@ -12,8 +12,7 @@ void PhysicsSystem::handleCollisions()
   GameObject *&player = gWorld.getPlayer();
   std::list<GameObject *> &spells = gWorld.getSpells();
   std::list<GameObject *> &objects = gWorld.getObjects();
-  // std::array<GameObject *, 500> &mapObjects = gWorld.getMapObjects();
-  // TODO COLISAO COM BACKGROUND
+  std::array<GameObject *, 500> &mapObjects = gWorld.getMapObjects();
   // check for collision with player
   for (auto spell : spells)
   {
@@ -31,6 +30,14 @@ void PhysicsSystem::handleCollisions()
     {
       std::cout << "Player and Objects have collided." << std::endl;
       resolveCollision(player, object, col.overlap);
+    }
+  }
+  for (auto tile : mapObjects)
+  {
+    ObjectsCollision col = haveObjectsCollided(player, tile);
+    if (col.haveCollided)
+    {
+      resolveCollision(player, tile, col.overlap);
     }
   }
 
@@ -62,6 +69,18 @@ void PhysicsSystem::handleCollisions()
     }
   }
 
+  // Check for collisions between objects and mapTiles
+  for (auto object : objects)
+  {
+    for (auto tile : mapObjects)
+    {
+      ObjectsCollision col = haveObjectsCollided(object, tile);
+      if (col.haveCollided)
+      {
+        resolveCollision(object, tile, col.overlap);
+      }
+    }
+  }
   // Check for collisions within the objects list
   for (auto it1 = objects.begin(); it1 != objects.end(); ++it1)
   {
@@ -78,9 +97,13 @@ void PhysicsSystem::handleCollisions()
 }
 ObjectsCollision PhysicsSystem::haveObjectsCollided(GameObject *a, GameObject *b)
 {
-  if (a->isDead() || b->isDead())
+  if (
+      a->isDead() ||
+      b->isDead() ||
+      a->getPhysics() == nullptr ||
+      b->getPhysics() == nullptr)
   {
-    std::cout << "Dead object skipping collision check" << std::endl;
+    // std::cout << "Skipping collision check" << std::endl;
     Vector2f overlap;
     overlap.set(0, 0);
     return {
@@ -141,6 +164,56 @@ Vector2f PhysicsSystem::getCollisionOverlap(GameObject *a, GameObject *b)
   return overlapVector;
 }
 
+void PhysicsSystem::resolveImmovableObjectCollision(GameObject *a, GameObject *b, Vector2f overlap)
+{
+  std::cout << "colliding with impassable object " << std::endl;
+  if (a->getPhysics()->getIsUnstoppable() && b->getPhysics()->getIsUnstoppable())
+  {
+    return;
+  }
+  else if (a->getPhysics()->getIsUnstoppable())
+  {
+    b->getPhysics()->setVelocity(b->getPhysics()->getVelocity().x * -0.5, b->getPhysics()->getVelocity().y * -0.5);
+    b->getPhysics()->setAcceleration(b->getPhysics()->getAcceleration().x * -0.5, b->getPhysics()->getAcceleration().y * -0.5);
+    teleportOneObjectOutOfCollision(a, b, overlap);
+  }
+  else
+  {
+    a->getPhysics()->setVelocity(a->getPhysics()->getVelocity().x * -0.5, a->getPhysics()->getVelocity().y * -0.5);
+    a->getPhysics()->setAcceleration(a->getPhysics()->getAcceleration().x * -0.5, a->getPhysics()->getAcceleration().y * -0.5);
+    teleportOneObjectOutOfCollision(b, a, overlap);
+  }
+}
+void PhysicsSystem::teleportOneObjectOutOfCollision(GameObject *standing, GameObject *moving, Vector2f overlap)
+{
+  // teleportando o a para fora de b
+  if (fabsf(overlap.x) < fabsf(overlap.y))
+  {
+    std::cout << "empurrando em x " << overlap.x << std::endl;
+    if (overlap.x > 0)
+    {
+      moving->setPosition(standing->getPosition().x - moving->getPhysics()->getSize().x - 1.0, moving->getPosition().y);
+    }
+    else
+    {
+      moving->setPosition(standing->getPosition().x + standing->getPhysics()->getSize().x + 1.0, moving->getPosition().y);
+    }
+  }
+  else
+  {
+    std::cout << "empurrando em y " << overlap.y << std::endl;
+    if (overlap.y > 0)
+    {
+      std::cout << "TEST " << standing->getPosition().y << std::endl;
+      moving->setPosition(moving->getPosition().x, standing->getPosition().y - moving->getPhysics()->getSize().y - 1.0);
+    }
+    else
+    {
+      moving->setPosition(moving->getPosition().x, standing->getPosition().y + standing->getPhysics()->getSize().y + 1.0);
+    }
+  }
+}
+
 void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b, Vector2f overlap)
 {
   float v1x = a->getPhysics()->getVelocity().x;
@@ -178,37 +251,47 @@ void PhysicsSystem::teleportObjectsOutOfCollision(GameObject *a, GameObject *b, 
   {
     std::cout << "empurrando em x ";
     a->setPosition(a->getPosition().x - overlap.x, a->getPosition().y);
-    // b->setPosition(bPos.x + overlapX, bPos.y);
+    // b->setPosition(b->getPosition().x + overlap.x, b->getPosition().y);
   }
   else
   {
     std::cout << "empurrando em y ";
     a->setPosition(a->getPosition().x, a->getPosition().y - overlap.y);
-    // b->setPosition(bPos.x, bPos.y + overlapY);
+    // b->setPosition(b->getPosition().x, b->getPosition().y + overlap.y);
   }
 }
 
 void PhysicsSystem::resolveCollision(GameObject *a, GameObject *b, Vector2f overlap)
 {
-  std::cout << "Resolving collision" << std::endl;
+  // colisao de spell
   if (a->getSpell() != nullptr)
   {
     resolveSpellCollision(a, b, overlap);
   }
   else if (b->getSpell() != nullptr)
   {
-    // TODO VER SE TEM UMA LOGICA MELHOR
-    // resolveSpellCollision(b, a, overlap);
+    resolveSpellCollision(b, a, overlap);
+  }
+  // colisao de fisica
+  if (
+      a->getPhysics()->getIsIntangible() ||
+      b->getPhysics()->getIsIntangible())
+  {
+    return;
+  }
+  else if (a->getPhysics()->getIsUnstoppable() || b->getPhysics()->getIsUnstoppable())
+  {
+    resolveImmovableObjectCollision(a, b, overlap);
   }
   else
   {
-    std::cout << "Neither object is a spell" << std::endl;
+    std::cout << "Resolve spell" << std::endl;
     resolveObjectsCollision(a, b, overlap);
   }
 }
 
 void PhysicsSystem::resolveSpellCollision(GameObject *spell, GameObject *target, Vector2f overlap)
 {
-  std::cout << "resolving spell collision" << std::endl;
+  // std::cout << "resolving spell collision" << std::endl;
   spell->getSpell()->onCollision(spell, target, overlap);
 }

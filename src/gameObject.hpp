@@ -82,7 +82,9 @@ public:
       float mass,
       float height,
       float width,
-      float friction)
+      float friction,
+      bool intangible,
+      bool unstoppable)
   {
     physics = new PhysicsComponent(
         velX,
@@ -90,7 +92,9 @@ public:
         mass,
         height,
         width,
-        friction);
+        friction,
+        intangible,
+        unstoppable);
   }
   PhysicsComponent *getPhysics() { return physics; }
   // Metodos de spells

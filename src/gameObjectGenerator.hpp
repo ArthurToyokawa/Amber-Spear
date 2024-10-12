@@ -11,6 +11,7 @@ class GameObjectGenerator
 public:
   GameObjectGenerator() {}
   GameObject *makePlayer(float posX, float posY);
+  GameObject *makeImpassableWall(float posX, float posY, float height, float width);
   GameObject *makeBox(float posX, float posY);
   GameObject *makeHeavyBox(float posX, float posY);
   GameObject *makeFireball(float playerPosX, float playerPosY, float playerAccX, float playerAccY);
@@ -26,9 +27,9 @@ private:
   {
     if (target->getLife() != nullptr)
     {
-      target->getLife()->dealDamage(10.0f);
+      target->getLife()->dealDamage(0.2f);
     }
-    std::cout << "touched lava " << std::endl;
+    // std::cout << "touched lava " << std::endl;
   }
   static void FIREBALL_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
   {

@@ -3,6 +3,7 @@
 #include "common.hpp"
 #include "gameObject.hpp"
 
+// TODO TER UM STARTING OBJECTS PARA CADA NIVEL
 void EntityManager::loadStartingObjects()
 {
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
@@ -11,6 +12,15 @@ void EntityManager::loadStartingObjects()
   gWorld.getObjects().push_back(box);
   GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
   gWorld.getObjects().push_back(hBox);
+
+  GameObject *wallLeft = gameObjectGenerator->makeImpassableWall(-100, 0.0, SCREEN_HEIGHT, 100);
+  gWorld.getObjects().push_back(wallLeft);
+  GameObject *wallRight = gameObjectGenerator->makeImpassableWall(SCREEN_WIDTH, 0.0, SCREEN_HEIGHT, 100);
+  gWorld.getObjects().push_back(wallRight);
+  GameObject *wallUp = gameObjectGenerator->makeImpassableWall(0.0, -100, 100, SCREEN_WIDTH);
+  gWorld.getObjects().push_back(wallUp);
+  GameObject *wallDown = gameObjectGenerator->makeImpassableWall(0.0, SCREEN_HEIGHT, 100, SCREEN_WIDTH);
+  gWorld.getObjects().push_back(wallDown);
 
   // TODO CARREGAR MUSICA BASEADO NO NIVEL
   gSoundSystem.playMusic(0);
@@ -125,25 +135,26 @@ void EntityManager::update(float time)
   // transforma a pos de fisica em uma pos em px
   gWorld.getPlayer()->updateSprite();
 
-  // TODO lidando com o comportamento de spells, mudar isso para outra classe
   for (auto it = gWorld.getObjects().begin(); it != gWorld.getObjects().end();)
   {
+    // TODO removendo objetos e spells fora da tela ATUALMENTE ISSO É INUTIL DPS TEM Q VER
+    // AS PADREDES DA WINDOW SAO OBJETOS SE FOR DESCOMENTAR TEM QUE CRIAR UM ARRAY NOVO
     auto &obj = *it;
-    if (obj->getSprite()->getX() > SCREEN_WIDTH || obj->getSprite()->getY() > SCREEN_HEIGHT)
-    {
-      delete obj;
-      it = gWorld.getObjects().erase(it);
-    }
-    else
-    {
-      obj->updateSprite();
-      ++it;
-    }
+    // if (obj->getPosition().x > SCREEN_WIDTH || obj->getPosition().y > SCREEN_HEIGHT)
+    // {
+    //   delete obj;
+    //   it = gWorld.getObjects().erase(it);
+    // }
+    // else
+    // {
+    obj->updateSprite();
+    ++it;
+    // }
   }
   for (auto it = gWorld.getSpells().begin(); it != gWorld.getSpells().end();)
   {
     auto &fb = *it;
-    if (fb->getSprite()->getX() > SCREEN_WIDTH || fb->getSprite()->getY() > SCREEN_HEIGHT)
+    if (fb->getPosition().x > SCREEN_WIDTH || fb->getPosition().y > SCREEN_HEIGHT)
     {
       fb->kill();
       fb->removeChildren();
@@ -156,7 +167,6 @@ void EntityManager::update(float time)
       ++it;
     }
   }
-  // std::cout << std::endl;
   if (testFbCooldown != 0)
   {
     testFbCooldown--;

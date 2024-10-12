@@ -24,7 +24,9 @@ public:
   void resolveCollision(GameObject *a, GameObject *b, Vector2f overlap);
   void resolveSpellCollision(GameObject *a, GameObject *b, Vector2f overlap);
   void resolveObjectsCollision(GameObject *a, GameObject *b, Vector2f overlap);
+  void resolveImmovableObjectCollision(GameObject *a, GameObject *b, Vector2f overlap);
   void teleportObjectsOutOfCollision(GameObject *a, GameObject *b, Vector2f overlap);
+  void teleportOneObjectOutOfCollision(GameObject *standing, GameObject *moving, Vector2f overlap);
 
 private:
 };

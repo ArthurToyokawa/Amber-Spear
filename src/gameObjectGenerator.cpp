@@ -9,7 +9,7 @@ using Vector2f = Mylib::Math::Vector<float, 2>;
 GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 {
   GameObject *go = new GameObject(posX, posY);
-  go->setPhysics(0.0, 0.0, 10, 32, 32, 0);
+  go->setPhysics(0.0, 0.0, 10, 32, 32, 0, false, false);
   // ANIMATIONS START
   SpriteAnimation *standing = makeZeroAnimation();
 
@@ -49,7 +49,7 @@ GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 {
   GameObject *go = new GameObject(posX, posY);
-  go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05);
+  go->setPhysics(0.0, 0.0, 10, 32, 32, 0.05, false, false);
   go->setSprite(TextureEnum::box, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 20.0f, true, 100);
   return go;
@@ -58,9 +58,17 @@ GameObject *GameObjectGenerator::makeBox(float posX, float posY)
 GameObject *GameObjectGenerator::makeHeavyBox(float posX, float posY)
 {
   GameObject *go = new GameObject(posX, posY);
-  go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1);
+  go->setPhysics(0.0, 0.0, 50, 32, 32, 0.1, false, false);
   go->setSprite(TextureEnum::boxHeavy, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setLife(go, 100.0f, true, 500);
+  return go;
+}
+
+GameObject *GameObjectGenerator::makeImpassableWall(float posX, float posY, float height, float width)
+{
+  // TODO USAR UM METODO SEPARADO DE COLISAO
+  GameObject *go = new GameObject(posX, posY);
+  go->setPhysics(0.0, 0.0, 1000, height, width, 1, false, true);
   return go;
 }
 GameObject *GameObjectGenerator::makeRock(float posX, float posY)
@@ -74,6 +82,7 @@ GameObject *GameObjectGenerator::makeLava(float posX, float posY)
 {
   // TODO USAR UM METODO SEPARADO DE COLISAO
   GameObject *go = new GameObject(posX, posY);
+  go->setPhysics(0.0, 0.0, 1000, 32, 32, 1, true, false);
   go->setSprite(TextureEnum::lava, (int)posX + 0.5, (int)posY + 0.5, 32, 32, makeSingleSpriteAnimations());
   go->setSpell(nullptr, LAVA_COLISION);
   return go;
@@ -124,7 +133,7 @@ GameObject *GameObjectGenerator::makeFireball(float playerPosX, float playerPosY
   //  TALVEZ A SPELL SÓ ATIVA DEPOIS DE UM TIMER
   GameObject *go = new GameObject(fbStartingX, fbStartingY);
   go->setSprite(TextureEnum::fireball, (int)fbStartingX + 0.5, (int)fbStartingY + 0.5, 32, 32, makeSingleSpriteAnimations());
-  go->setPhysics(fbVelX, fbVelY, 0, 32, 32, 0);
+  go->setPhysics(fbVelX, fbVelY, 0, 32, 32, 0, false, false);
   // setting acceleration
   // fb->getPhysics()->setAcceleration(fbVelX, fbVelY);
   go->setSpell(nullptr, FIREBALL_COLISION);

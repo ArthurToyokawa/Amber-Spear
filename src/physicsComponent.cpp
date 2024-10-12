@@ -13,13 +13,17 @@ PhysicsComponent::PhysicsComponent(
     float mass,
     float height,
     float width,
-    float friction)
+    float friction,
+    bool intangible,
+    bool unstoppable)
 {
   pMass = mass;
   vel.set(velX, velY);
-  pSize.set(height, width);
+  pSize.set(width, height);
   acc.set(0.0, 0.0);
   pFriction = friction;
+  isIntangible = intangible;
+  isUnstoppable = unstoppable;
 }
 Vector2f PhysicsComponent::update(float time, Vector2f pos)
 {
