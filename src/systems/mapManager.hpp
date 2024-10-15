@@ -1,9 +1,9 @@
 #pragma once
 #include "array"
-#include "textureEnumUtils.hpp"
-#include "globals.hpp"
-
 #include <my-lib/matrix.h>
+
+#include <textureEnumUtils.hpp>
+#include <globals.hpp>
 
 class GameObjectGenerator;
 class GameObject;

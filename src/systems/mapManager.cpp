@@ -1,6 +1,6 @@
 #include "mapManager.hpp"
-#include "gameObjectGenerator.hpp"
-#include "gameObject.hpp"
+#include <gameObject/gameObjectGenerator.hpp>
+#include <gameObject/gameObject.hpp>
 
 MapManager::MapManager(GameObjectGenerator *gen)
 {

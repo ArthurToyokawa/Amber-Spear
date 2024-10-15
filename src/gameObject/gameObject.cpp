@@ -1,6 +1,6 @@
-#include "gameObject.hpp"
-
 #include <iostream>
+
+#include "gameObject.hpp"
 
 GameObject::GameObject(float startingX, float startingY)
 {

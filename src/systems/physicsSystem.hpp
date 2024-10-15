@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL2/SDL.h>
-
 #include "array"
 #include "list"
 #include <my-lib/math-vector.h>

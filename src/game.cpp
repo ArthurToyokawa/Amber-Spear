@@ -1,12 +1,11 @@
 
 #include "game.hpp"
-#include "textureManager.hpp"
 #include "keyboardHandler.hpp"
-#include "game.hpp"
 #include "entityManager.hpp"
-#include "gameObjectGenerator.hpp"
-#include "mapManager.hpp"
-#include "globals.hpp"
+#include <gameObject/gameObjectGenerator.hpp>
+#include <systems/textureManager.hpp>
+#include <systems/mapManager.hpp>
+#include <globals.hpp>
 
 #include <list>
 

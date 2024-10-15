@@ -1,11 +1,12 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "textureEnumUtils.hpp"
-#include "spriteAnimation.hpp"
+#include <vector>
 
 #include <my-lib/math-vector.h>
-#include <vector>
+
+#include <textureEnumUtils.hpp>
+#include "spriteAnimation.hpp"
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
 using Vector2f = Mylib::Math::Vector<float, 2>;

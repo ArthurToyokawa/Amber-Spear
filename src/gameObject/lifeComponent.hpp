@@ -1,6 +1,6 @@
 #pragma once
 
-#include "globals.hpp"
+#include <globals.hpp>
 
 class GameObject;
 

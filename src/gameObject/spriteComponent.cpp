@@ -1,6 +1,6 @@
-#include "spriteComponent.hpp"
-
 #include <iostream>
+
+#include "spriteComponent.hpp"
 
 SpriteComponent::SpriteComponent(TextureEnum texture, int startingX, int startingY, int height, int width, std::vector<SpriteAnimation *> anims)
 {

@@ -1,7 +1,7 @@
 
 #include "physicsSystem.hpp"
-#include "gameObject.hpp"
-#include "common.hpp"
+#include <gameObject/gameObject.hpp>
+#include <common.hpp>
 
 PhysicsSystem::PhysicsSystem()
 {

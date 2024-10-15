@@ -1,6 +1,6 @@
-#include "spriteAnimation.hpp"
-
 #include <iostream>
+
+#include "spriteAnimation.hpp"
 
 SpriteAnimation::SpriteAnimation(std::vector<Vector2i> positions, float switchTime, int priority, bool looping)
 {

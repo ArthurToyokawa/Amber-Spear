@@ -1,7 +1,7 @@
-#include "lifeComponent.hpp"
-#include "gameObject.hpp"
-
 #include <iostream>
+
+#include <gameObject/gameObject.hpp>
+#include "lifeComponent.hpp"
 
 LifeComponent::LifeComponent(GameObject *parent, float max, bool show, int pOnDeath)
 {

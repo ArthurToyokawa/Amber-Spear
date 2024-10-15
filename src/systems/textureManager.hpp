@@ -1,6 +1,6 @@
 #pragma once
 
-#include "textureEnumUtils.hpp"
+#include <textureEnumUtils.hpp>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>

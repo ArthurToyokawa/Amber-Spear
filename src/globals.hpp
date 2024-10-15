@@ -1,8 +1,8 @@
 #pragma once
 
-#include "soundSystem.hpp"
-#include "pointCounter.hpp"
-#include "physicsSystem.hpp"
+#include <systems/soundSystem.hpp>
+#include <systems/pointCounter.hpp>
+#include <systems/physicsSystem.hpp>
 #include "world.hpp"
 
 inline SoundSystem gSoundSystem;

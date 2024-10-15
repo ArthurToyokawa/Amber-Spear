@@ -1,7 +1,7 @@
 
 #include "entityManager.hpp"
 #include "common.hpp"
-#include "gameObject.hpp"
+#include <gameObject/gameObject.hpp>
 
 // TODO TER UM STARTING OBJECTS PARA CADA NIVEL
 void EntityManager::loadStartingObjects()

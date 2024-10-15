@@ -1,9 +1,10 @@
-#include "gameObjectGenerator.hpp"
-// TODO VER SE É MELHOR SALVAR OS DADOS DE OBJETO DENTRO DO GERADOR
-#include "common.hpp"
-
 #include <iostream>
+
 #include <my-lib/math-vector.h>
+
+#include <common.hpp>
+#include "gameObjectGenerator.hpp"
+
 using Vector2f = Mylib::Math::Vector<float, 2>;
 
 GameObject *GameObjectGenerator::makePlayer(float posX, float posY)

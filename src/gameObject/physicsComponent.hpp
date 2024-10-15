@@ -1,8 +1,8 @@
 #pragma once
 #include <list>
 #include <vector>
-
 #include <iostream>
+
 #include <my-lib/math-vector.h>
 
 using Vector2f = Mylib::Math::Vector<float, 2>;

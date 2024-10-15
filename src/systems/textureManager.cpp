@@ -1,11 +1,11 @@
-#include "textureManager.hpp"
-#include "game.hpp"
-#include "common.hpp"
-#include "globals.hpp"
-#include "gameObject.hpp"
-
 #include <iomanip>
 #include <sstream>
+
+#include <gameObject/gameObject.hpp>
+#include <game.hpp>
+#include <common.hpp>
+#include <globals.hpp>
+#include "textureManager.hpp"
 
 SDL_Renderer *TextureManager::renderer = nullptr;
 SDL_Window *TextureManager::window = nullptr;

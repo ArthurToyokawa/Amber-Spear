@@ -1,9 +1,9 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <vector>
 
 #include <my-lib/math-vector.h>
-#include <vector>
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
 

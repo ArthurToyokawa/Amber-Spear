@@ -2,8 +2,8 @@
 #include <SDL2/SDL.h>
 
 #include "list"
-#include "gameObjectGenerator.hpp"
-#include "mapManager.hpp"
+#include <gameObject/gameObjectGenerator.hpp>
+#include <systems/mapManager.hpp>
 #include "globals.hpp"
 
 // mudar o nome para world e incuir o mapa

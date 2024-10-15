@@ -1,8 +1,3 @@
-#include <list>
-#include <vector>
-
-#include <iostream>
-#include <my-lib/math-vector.h>
 #include "physicsComponent.hpp"
 
 using Vector2f = Mylib::Math::Vector<float, 2>;

@@ -1,14 +1,14 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <my-lib/math-vector.h>
+#include <functional>
 
 #include "physicsComponent.hpp"
 #include "spriteComponent.hpp"
 #include "spellComponent.hpp"
 #include "lifeComponent.hpp"
 #include "textureEnumUtils.hpp"
-#include <my-lib/math-vector.h>
-#include <functional>
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
 using Vector2f = Mylib::Math::Vector<float, 2>;

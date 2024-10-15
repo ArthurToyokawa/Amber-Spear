@@ -1,10 +1,11 @@
 #pragma once
 
-#include "gameObject.hpp"
-#include "textureEnumUtils.hpp"
-#include "spriteAnimation.hpp"
+#include <textureEnumUtils.hpp>
 #include <vector>
-#include "globals.hpp"
+#include <globals.hpp>
+
+#include "gameObject.hpp"
+#include "spriteAnimation.hpp"
 
 class GameObjectGenerator
 {
