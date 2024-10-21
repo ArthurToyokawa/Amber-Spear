@@ -28,3 +28,28 @@ void GameObject::updateSprite()
     sprite->update(pos);
   }
 }
+
+void GameObject::updateAuras(float time)
+{
+  if (!auras.empty())
+  {
+    for (auto it = auras.begin(); it != auras.end();)
+    {
+      auto aura = *it;
+      aura->update(time);
+      // std::cout << "Updating aura" << aura->getTimeRemaining() << std::endl;
+
+      if (aura->getTimeRemaining() <= 0.0)
+      {
+        std::cout << "Killing Aura" << std::endl;
+        aura->callOnEnd();
+        delete aura;
+        it = auras.erase(it);
+      }
+      else
+      {
+        ++it;
+      }
+    }
+  }
+}

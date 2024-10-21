@@ -30,7 +30,7 @@ private:
   TextureEnumUtils *textureEnumUtils;
 
   // TODO USAR STD::ARRAY
-  SDL_Texture *textures[22];
+  SDL_Texture *textures[23];
 
   SDL_Texture *message = nullptr;
   SDL_Rect Message_rect;

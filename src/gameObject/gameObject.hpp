@@ -8,6 +8,7 @@
 #include "spriteComponent.hpp"
 #include "spellComponent.hpp"
 #include "lifeComponent.hpp"
+#include "auraComponent.hpp"
 #include "textureEnumUtils.hpp"
 
 using Vector2i = Mylib::Math::Vector<int, 2>;
@@ -20,6 +21,7 @@ public:
 
   void updatePhysics(float time);
   void updateSprite();
+  void updateAuras(float time);
 
   Vector2f getPosition() { return pos; }
   void setPosition(float posX, float posY) { pos.set(posX, posY); }
@@ -50,14 +52,12 @@ public:
       delete sprite;
       sprite = nullptr;
     }
+    for (auto &aura : auras)
+    {
+      delete aura;
+    }
+    auras.clear();
   }
-  // metodos de colisao
-  // bool ignorePhysicsCollision() {
-  //   if(spell != nullptr) {
-  //     return true;
-  //   }
-  // };
-  //  Metodos de sprite
   void setSprite(
       TextureEnum texture,
       int startingX,
@@ -109,6 +109,29 @@ public:
     life = new LifeComponent(gameObject, maxLife, showLifeBar, pointsOnDeath);
   }
   LifeComponent *getLife() { return life; }
+  // Metodos de aura
+  bool hasAura(int auraId)
+  {
+    for (const auto &aura : auras)
+    {
+      if (aura->getAuraId() == auraId)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  void addAura(int auraId, float duration, TextureEnum auraTexture, std::function<void(GameObject *)> onStartFunc, std::function<void(GameObject *)> onEndFunc)
+  {
+    AuraComponent *newAura = new AuraComponent(this, auraId, duration, auraTexture, onStartFunc, onEndFunc);
+    auras.push_back(newAura);
+  }
+  void removeAura(AuraComponent *aura)
+  {
+    auras.remove(aura);
+    delete aura;
+  }
+  std::list<AuraComponent *> getAuras() { return auras; }
 
 private:
   bool alive;
@@ -118,7 +141,5 @@ private:
   PhysicsComponent *physics = nullptr;
   SpellComponent *spell = nullptr;
   LifeComponent *life = nullptr;
-
-  // TODO UMA FORMA DE COLISAO SECUNDARIO E IGNORAR A COLISAO DE FISICA
-  //  std::function<void(GameObject *spell, GameObject *target, Vector2f overlap)> onCollision;
+  std::list<AuraComponent *> auras;
 };

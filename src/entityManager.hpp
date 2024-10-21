@@ -3,6 +3,7 @@
 
 #include "list"
 #include <gameObject/gameObjectGenerator.hpp>
+#include <systems/auraSystem.hpp>
 #include <systems/mapManager.hpp>
 #include "globals.hpp"
 
@@ -13,6 +14,7 @@ public:
   EntityManager(GameObjectGenerator *g)
   {
     gameObjectGenerator = g;
+    auraSystem = new AuraSystem();
     loadStartingObjects();
   };
   void loadStartingObjects();
@@ -22,6 +24,7 @@ public:
 
 private:
   GameObjectGenerator *gameObjectGenerator;
+  AuraSystem *auraSystem;
   // TODO rever essa var
   int testFbCooldown = 0;
 

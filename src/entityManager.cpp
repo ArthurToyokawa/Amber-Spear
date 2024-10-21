@@ -58,6 +58,12 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
       }
       break;
     }
+    case SDLK_e:
+    {
+      std::cout << "Adding Aura" << std::endl;
+      auraSystem->addMassAura(gWorld.getPlayer());
+      break;
+    }
     default:
       break;
     }
@@ -113,11 +119,15 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 
 void EntityManager::update(float time)
 {
-  // update de fisica
+
+  // update de auras e fisica
+  // TODO se for um weakPointer pode ter um array separado disso e matamos o updatePhysics e updateAuras
+  gWorld.getPlayer()->updateAuras(time);
   gWorld.getPlayer()->updatePhysics(time);
   for (auto it = gWorld.getObjects().begin(); it != gWorld.getObjects().end();)
   {
     auto &obj = *it;
+    obj->updateAuras(time);
     obj->updatePhysics(time);
     ++it;
   }
@@ -127,6 +137,7 @@ void EntityManager::update(float time)
     fb->updatePhysics(time);
     ++it;
   }
+
   // checa e resolve colisoes
   gPhysicsSystem.handleCollisions();
   // remove objetos marcados para remoção (dead)

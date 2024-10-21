@@ -24,6 +24,7 @@ enum class TextureEnum
   roots,
   sand,
   snow,
+  goatHead,
   COUNT
 };
 class TextureEnumUtils
@@ -100,6 +101,9 @@ public:
       break;
     case snow:
       return "snow";
+      break;
+    case goatHead:
+      return "goatHead";
       break;
     case COUNT:
       return "error";
@@ -180,6 +184,9 @@ public:
       break;
     case snow:
       return "assets/snow.png";
+      break;
+    case goatHead:
+      return "assets/goat16px.png";
       break;
     case COUNT:
       return "assets/error.png";

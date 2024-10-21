@@ -21,6 +21,7 @@ public:
       bool Unstoppable);
 
   float getMass() { return pMass; }
+  void setMass(float newMass) { pMass = newMass; }
   Vector2f getSize() { return pSize; }
   bool getIsIntangible() { return isIntangible; }
   bool getIsUnstoppable() { return isUnstoppable; }

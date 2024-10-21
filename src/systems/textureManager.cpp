@@ -96,6 +96,22 @@ void TextureManager::renderObject(GameObject *obj, float time)
     destRect.y = obj->getSprite()->getY();
 
     SDL_RenderCopy(renderer, objTex, &srcRect, &destRect);
+    // auras
+    for (const auto &aura : obj->getAuras())
+    {
+      SDL_Texture *objTex = textures[std::to_underlying(aura->getTexture())];
+      SDL_Rect srcRect, destRect;
+      srcRect.h = 16;
+      srcRect.w = 16 * aura->getRemainingTimePct();
+      srcRect.x = 0;
+      srcRect.y = 0;
+      destRect.h = srcRect.h;
+      destRect.w = srcRect.w;
+      destRect.x = obj->getSprite()->getX();
+      destRect.y = obj->getSprite()->getY() - 18;
+
+      SDL_RenderCopy(renderer, objTex, &srcRect, &destRect);
+    }
     // lifebar
     if (obj->getLife() != nullptr && obj->getLife()->getShowLifebar())
     {
