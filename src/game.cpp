@@ -2,16 +2,12 @@
 #include "game.hpp"
 #include "keyboardHandler.hpp"
 #include "entityManager.hpp"
-#include <gameObject/gameObjectGenerator.hpp>
 #include <systems/textureManager.hpp>
-#include <systems/mapManager.hpp>
 #include <globals.hpp>
 
 #include <list>
 
 EntityManager *eManager;
-MapManager *mapManager;
-GameObjectGenerator *gameObjectGenerator;
 
 KeyboardHandler *kHandler;
 
@@ -48,9 +44,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   initializeGlobals();
 
-  gameObjectGenerator = new GameObjectGenerator();
-  mapManager = new MapManager(gameObjectGenerator);
-  eManager = new EntityManager(gameObjectGenerator);
+  eManager = new EntityManager();
   this->gameLoop();
 }
 
@@ -123,6 +117,11 @@ void Game::update(float time)
     {
     case SDLK_ESCAPE:
       isRunning = false;
+      break;
+    case SDLK_1:
+      gStageSystem.loadStage(1);
+    case SDLK_2:
+      gStageSystem.loadStage(2);
       break;
     default:
       break;

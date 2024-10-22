@@ -1,11 +1,12 @@
 #include <iostream>
 
-#include <my-lib/math-vector.h>
-
-#include <common.hpp>
 #include "gameObjectGenerator.hpp"
 
-using Vector2f = Mylib::Math::Vector<float, 2>;
+#include <common.hpp>
+#include <globals.hpp>
+
+#include "gameObject.hpp"
+#include "spriteAnimation.hpp"
 
 GameObject *GameObjectGenerator::makePlayer(float posX, float posY)
 {
@@ -153,4 +154,35 @@ std::vector<SpriteAnimation *> GameObjectGenerator::makeSingleSpriteAnimations()
 {
   std::vector<SpriteAnimation *> singlePos = {makeZeroAnimation()};
   return singlePos;
+}
+
+void GameObjectGenerator::LAVA_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
+{
+  if (target->getLife() != nullptr)
+  {
+    target->getLife()->dealDamage(0.2f);
+  }
+  // std::cout << "touched lava " << std::endl;
+}
+
+void GameObjectGenerator::FIREBALL_COLISION(GameObject *spell, GameObject *target, Vector2f overlap)
+{
+  float forceX = spell->getPhysics()->getVelocity().x * 10;
+  float forceY = spell->getPhysics()->getVelocity().y * 10;
+  std::cout << "Fireball collision overlap: x: " << overlap.x << " y: " << overlap.y << std::endl;
+  std::cout << "Fireball collision effect force: x: " << forceX << " y: " << forceY << std::endl;
+
+  if (target->getPhysics() != nullptr)
+  {
+    target->getPhysics()->applyForce(forceX, forceY);
+  }
+  if (target->getLife() != nullptr)
+  {
+    target->getLife()->dealDamage(10.0f);
+  }
+  std::cout << "Killing fb " << std::endl;
+  // matando spell
+  gSoundSystem.playSound(1);
+  gPointCounter.addPoints(10);
+  spell->kill();
 }

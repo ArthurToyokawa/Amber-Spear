@@ -18,6 +18,14 @@ public:
   std::list<GameObject *> &getObjects() { return objects; };
   std::array<GameObject *, 500> &getMapObjects() { return mapObjects; };
 
+  void clearSpells();
+
+  void clearObjects();
+  // esse metodo n é usado no momento
+  void clearMapObjects();
+
+  void clearPlayers();
+
 private:
   GameObject *player;
   // TODO MUDAR TODOS OS PONTEIROS PARA SMART POINTERS

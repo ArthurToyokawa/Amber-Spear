@@ -2,30 +2,26 @@
 #include <SDL2/SDL.h>
 
 #include "list"
-#include <gameObject/gameObjectGenerator.hpp>
 #include <systems/auraSystem.hpp>
-#include <systems/mapManager.hpp>
 #include "globals.hpp"
 
 // mudar o nome para world e incuir o mapa
 class EntityManager
 {
 public:
-  EntityManager(GameObjectGenerator *g)
+  EntityManager()
   {
-    gameObjectGenerator = g;
     auraSystem = new AuraSystem();
-    loadStartingObjects();
+    gStageSystem.loadStage(1);
   };
-  void loadStartingObjects();
 
   void update(float time);
   void handleKeys(std::list<SDL_Keycode> keys);
 
 private:
-  GameObjectGenerator *gameObjectGenerator;
   AuraSystem *auraSystem;
-  // TODO rever essa var
+
+  // TODO colocar cooldown em jogadores
   int testFbCooldown = 0;
 
   void makeFireball();

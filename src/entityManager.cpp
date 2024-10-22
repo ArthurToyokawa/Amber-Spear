@@ -3,28 +3,6 @@
 #include "common.hpp"
 #include <gameObject/gameObject.hpp>
 
-// TODO TER UM STARTING OBJECTS PARA CADA NIVEL
-void EntityManager::loadStartingObjects()
-{
-  // TODO TODO X.0 MUDAR PARA X.0f para setar como float
-  gWorld.getPlayer() = gameObjectGenerator->makePlayer(128.0, 128.0);
-  GameObject *box = gameObjectGenerator->makeBox(250.0, 300.0);
-  gWorld.getObjects().push_back(box);
-  GameObject *hBox = gameObjectGenerator->makeHeavyBox(350.0, 300.0);
-  gWorld.getObjects().push_back(hBox);
-
-  GameObject *wallLeft = gameObjectGenerator->makeImpassableWall(-100, 0.0, SCREEN_HEIGHT, 100);
-  gWorld.getObjects().push_back(wallLeft);
-  GameObject *wallRight = gameObjectGenerator->makeImpassableWall(SCREEN_WIDTH, 0.0, SCREEN_HEIGHT, 100);
-  gWorld.getObjects().push_back(wallRight);
-  GameObject *wallUp = gameObjectGenerator->makeImpassableWall(0.0, -100, 100, SCREEN_WIDTH);
-  gWorld.getObjects().push_back(wallUp);
-  GameObject *wallDown = gameObjectGenerator->makeImpassableWall(0.0, SCREEN_HEIGHT, 100, SCREEN_WIDTH);
-  gWorld.getObjects().push_back(wallDown);
-
-  // TODO CARREGAR MUSICA BASEADO NO NIVEL
-  gSoundSystem.playMusic(0);
-}
 // TODO SEPARAR ESSE TRATAMENTO EM OUTRA CLASSE
 void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
 {
@@ -111,7 +89,7 @@ void EntityManager::handleKeys(std::list<SDL_Keycode> keys)
   {
     gWorld.getPlayer()->getSprite()->switchAnimation(5); // animCasting = 5;
     std::cout << "CREATING FB POS: " << gWorld.getPlayer()->getPosition().x << " " << gWorld.getPlayer()->getPosition().y << " " << playerXAcc << " " << playerYAcc << std::endl;
-    GameObject *fb = gameObjectGenerator->makeFireball(gWorld.getPlayer()->getPosition().x, gWorld.getPlayer()->getPosition().y, playerXAcc, playerYAcc);
+    GameObject *fb = gGameObjectGenerator->makeFireball(gWorld.getPlayer()->getPosition().x, gWorld.getPlayer()->getPosition().y, playerXAcc, playerYAcc);
     gWorld.getSpells().push_back(fb);
     testFbCooldown = 10;
   }

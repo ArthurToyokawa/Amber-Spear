@@ -1,30 +1,36 @@
 #pragma once
 #include "array"
-#include <my-lib/matrix.h>
 
 #include <textureEnumUtils.hpp>
-#include <globals.hpp>
 
-class GameObjectGenerator;
-class GameObject;
-class MapManager
+class StageSystem
 {
+
 public:
-  MapManager(GameObjectGenerator *gen);
-  ~MapManager();
-  // TODO usar matrix do mylib
-  void LoadMap(TextureEnum arr[20][25]);
+  StageSystem()
+  {
+    currentStage = 0;
+  };
+
+  void loadStage(int stage);
+
+  void removeWorldObjects();
 
 private:
+  int currentStage;
+
+  // TODO TEM UM BUG QUE O MAPA NAO DA LOAD UMA SEGUNDA VEZ EU ACHO Q RESOLVE PASSANDO UMA REFERENCIA DO ARRAY
+  void loadMap(const TextureEnum arr[20][25]);
+  void loadStage1();
+  void loadStage2();
+  // void loadPlayer1Win();
+  // void loadPlayer2Win();
+
+  // MAPS
   const TextureEnum r = TextureEnum::rock;
   const TextureEnum l = TextureEnum::lava;
 
-  GameObjectGenerator *gameObjectGenerator;
-
-  // TODO IMPLEMENTAR COM A BIBLIOTECA DE MATRIX
-  //  Matrix<GameObject*> lvl1(20, 25);
-
-  TextureEnum lvl1[20][25] = {
+  const TextureEnum lvl1[20][25] = {
       {l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l},
       {l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l},
       {l, l, l, l, l, l, r, r, r, r, r, r, r, r, r, r, r, r, r, l, l, l, l, l, l},
@@ -46,7 +52,7 @@ private:
       {l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l},
       {l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l}};
 
-  TextureEnum lvl2[20][25] = {
+  const TextureEnum lvl2[20][25] = {
       {l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l, l},
       {l, l, l, l, l, l, l, r, r, r, r, r, r, r, r, r, r, r, l, l, l, l, l, l, l},
       {l, l, l, l, l, l, r, r, r, r, r, r, r, r, r, r, r, r, r, l, l, l, l, l, l},
