@@ -66,12 +66,17 @@ void StageSystem::loadStage2()
   gWorld.clearPlayers();
   // TODO TODO X.0 MUDAR PARA X.0f para setar como float
   gWorld.getPlayer() = gGameObjectGenerator->makePlayer(128.0, 160.0);
+  gWorld.getPlayer2() = gGameObjectGenerator->makePlayer(640.0, 160.0);
 
   gWorld.clearObjects();
-  GameObject *box = gGameObjectGenerator->makeBox(250.0, 300.0);
+  GameObject *box = gGameObjectGenerator->makeBox(336.0, 300.0);
   gWorld.getObjects().push_back(box);
-  GameObject *hBox = gGameObjectGenerator->makeHeavyBox(350.0, 300.0);
+  GameObject *box2 = gGameObjectGenerator->makeBox(432.0, 300.0);
+  gWorld.getObjects().push_back(box2);
+  GameObject *hBox = gGameObjectGenerator->makeHeavyBox(336.0, 200.0);
   gWorld.getObjects().push_back(hBox);
+  GameObject *hBox2 = gGameObjectGenerator->makeHeavyBox(432.0, 200.0);
+  gWorld.getObjects().push_back(hBox2);
 
   GameObject *wallLeft = gGameObjectGenerator->makeImpassableWall(-100, 0.0, SCREEN_HEIGHT, 100);
   gWorld.getObjects().push_back(wallLeft);

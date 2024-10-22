@@ -118,10 +118,10 @@ void Game::update(float time)
     case SDLK_ESCAPE:
       isRunning = false;
       break;
-    case SDLK_1:
-      gStageSystem.loadStage(1);
-    case SDLK_2:
-      gStageSystem.loadStage(2);
+      // case SDLK_1:
+      //   gStageSystem.loadStage(1);
+      // case SDLK_2:
+      //   gStageSystem.loadStage(2);
       break;
     default:
       break;

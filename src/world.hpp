@@ -11,6 +11,8 @@ public:
   World() {};
 
   GameObject *&getPlayer() { return player; };
+  bool hasPlayer2() { return player2 != nullptr; };
+  GameObject *&getPlayer2() { return player2; };
   // TODO MUDAR TODOS OS PONTEIROS PARA SMART POINTERS
   // std::weak_ptr<GameObject> getPlayerPt() { return std::weak_ptr<GameObject>(playerPt); }
 
@@ -28,6 +30,7 @@ public:
 
 private:
   GameObject *player;
+  GameObject *player2 = nullptr;
   // TODO MUDAR TODOS OS PONTEIROS PARA SMART POINTERS
   //  std::shared_ptr<GameObject> playerPt;
   std::list<GameObject *> spells;

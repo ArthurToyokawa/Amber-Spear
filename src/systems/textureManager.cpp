@@ -66,6 +66,10 @@ void TextureManager::render(float time)
   }
   // render objects
   renderObject(gWorld.getPlayer(), time);
+  if (gWorld.hasPlayer2())
+  {
+    renderObject(gWorld.getPlayer2(), time);
+  }
   for (auto &objs : gWorld.getObjects())
   {
     renderObject(objs, time);

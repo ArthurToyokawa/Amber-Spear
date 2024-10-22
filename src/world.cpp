@@ -47,4 +47,10 @@ void World::clearPlayers()
     delete player;
     player = nullptr;
   }
+  if (player2)
+  {
+    player2->removeChildren();
+    delete player2;
+    player2 = nullptr;
+  }
 }

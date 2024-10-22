@@ -12,17 +12,21 @@ public:
   EntityManager()
   {
     auraSystem = new AuraSystem();
-    gStageSystem.loadStage(1);
+    gStageSystem.loadStage(2);
   };
 
   void update(float time);
   void handleKeys(std::list<SDL_Keycode> keys);
+  void handleKeysP2(std::list<SDL_Keycode> keys);
 
 private:
   AuraSystem *auraSystem;
 
   // TODO colocar cooldown em jogadores
-  int testFbCooldown = 0;
+  int fbCooldown = 0;
+  int fbCooldown2 = 0;
+  int massAuraCooldown = 0;
+  int massAuraCooldown2 = 0;
 
   void makeFireball();
   void removeDeadObjects();

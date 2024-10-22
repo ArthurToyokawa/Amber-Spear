@@ -10,9 +10,19 @@ PhysicsSystem::PhysicsSystem()
 void PhysicsSystem::handleCollisions()
 {
   GameObject *&player = gWorld.getPlayer();
+  GameObject *&player2 = gWorld.getPlayer2();
   std::list<GameObject *> &spells = gWorld.getSpells();
   std::list<GameObject *> &objects = gWorld.getObjects();
   std::array<GameObject *, 500> &mapObjects = gWorld.getMapObjects();
+  if (gWorld.hasPlayer2())
+  {
+    ObjectsCollision col = haveObjectsCollided(player, player2);
+    if (col.haveCollided)
+    {
+      std::cout << "Players have collided." << std::endl;
+      resolveCollision(player, player2, col.overlap);
+    }
+  }
   // check for collision with player
   for (auto spell : spells)
   {
@@ -21,6 +31,14 @@ void PhysicsSystem::handleCollisions()
     {
       std::cout << "Player and Spells have collided." << std::endl;
       resolveCollision(player, spell, col.overlap);
+    }
+    if (gWorld.hasPlayer2())
+    {
+      ObjectsCollision col2 = haveObjectsCollided(player2, spell);
+      if (col2.haveCollided)
+      {
+        resolveCollision(player2, spell, col2.overlap);
+      }
     }
   }
   for (auto object : objects)
@@ -31,6 +49,14 @@ void PhysicsSystem::handleCollisions()
       std::cout << "Player and Objects have collided." << std::endl;
       resolveCollision(player, object, col.overlap);
     }
+    if (gWorld.hasPlayer2())
+    {
+      ObjectsCollision col2 = haveObjectsCollided(player2, object);
+      if (col2.haveCollided)
+      {
+        resolveCollision(player2, object, col2.overlap);
+      }
+    }
   }
   for (auto tile : mapObjects)
   {
@@ -38,6 +64,14 @@ void PhysicsSystem::handleCollisions()
     if (col.haveCollided)
     {
       resolveCollision(player, tile, col.overlap);
+    }
+    if (gWorld.hasPlayer2())
+    {
+      ObjectsCollision col2 = haveObjectsCollided(player2, tile);
+      if (col2.haveCollided)
+      {
+        resolveCollision(player2, tile, col2.overlap);
+      }
     }
   }
 
