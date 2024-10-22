@@ -250,6 +250,7 @@ void PhysicsSystem::teleportOneObjectOutOfCollision(GameObject *standing, GameOb
 
 void PhysicsSystem::resolveObjectsCollision(GameObject *a, GameObject *b, Vector2f overlap)
 {
+  gSoundSystem.playSound(2);
   float v1x = a->getPhysics()->getVelocity().x;
   float v1y = a->getPhysics()->getVelocity().y;
   float m1 = a->getPhysics()->getMass();

@@ -25,7 +25,11 @@ void StageSystem::loadStage(int stage)
     }
   }
 }
-
+// TODO
+void StageSystem::resetStage()
+{
+  loadStage2();
+}
 void StageSystem::loadStage1()
 {
   std::cout << "Loading stage 1" << std::endl;

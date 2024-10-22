@@ -13,6 +13,7 @@ public:
   };
 
   void loadStage(int stage);
+  void resetStage();
 
   void removeWorldObjects();
 

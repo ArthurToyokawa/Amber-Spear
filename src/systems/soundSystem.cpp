@@ -30,6 +30,7 @@ void SoundSystem::loadFiles()
 {
   loadSound("assets/sounds/magic_cast.wav");
   loadSound("assets/sounds/explosion.wav");
+  loadSound("assets/sounds/vine_boom.wav");
   loadMusic("assets/sounds/espionage.mp3");
 }
 
