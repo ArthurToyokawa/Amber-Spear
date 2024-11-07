@@ -64,22 +64,29 @@ void TextureManager::render(float time)
   {
     renderObject(obj, time);
   }
-  // render objects
-  renderObject(gWorld.getPlayer(), time);
-  if (gWorld.hasPlayer2())
+  if (gStageSystem.isMenuStage())
   {
-    renderObject(gWorld.getPlayer2(), time);
+    renderMenuItems(gMenuWorld.getMenuItems());
   }
-  for (auto &objs : gWorld.getObjects())
+  else
   {
-    renderObject(objs, time);
+    // render objects
+    renderObject(gWorld.getPlayer(), time);
+    if (gWorld.hasPlayer2())
+    {
+      renderObject(gWorld.getPlayer2(), time);
+    }
+    for (auto &objs : gWorld.getObjects())
+    {
+      renderObject(objs, time);
+    }
+    for (auto &fb : gWorld.getSpells())
+    {
+      renderObject(fb, time);
+    }
+    // render point counter
+    renderPointCounter();
   }
-  for (auto &fb : gWorld.getSpells())
-  {
-    renderObject(fb, time);
-  }
-  // render point counter
-  renderPointCounter();
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderPresent(renderer);
 }
@@ -141,12 +148,12 @@ void TextureManager::renderPointCounter()
 {
   if (gPointCounter.pointsChanged())
   {
-    if (message != nullptr)
+    if (pointsMessage != nullptr)
     {
-      std::cout << "destroy message " << message << std::endl;
+      std::cout << "destroy pointsMessage " << pointsMessage << std::endl;
 
-      SDL_DestroyTexture(message);
-      message = nullptr;
+      SDL_DestroyTexture(pointsMessage);
+      pointsMessage = nullptr;
     }
     std::cout << "pointsChanged" << std::endl;
 
@@ -158,14 +165,63 @@ void TextureManager::renderPointCounter()
     std::string pointsText = oss.str();
 
     SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, pointsText.c_str(), White);
-    message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    pointsMessage = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-    Message_rect.x = 0;
-    Message_rect.y = 0;
-    Message_rect.w = surfaceMessage->w;
-    Message_rect.h = surfaceMessage->h;
+    pointsMessageRect.x = 0;
+    pointsMessageRect.y = 0;
+    pointsMessageRect.w = surfaceMessage->w;
+    pointsMessageRect.h = surfaceMessage->h;
 
     SDL_FreeSurface(surfaceMessage);
+    TTF_CloseFont(Sans);
   }
-  SDL_RenderCopy(renderer, message, NULL, &Message_rect);
+  SDL_RenderCopy(renderer, pointsMessage, NULL, &pointsMessageRect);
+}
+
+void TextureManager::renderMenuItems(std::list<MenuItem *> &menuItems)
+{
+  TTF_Font *Sans = TTF_OpenFont("OpenSans-Regular.ttf", 24);
+  SDL_Color White = {255, 255, 255};
+  int itemIndex = 0;
+
+  for (auto &item : menuItems)
+  {
+    std::string displayText;
+    if (itemIndex == gMenuManager.getCurrentItem())
+    {
+      displayText = "> " + std::string(item->getText());
+    }
+    else
+    {
+      displayText = "  " + std::string(item->getText());
+    }
+    SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, displayText.c_str(), White);
+    if (!surfaceMessage)
+    {
+      std::cerr << "Failed to create surface: " << TTF_GetError() << std::endl;
+      continue;
+    }
+
+    SDL_Texture *message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    if (!message)
+    {
+      std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
+      SDL_FreeSurface(surfaceMessage);
+      continue;
+    }
+
+    SDL_Rect messageRect;
+    messageRect.x = item->getPos().x;
+    messageRect.y = item->getPos().y;
+    messageRect.w = surfaceMessage->w;
+    messageRect.h = surfaceMessage->h;
+
+    SDL_RenderCopy(renderer, message, NULL, &messageRect);
+
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(message);
+
+    itemIndex++;
+  }
+  TTF_CloseFont(Sans);
 }

@@ -30,20 +30,20 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     if (TTF_Init() == -1)
     {
       std::cout << "SDL_ttf could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
-      isRunning = false;
+      gGameStateSystem.stopRunning();
     }
     std::cout << "init succesful " << std::endl;
     textureManager = new TextureManager(title, xpos, ypos, width, height, flags);
-    isRunning = true;
   }
   else
   {
-    isRunning = false;
+    gGameStateSystem.stopRunning();
   }
   kHandler = new KeyboardHandler();
 
   initializeGlobals();
 
+  gStageSystem.loadStage(100);
   eManager = new EntityManager();
   this->gameLoop();
 }
@@ -57,13 +57,11 @@ void Game::gameLoop()
 
   std::cout << "frameDelay: " << frameDelay << std::endl;
 
-  while (this->running())
+  while (gGameStateSystem.isRunning())
   {
-
     frameStart = SDL_GetTicks();
 
     this->handleEvents();
-    // TODO DESCOMENTAR
     //  std::cout << "time since last update: " << SDL_GetTicks() - lastUpdateTick << std::endl;
     SecsBetweenUpdate = (SDL_GetTicks() - lastUpdateTick) / 1000.0;
     this->update(SecsBetweenUpdate);
@@ -95,7 +93,7 @@ void Game::handleEvents()
     switch (event.type)
     {
     case SDL_QUIT:
-      isRunning = false;
+      gGameStateSystem.stopRunning();
       break;
     case SDL_KEYDOWN:
       kHandler->handleKeyPress(event.key.keysym.sym);
@@ -116,7 +114,7 @@ void Game::update(float time)
     switch (key)
     {
     case SDLK_ESCAPE:
-      isRunning = false;
+      gGameStateSystem.stopRunning();
       break;
     // case SDLK_1:
     //   gStageSystem.loadStage(1);
@@ -127,8 +125,16 @@ void Game::update(float time)
       break;
     }
   }
-  eManager->handleKeys(kHandler->getActiveKeys());
-  eManager->update(time);
+  if (gStageSystem.isMenuStage())
+  {
+    gMenuManager.handleKeys(kHandler->getActiveKeys());
+    gMenuManager.update(time);
+  }
+  else
+  {
+    eManager->handleKeys(kHandler->getActiveKeys());
+    eManager->update(time);
+  }
 }
 
 void Game::render(float time)
@@ -138,6 +144,7 @@ void Game::render(float time)
 
 void Game::clean()
 {
+  // menuManager->destroy();
   textureManager->destroy();
   SDL_Quit();
   std::cout << "ending game" << std::endl;

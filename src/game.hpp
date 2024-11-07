@@ -23,10 +23,6 @@ public:
   void clean();
   void gameLoop();
 
-  bool running() { return isRunning; };
-
 private:
-  bool isRunning;
-
   TextureManager *textureManager = nullptr;
 };

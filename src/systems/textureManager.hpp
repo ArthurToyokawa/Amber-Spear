@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL_ttf.h>
+#include "list"
+#include <menu/menuItem.hpp>
 
 // TODO SEPARAR EM 2 CLASSES SCREEN E TEXTUREMANAGER
 
@@ -18,6 +20,7 @@ public:
   void render(float time);
   void renderObject(GameObject *obj, float time);
   void renderPointCounter();
+  void renderMenuItems(std::list<MenuItem *> &menuItems);
   void destroy()
   {
     SDL_DestroyWindow(window);
@@ -32,6 +35,6 @@ private:
   // TODO USAR STD::ARRAY
   SDL_Texture *textures[23];
 
-  SDL_Texture *message = nullptr;
-  SDL_Rect Message_rect;
+  SDL_Texture *pointsMessage = nullptr;
+  SDL_Rect pointsMessageRect;
 };

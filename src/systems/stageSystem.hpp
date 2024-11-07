@@ -10,7 +10,11 @@ public:
   StageSystem()
   {
     currentStage = 0;
+    isMenu = false;
+    loadMap(lvl1);
   };
+
+  bool isMenuStage() { return isMenu; };
 
   void loadStage(int stage);
   void resetStage();
@@ -19,11 +23,15 @@ public:
 
 private:
   int currentStage;
+  bool isMenu = false;
 
   // TODO TEM UM BUG QUE O MAPA NAO DA LOAD UMA SEGUNDA VEZ EU ACHO Q RESOLVE PASSANDO UMA REFERENCIA DO ARRAY
   void loadMap(const TextureEnum arr[20][25]);
   void loadStage1();
   void loadStage2();
+
+  void loadMainMenu();
+  // void loadPauseMenu();
   // void loadPlayer1Win();
   // void loadPlayer2Win();
 

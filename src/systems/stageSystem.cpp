@@ -13,11 +13,17 @@ void StageSystem::loadStage(int stage)
     {
     case 1:
       currentStage = 1;
+      isMenu = false;
       loadStage1();
       break;
     case 2:
       currentStage = 2;
+      isMenu = false;
       loadStage2();
+    case 100:
+      currentStage = 100;
+      isMenu = true;
+      loadMainMenu();
       break;
     default:
       std::cout << "Invalid stage" << std::endl;
@@ -25,11 +31,32 @@ void StageSystem::loadStage(int stage)
     }
   }
 }
-// TODO
+
 void StageSystem::resetStage()
 {
-  loadStage2();
+  int currStage = currentStage;
+  currentStage = -1;
+  loadStage(currStage);
 }
+
+void StageSystem::loadMainMenu()
+{
+  std::cout << "Loading Main menu" << std::endl;
+
+  gMenuWorld.clearMenuItems();
+
+  // TODO carregar botoes
+  MenuItem *start = gMenuItemGenerator.makeStart(250.0, 200.0);
+  gMenuWorld.getMenuItems().push_back(start);
+
+  MenuItem *exit = gMenuItemGenerator.makeExit(250.0, 400.0);
+  gMenuWorld.getMenuItems().push_back(exit);
+
+  gMenuManager.setMaxItems(1);
+  // TODO CARREGAR MUSICA BASEADO NO NIVEL
+  gSoundSystem.playMusic(0);
+}
+
 void StageSystem::loadStage1()
 {
   std::cout << "Loading stage 1" << std::endl;

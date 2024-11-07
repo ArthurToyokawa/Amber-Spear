@@ -12,7 +12,6 @@ public:
   EntityManager()
   {
     auraSystem = new AuraSystem();
-    gStageSystem.loadStage(2);
   };
 
   void update(float time);
