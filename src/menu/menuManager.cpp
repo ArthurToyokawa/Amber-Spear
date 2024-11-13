@@ -61,7 +61,7 @@ void MenuManager::goMenuUp()
 
 void MenuManager::goMenuDown()
 {
-  currentItem = (currentItem == maxItems) ? currentItem = 0 : currentItem + 1;
+  currentItem = (currentItem == maxItems) ? 0 : currentItem + 1;
 }
 
 void MenuManager::handleSelect()

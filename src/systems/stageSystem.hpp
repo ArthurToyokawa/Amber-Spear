@@ -15,6 +15,7 @@ public:
   };
 
   bool isMenuStage() { return isMenu; };
+  void resumeFromMenu();
 
   void loadStage(int stage);
   void resetStage();
@@ -31,7 +32,9 @@ private:
   void loadStage2();
 
   void loadMainMenu();
-  // void loadPauseMenu();
+  void loadPauseMenu();
+  // void loadCredits();
+  // void loadScoreboard();
   // void loadPlayer1Win();
   // void loadPlayer2Win();
 

@@ -20,10 +20,16 @@ void StageSystem::loadStage(int stage)
       currentStage = 2;
       isMenu = false;
       loadStage2();
+      break;
     case 100:
       currentStage = 100;
       isMenu = true;
       loadMainMenu();
+      break;
+    case 101:
+      currentStage = 101;
+      isMenu = true;
+      loadPauseMenu();
       break;
     default:
       std::cout << "Invalid stage" << std::endl;
@@ -39,22 +45,47 @@ void StageSystem::resetStage()
   loadStage(currStage);
 }
 
+void StageSystem::resumeFromMenu()
+{
+  if (isMenu)
+  {
+    isMenu = false;
+    currentStage = -1;
+  }
+}
+
 void StageSystem::loadMainMenu()
 {
   std::cout << "Loading Main menu" << std::endl;
 
   gMenuWorld.clearMenuItems();
 
-  // TODO carregar botoes
   MenuItem *start = gMenuItemGenerator.makeStart(250.0, 200.0);
   gMenuWorld.getMenuItems().push_back(start);
 
   MenuItem *exit = gMenuItemGenerator.makeExit(250.0, 400.0);
   gMenuWorld.getMenuItems().push_back(exit);
 
+  gMenuManager.setCurrentItem(0);
   gMenuManager.setMaxItems(1);
   // TODO CARREGAR MUSICA BASEADO NO NIVEL
   gSoundSystem.playMusic(0);
+}
+
+void StageSystem::loadPauseMenu()
+{
+  std::cout << "Loading Pause menu" << std::endl;
+
+  gMenuWorld.clearMenuItems();
+
+  MenuItem *resume = gMenuItemGenerator.makeResume(250.0, 200.0);
+  gMenuWorld.getMenuItems().push_back(resume);
+
+  MenuItem *goToMain = gMenuItemGenerator.makeGoToMain(250.0, 400.0);
+  gMenuWorld.getMenuItems().push_back(goToMain);
+
+  gMenuManager.setCurrentItem(0);
+  gMenuManager.setMaxItems(1);
 }
 
 void StageSystem::loadStage1()

@@ -10,6 +10,7 @@ public:
 
   int getCurrentItem() { return currentItem; };
   void setMaxItems(int maxI) { maxItems = maxI; };
+  void setCurrentItem(int curr) { currentItem = curr; };
 
   void update(float time);
   void handleKeys(std::list<SDL_Keycode> keys);

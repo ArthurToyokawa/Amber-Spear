@@ -114,7 +114,10 @@ void Game::update(float time)
     switch (key)
     {
     case SDLK_ESCAPE:
-      gGameStateSystem.stopRunning();
+      if (!gStageSystem.isMenuStage())
+      {
+        gStageSystem.loadStage(101);
+      }
       break;
     // case SDLK_1:
     //   gStageSystem.loadStage(1);
