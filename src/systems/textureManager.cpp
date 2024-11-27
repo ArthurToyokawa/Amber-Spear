@@ -67,6 +67,7 @@ void TextureManager::render(float time)
   if (gStageSystem.isMenuStage())
   {
     renderMenuItems(gMenuWorld.getMenuItems());
+    renderMenuTexts(gMenuWorld.getMenuTexts());
   }
   else
   {
@@ -195,6 +196,47 @@ void TextureManager::renderMenuItems(std::list<MenuItem *> &menuItems)
     {
       displayText = "  " + std::string(item->getText());
     }
+    SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, displayText.c_str(), White);
+    if (!surfaceMessage)
+    {
+      std::cerr << "Failed to create surface: " << TTF_GetError() << std::endl;
+      continue;
+    }
+
+    SDL_Texture *message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+    if (!message)
+    {
+      std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
+      SDL_FreeSurface(surfaceMessage);
+      continue;
+    }
+
+    SDL_Rect messageRect;
+    messageRect.x = item->getPos().x;
+    messageRect.y = item->getPos().y;
+    messageRect.w = surfaceMessage->w;
+    messageRect.h = surfaceMessage->h;
+
+    SDL_RenderCopy(renderer, message, NULL, &messageRect);
+
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(message);
+
+    itemIndex++;
+  }
+  TTF_CloseFont(Sans);
+}
+
+void TextureManager::renderMenuTexts(std::list<MenuText *> &menuTexts)
+{
+  TTF_Font *Sans = TTF_OpenFont("OpenSans-Regular.ttf", 24);
+  SDL_Color White = {255, 255, 255};
+  int itemIndex = 0;
+
+  for (auto &item : menuTexts)
+  {
+    std::string displayText = "  " + std::string(item->getText());
+
     SDL_Surface *surfaceMessage = TTF_RenderText_Solid(Sans, displayText.c_str(), White);
     if (!surfaceMessage)
     {

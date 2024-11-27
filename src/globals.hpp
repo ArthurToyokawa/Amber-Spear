@@ -10,12 +10,14 @@
 #include <menu/menuWorld.hpp>
 #include <menu/menuItemGenerator.hpp>
 #include <menu/menuManager.hpp>
+#include <scoreboard/fileManager.hpp>
 
 inline GameStateSystem gGameStateSystem;
 inline SoundSystem gSoundSystem;
 inline PhysicsSystem gPhysicsSystem;
 inline StageSystem gStageSystem;
 inline PointCounter gPointCounter;
+inline FileManager gFileManager;
 
 inline GameObjectGenerator *gGameObjectGenerator;
 inline World gWorld;

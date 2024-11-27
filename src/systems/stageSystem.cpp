@@ -2,7 +2,9 @@
 #include "stageSystem.hpp"
 #include "common.hpp"
 #include <gameObject/gameObject.hpp>
+#include <scoreboard/score.hpp>
 #include <globals.hpp>
+#include <list>
 
 void StageSystem::loadStage(int stage)
 {
@@ -30,6 +32,10 @@ void StageSystem::loadStage(int stage)
       currentStage = 101;
       isMenu = true;
       loadPauseMenu();
+    case 102:
+      currentStage = 102;
+      isMenu = true;
+      loadScoreboard();
       break;
     default:
       std::cout << "Invalid stage" << std::endl;
@@ -63,11 +69,14 @@ void StageSystem::loadMainMenu()
   MenuItem *start = gMenuItemGenerator.makeStart(250.0, 200.0);
   gMenuWorld.getMenuItems().push_back(start);
 
+  MenuItem *score = gMenuItemGenerator.makeGoToScoreboard(250.0, 300.0);
+  gMenuWorld.getMenuItems().push_back(score);
+
   MenuItem *exit = gMenuItemGenerator.makeExit(250.0, 400.0);
   gMenuWorld.getMenuItems().push_back(exit);
 
   gMenuManager.setCurrentItem(0);
-  gMenuManager.setMaxItems(1);
+  gMenuManager.setMaxItems(2);
   // TODO CARREGAR MUSICA BASEADO NO NIVEL
   gSoundSystem.playMusic(0);
 }
@@ -80,6 +89,36 @@ void StageSystem::loadPauseMenu()
 
   MenuItem *resume = gMenuItemGenerator.makeResume(250.0, 200.0);
   gMenuWorld.getMenuItems().push_back(resume);
+
+  MenuItem *goToMain = gMenuItemGenerator.makeGoToMain(250.0, 400.0);
+  gMenuWorld.getMenuItems().push_back(goToMain);
+
+  gMenuManager.setCurrentItem(0);
+  gMenuManager.setMaxItems(1);
+}
+
+void StageSystem::loadScoreboard()
+{
+  std::cout << "Loading Scoreboard" << std::endl;
+
+  gMenuWorld.clearMenuItems();
+  std::list<Score *> testScores;
+  testScores = gFileManager.readFile();
+  float scoreX = 250.0;
+  float scoreY = 200.0;
+
+  for (auto it = testScores.begin(); it != testScores.end();)
+  {
+    auto &obj = *it;
+    std::cout << obj->getScoreString() << std::endl;
+    MenuText *score = gMenuItemGenerator.makeMenuText(
+        scoreX,
+        scoreY,
+        obj->getScoreString());
+    gMenuWorld.getMenuTexts().push_back(score);
+    scoreY += 30.0;
+    ++it;
+  }
 
   MenuItem *goToMain = gMenuItemGenerator.makeGoToMain(250.0, 400.0);
   gMenuWorld.getMenuItems().push_back(goToMain);

@@ -1,5 +1,6 @@
 #include "menuWorld.hpp"
 #include <menu/menuItem.hpp>
+#include <menu/menuText.hpp>
 
 void MenuWorld::clearMenuItems()
 {
@@ -11,6 +12,14 @@ void MenuWorld::clearMenuItems()
     }
   }
   menuItems.clear();
+  for (auto text : menuTexts)
+  {
+    if (text)
+    {
+      delete text;
+    }
+  }
+  menuTexts.clear();
 }
 
 MenuItem *MenuWorld::getMenuItemByIndex(int index)

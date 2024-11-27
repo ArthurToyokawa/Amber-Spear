@@ -33,8 +33,8 @@ private:
 
   void loadMainMenu();
   void loadPauseMenu();
+  void loadScoreboard();
   // void loadCredits();
-  // void loadScoreboard();
   // void loadPlayer1Win();
   // void loadPlayer2Win();
 

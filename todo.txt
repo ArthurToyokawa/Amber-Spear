@@ -65,3 +65,7 @@ Camera:
 tem uma posicao e tamanho
 checa todos os objetos que estão dentro dela e renderiza apenas eles
 a posicao dela = posicao do jogador até chegar num boundary quando ela para 
+
+
+
+docxgen

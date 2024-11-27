@@ -2,6 +2,7 @@
 
 #include "menuItemGenerator.hpp"
 #include "menuItem.hpp"
+#include "menuText.hpp"
 
 #include <common.hpp>
 #include <globals.hpp>
@@ -44,4 +45,20 @@ MenuItem *MenuItemGenerator::makeGoToMain(float posX, float posY)
 void MenuItemGenerator::GO_TO_MAIN()
 {
   gStageSystem.loadStage(100);
+}
+
+MenuItem *MenuItemGenerator::makeGoToScoreboard(float posX, float posY)
+{
+  MenuItem *item = new MenuItem(posX, posY, GO_TO_SCOREBOARD, "Pontuacoes");
+  return item;
+}
+void MenuItemGenerator::GO_TO_SCOREBOARD()
+{
+  gStageSystem.loadStage(102);
+}
+
+MenuText *MenuItemGenerator::makeMenuText(float posX, float posY, const char *text)
+{
+  MenuText *item = new MenuText(posX, posY, text);
+  return item;
 }

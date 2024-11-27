@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include "list"
 #include <menu/menuItem.hpp>
+#include <menu/menuText.hpp>
 
 // TODO SEPARAR EM 2 CLASSES SCREEN E TEXTUREMANAGER
 
@@ -21,6 +22,7 @@ public:
   void renderObject(GameObject *obj, float time);
   void renderPointCounter();
   void renderMenuItems(std::list<MenuItem *> &menuItems);
+  void renderMenuTexts(std::list<MenuText *> &menuTexts);
   void destroy()
   {
     SDL_DestroyWindow(window);
